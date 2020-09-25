@@ -19,5 +19,10 @@ export default new Router({
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue'),
     },
+    {
+      path: '/css-demo',
+      name: 'css-demo',
+      component: () => import(/* webpackChunkName: "css-demo" */ './views/CssDemo.vue'),
+    },
   ],
 });
