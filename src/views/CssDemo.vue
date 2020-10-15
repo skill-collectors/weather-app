@@ -31,8 +31,8 @@ export default class Home extends Vue {
 
   async mounted() {
     this.imageUrls = await fetch('https://dog.ceo/api/breed/retriever/golden/images/random/10')
-      .then(response => response.json())
-      .then(data => data.message);
+      .then((response) => response.json())
+      .then((data) => data.message);
   }
 }
 

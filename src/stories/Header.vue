@@ -21,9 +21,9 @@
         <h1>Acme</h1>
       </div>
       <div>
-        <my-button size="small" @onClick="onLogout" label="Log out" v-if="user" />
-        <my-button size="small" @onClick="onLogin" label="Log in" v-if="!user" />
-        <my-button primary size="small" @onClick="onCreateAccount" label="Sign up" v-if="!user" />
+        <my-button size="small" @on-click="onLogout" label="Log out" v-if="user" />
+        <my-button size="small" @on-click="onLogin" label="Log in" v-if="!user" />
+        <my-button primary size="small" @on-click="onCreateAccount" label="Sign up" v-if="!user" />
       </div>
     </div>
   </header>
@@ -46,13 +46,13 @@ export default {
 
   methods: {
     onLogin() {
-      this.$emit('onLogin');
+      this.$emit('on-login');
     },
     onLogout() {
-      this.$emit('onLogout');
+      this.$emit('on-logout');
     },
     onCreateAccount() {
-      this.$emit('onCreateAccount');
+      this.$emit('on-create-account');
     },
   },
 };

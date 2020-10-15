@@ -2,9 +2,9 @@
   <article>
     <my-header
       :user="user"
-      @onLogin="onLogin"
-      @onLogout="onLogout"
-      @onCreateAccount="onCreateAccount"
+      @on-login="on-login"
+      @on-logout="on-ogout"
+      @on-create-account="on-create-account"
     />
 
     <section>
@@ -78,13 +78,13 @@ export default {
 
   methods: {
     onLogin() {
-      this.$emit('onLogin');
+      this.$emit('on-login');
     },
     onLogout() {
-      this.$emit('onLogout');
+      this.$emit('on-logout');
     },
     onCreateAccount() {
-      this.$emit('onCreateAccount');
+      this.$emit('on-create-account');
     },
   },
 };
