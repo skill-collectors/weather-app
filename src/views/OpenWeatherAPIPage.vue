@@ -18,7 +18,7 @@ export default {
   },
   methods: {
     getTheWeather() {
-      const url = 'https://api.openweathermap.org/data/2.5/weather?q=minneapolis&appid='.concat(process.env.API_ACCESS_KEY);
+      const url = 'https://api.openweathermap.org/data/2.5/weather?q=minneapolis&appid='.concat(process.env.VUE_APP_API_ACCESS_KEY);
       alert(url);
       fetch(url)
         .then((response) => response.json())
