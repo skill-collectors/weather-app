@@ -45,7 +45,7 @@
     "babel-loader": "^8.1.0",
     "eslint": "^7.11.0",
     "eslint-plugin-vue": "^7.0.1",
-    "lint-staged": "^10.4.0",
+    "lint-staged": "^10.4.2",
     "node-sass": "^4.14.1",
     "popper.js": "^1.16.0",
     "portal-vue": "^2.1.7",
