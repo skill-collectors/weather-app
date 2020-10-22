@@ -20,8 +20,13 @@
       <b-col sm="6">
         <b-card no-body class="mt-3" header="Weather Forecast">
         <b-list-group flush v-for="(list, key) of output.list" :key="key">
-          <b>{{list.dt_txt }}</b>
-          <h5>{{ list.weather[0].main }}</h5>
+          <b-list-group-item variant='secondary'>{{list.dt_txt}}</b-list-group-item>
+          <b-list-group-item class="flex-column align-items-start">
+            <div style='padding-left:30%' class="d-flex">
+              <h5 style='align-self:center'>{{ list.weather[0].main }}</h5>
+              <img :src="'http://openweathermap.org/img/wn/'+ list.weather[0].icon + '@2x.png'" alt="">
+            </div>
+          </b-list-group-item>
           <p>Low: {{list.main.temp_min }} °F
             ~  High: {{list.main.temp_max }} °F</p>
         </b-list-group>
