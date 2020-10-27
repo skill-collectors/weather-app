@@ -41,8 +41,9 @@
 </template>
 
 <script lang="ts">
-import countapi from 'countapi-js';
 import { Component, Vue } from 'vue-property-decorator';
+
+const countapi = require('countapi-js');
 
 @Component
 export default class ApiClass extends Vue {
