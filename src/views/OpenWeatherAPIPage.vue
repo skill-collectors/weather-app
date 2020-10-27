@@ -22,8 +22,10 @@
         <b-list-group flush v-for="(list, key) of output.list" :key="key">
           <b-list-group-item variant='secondary'>{{list.dt_txt}}</b-list-group-item>
           <b-list-group-item class="flex-column align-items-start">
-            <div style='padding-left:30%' class="d-flex">
-              <h5 style='align-self:center'>{{ list.weather[0].main }}</h5>
+            <div style='padding-left:20%' class="d-flex">
+              <h5 style='align-self:center'>
+                {{ list.weather[0].description.charAt(0).toUpperCase()
+                  + list.weather[0].description.slice(1)}}</h5>
               <img :src="'http://openweathermap.org/img/wn/'+ list.weather[0].icon + '@2x.png'" alt="">
             </div>
           </b-list-group-item>
@@ -48,7 +50,7 @@ export default class ApiClass extends Vue {
 
   callCount: number = 0;
 
-  city: string = 'Minneapolis';
+  city: string = 'Saint Paul';
 
   getTheWeather() {
     const url = 'https://api.openweathermap.org/data/2.5/forecast?q='.concat(this.city)
