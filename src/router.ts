@@ -24,5 +24,10 @@ export default new Router({
       name: 'css-demo',
       component: () => import(/* webpackChunkName: "css-demo" */ './views/CssDemo.vue'),
     },
+    {
+      path: '/openWeatherAPI',
+      name: 'openWeatherAPI',
+      component: () => import(/* webpackChunkName: "openWeatherAPI-page" */ './views/OpenWeatherAPIPage.vue'),
+    },
   ],
 });
