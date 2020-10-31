@@ -43,10 +43,10 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
-const countapi = require('countapi-js');
+import OpenWeatherMap from '../services/openWeather';
 
 @Component
-export default class ApiClass extends Vue {
+export default class OpenWeatherSample extends Vue {
   output: any = '';
 
   callCount: number = 0;
@@ -54,20 +54,8 @@ export default class ApiClass extends Vue {
   city: string = 'Saint Paul';
 
   getTheWeather() {
-    const url = 'https://api.openweathermap.org/data/2.5/forecast?q='.concat(this.city)
-      .concat('&units=imperial')
-      .concat('&appid=').concat(process.env.VUE_APP_API_ACCESS_KEY);
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        this.output = data;
-        console.log(data.weather);
-      }).catch((error) => {
-        this.output = error;
-        console.log(JSON.stringify(error));
-      });
-    countapi.hit(process.env.VUE_APP_COUNTER_NAME, 'current-weather')
-      .then((result: { value: number; }) => { this.callCount = result.value; });
+    this.output = OpenWeatherMap.getForecastForCity(this.city);
+    this.callCount = OpenWeatherMap.getCallCount();
   }
 }
 </script>
