@@ -4,13 +4,19 @@
       <p><b-link href="https://openweathermap.org/">Open Weather Map</b-link> - "Weather forecasts, nowcasts and history in fast and elegant way"</p>
     </b-jumbotron>
     <b-container>
-      <p>Enter a city to test out the <b-link href="https://openweathermap.org/forecast5">Weather Forecast Endpoint.</b-link></p>
-    <b-row class="my-3" style="width:400px;margin:auto;">
+      <p>Enter a city or leave blank to use coordinates and test out the <b-link href="https://openweathermap.org/forecast5">Weather Forecast</b-link> and <b-link href="https://openweathermap.org/current">Current Weather</b-link> Endpoints.</p>
+    <b-row class="my-3" style="width:600px;margin:auto;text-align:center;">
         <b-input-group prepend="City">
               <b-form-input v-model="city" type="text"></b-form-input>
         </b-input-group>
+        <p style='margin:inherit;'>Or</p>
+        <b-input-group prepend="Longitude" append="Latitude">
+              <b-form-input v-model="lon" type="number"></b-form-input>
+              <b-form-input v-model="lat" type="number"></b-form-input>
+        </b-input-group>
     </b-row>
-    <b-button v-on:click="getTheWeather()" variant="primary">Weather Forecast</b-button>
+    <b-button squared v-on:click="getForecastWeather()" variant="info">Weather Forecast</b-button>
+    <b-button squared v-on:click="getCurrentWeather()" variant="primary">Current Weather</b-button>
     <b-row class="my-3">
       <b-col sm="6">
         <b-card class="mt-3" header="Response Data">
@@ -43,7 +49,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
-import OpenWeatherMap from '../services/openWeather';
+import OpenWeather from '../services/openWeatherMap';
 
 @Component
 export default class OpenWeatherSample extends Vue {
@@ -53,9 +59,26 @@ export default class OpenWeatherSample extends Vue {
 
   city: string = 'Saint Paul';
 
-  getTheWeather() {
-    this.output = OpenWeatherMap.getForecastForCity(this.city);
-    this.callCount = OpenWeatherMap.getCallCount();
+  lon: string = '';
+
+  lat: string = '';
+
+  getForecastWeather() {
+    if (this.city !== '') {
+      this.output = OpenWeather.getForecastForCity(this.city);
+    } else {
+      this.output = OpenWeather.getForecastForCoordinate(this.lat, this.lon);
+    }
+    this.callCount = OpenWeather.callCountForecast;
+  }
+
+  getCurrentWeather() {
+    if (this.city !== '') {
+      this.output = OpenWeather.getCurrentForCity(this.city);
+    } else {
+      this.output = OpenWeather.getCurrentForCoordinate(this.lat, this.lon);
+    }
+    this.callCount = OpenWeather.callCountCurrent;
   }
 }
 </script>
