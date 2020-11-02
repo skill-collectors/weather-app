@@ -64,21 +64,23 @@ export default class OpenWeatherSample extends Vue {
   lat: string = '';
 
   getForecastWeather() {
+    const openWeather = new OpenWeather();
     if (this.city !== '') {
-      this.output = OpenWeather.getForecastForCity(this.city);
+      this.output = openWeather.getForecastForCity(this.city);
     } else {
-      this.output = OpenWeather.getForecastForCoordinate(this.lat, this.lon);
+      this.output = openWeather.getForecastForCoordinate(this.lat, this.lon);
     }
-    this.callCount = OpenWeather.callCountForecast;
+    this.callCount = openWeather.getCallCountForecast();
   }
 
   getCurrentWeather() {
+    const openWeather = new OpenWeather();
     if (this.city !== '') {
-      this.output = OpenWeather.getCurrentForCity(this.city);
+      this.output = openWeather.getCurrentForCity(this.city);
     } else {
-      this.output = OpenWeather.getCurrentForCoordinate(this.lat, this.lon);
+      this.output = openWeather.getCurrentForCoordinate(this.lat, this.lon);
     }
-    this.callCount = OpenWeather.callCountCurrent;
+    this.callCount = openWeather.getCallCountCurrent();
   }
 }
 </script>
