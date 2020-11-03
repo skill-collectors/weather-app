@@ -21,6 +21,8 @@ module.exports = {
         tsx: 'never',
       },
     ],
+    'import/no-extraneous-dependencies': ['error', { devDependencies: ['./tests/**/*.ts', './tests/**/*.tsx', 'codecept.conf.js'] }],
+
   },
   parserOptions: {
     parser: '@typescript-eslint/parser',

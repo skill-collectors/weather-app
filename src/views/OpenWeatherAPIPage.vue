@@ -6,11 +6,13 @@
     <b-container>
       <p>Enter a city to test out the <b-link href="https://openweathermap.org/forecast5">Weather Forecast Endpoint.</b-link></p>
     <b-row class="my-3" style="width:400px;margin:auto;">
-        <b-input-group prepend="City">
-              <b-form-input v-model="city" type="text"></b-form-input>
+        <b-input-group  prepend="City">
+              <b-form-input id="city" v-model="city" type="text"></b-form-input>
         </b-input-group>
     </b-row>
-    <b-button v-on:click="getTheWeather()" variant="primary">Weather Forecast</b-button>
+    <b-button id="weatherForecast" v-on:click="getTheWeather()" variant="primary">
+      Weather Forecast
+    </b-button>
     <b-row class="my-3">
       <b-col sm="6">
         <b-card class="mt-3" header="Response Data">
@@ -20,7 +22,9 @@
       <b-col sm="6">
         <b-card no-body class="mt-3" header="Weather Forecast">
         <b-list-group flush v-for="(list, key) of output.list" :key="key">
-          <b-list-group-item variant='secondary'>{{list.dt_txt}}</b-list-group-item>
+          <b-list-group-item class="dateHeader" variant='secondary'>
+            {{list.dt_txt}}
+          </b-list-group-item>
           <b-list-group-item class="flex-column align-items-start">
             <div style='padding-left:20%' class="d-flex">
               <h5 style='align-self:center'>
@@ -56,7 +60,7 @@ export default class ApiClass extends Vue {
   getTheWeather() {
     const url = 'https://api.openweathermap.org/data/2.5/forecast?q='.concat(this.city)
       .concat('&units=imperial')
-      .concat('&appid=').concat(process.env.VUE_APP_API_ACCESS_KEY);
+      .concat('&appid=').concat(process.env.VUE_APP_API_ACCESS_KEY!);
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
