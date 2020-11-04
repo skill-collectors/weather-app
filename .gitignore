@@ -20,3 +20,6 @@ yarn-error.log*
 *.sw?
 
 storybook-static
+
+# codeceptjs logs
+output

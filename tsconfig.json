@@ -1,7 +1,10 @@
-{
+{  
+  "ts-node": {
+  "files": true
+},
   "compilerOptions": {
     "target": "esnext",
-    "module": "esnext",
+    "module": "commonjs",
     "strict": true,
     "jsx": "preserve",
     "importHelpers": true,
@@ -13,7 +16,8 @@
     "baseUrl": ".",
     "types": [
       "webpack-env",
-      "jest"
+      "jest",
+      "codeceptjs"
     ],
     "paths": {
       "@/*": [

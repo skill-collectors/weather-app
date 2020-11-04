@@ -7,7 +7,7 @@
       <p>Enter a city or leave blank to use coordinates and test out the <b-link href="https://openweathermap.org/forecast5">Weather Forecast</b-link> and <b-link href="https://openweathermap.org/current">Current Weather</b-link> Endpoints.</p>
     <b-row class="my-3" style="width:600px;margin:auto;text-align:center;">
         <b-input-group prepend="City">
-              <b-form-input v-model="city" type="text"></b-form-input>
+              <b-form-input id="city" v-model="city" type="text"></b-form-input>
         </b-input-group>
         <p style='margin:inherit;'>Or</p>
         <b-input-group prepend="Longitude" append="Latitude">
@@ -15,8 +15,12 @@
               <b-form-input v-model="lat" type="number"></b-form-input>
         </b-input-group>
     </b-row>
-    <b-button squared v-on:click="getForecastWeather()" variant="info">Weather Forecast</b-button>
-    <b-button squared v-on:click="getCurrentWeather()" variant="primary">Current Weather</b-button>
+    <b-button id="weatherForecast" squared v-on:click="getForecastWeather()" variant="info">
+      Weather Forecast
+    </b-button>
+    <b-button id="currentWeather" squared v-on:click="getCurrentWeather()" variant="primary">
+      Current Weather
+    </b-button>
     <b-row class="my-3">
       <b-col sm="6">
         <b-card class="mt-3" header="Response Data">
@@ -26,7 +30,9 @@
       <b-col sm="6">
         <b-card no-body class="mt-3" header="Weather Forecast">
         <b-list-group flush v-for="(list, key) of output.list" :key="key">
-          <b-list-group-item variant='secondary'>{{list.dt_txt}}</b-list-group-item>
+          <b-list-group-item class="dateHeader" variant='secondary'>
+            {{list.dt_txt}}
+          </b-list-group-item>
           <b-list-group-item class="flex-column align-items-start">
             <div style='padding-left:20%' class="d-flex">
               <h5 style='align-self:center'>

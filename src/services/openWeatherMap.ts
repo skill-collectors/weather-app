@@ -30,7 +30,7 @@ export default class OpenWeatherMap {
     const url = this.baseUrl.concat('forecast?q=').concat(city)
       .concat('&units=imperial')
       .concat('&appid=')
-      .concat(process.env.VUE_APP_API_ACCESS_KEY);
+      .concat(process.env.VUE_APP_API_ACCESS_KEY!);
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
@@ -55,7 +55,7 @@ export default class OpenWeatherMap {
       .concat('&lon=').concat(lon)
       .concat('&units=imperial')
       .concat('&appid=')
-      .concat(process.env.VUE_APP_API_ACCESS_KEY);
+      .concat(process.env.VUE_APP_API_ACCESS_KEY!);
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
@@ -78,7 +78,7 @@ export default class OpenWeatherMap {
     const url = this.baseUrl.concat('weather?q=').concat(city)
       .concat('&units=imperial')
       .concat('&appid=')
-      .concat(process.env.VUE_APP_API_ACCESS_KEY);
+      .concat(process.env.VUE_APP_API_ACCESS_KEY!);
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
@@ -102,7 +102,7 @@ export default class OpenWeatherMap {
       .concat('&lon=').concat(lon)
       .concat('&units=imperial')
       .concat('&appid=')
-      .concat(process.env.VUE_APP_API_ACCESS_KEY);
+      .concat(process.env.VUE_APP_API_ACCESS_KEY!);
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
@@ -127,7 +127,7 @@ export default class OpenWeatherMap {
       .concat('&lon=').concat(lon)
       .concat('&units=imperial')
       .concat('&appid=')
-      .concat(process.env.VUE_APP_API_ACCESS_KEY);
+      .concat(process.env.VUE_APP_API_ACCESS_KEY!);
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
