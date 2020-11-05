@@ -25,21 +25,20 @@ export default class OpenWeatherMap {
   * Returns the weather forecast for the next 5 days in 3 hour steps
   *  for the city specificed
   */
-  public getForecastForCity(city: string): any {
-    let output;
+  public async getForecastForCity(city: string): Promise<object> {
+    let output: object;
     const url = this.baseUrl.concat('forecast?q=').concat(city)
       .concat('&units=imperial')
       .concat('&appid=')
       .concat(process.env.VUE_APP_API_ACCESS_KEY);
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        output = data;
-      }).catch((error) => {
-        output = error;
-        console.log(JSON.stringify(error));
-      });
-    countapi.hit(process.env.VUE_APP_COUNTER_NAME, 'forecast-weather')
+    try {
+      const response = await fetch(url);
+      output = await response.json();
+    } catch (error) {
+      output = error;
+      console.log(JSON.stringify(error));
+    }
+    await countapi.hit(process.env.VUE_APP_COUNTER_NAME, 'forecast-weather')
       .then((result: { value: number; }) => { this.callCountForecast = result.value; });
 
     return output;

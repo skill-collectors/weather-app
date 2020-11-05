@@ -53,7 +53,7 @@ import OpenWeather from '../services/openWeatherMap';
 
 @Component
 export default class OpenWeatherSample extends Vue {
-  output: any = '';
+  output: object = {};
 
   callCount: number = 0;
 
@@ -63,10 +63,10 @@ export default class OpenWeatherSample extends Vue {
 
   lat: string = '';
 
-  getForecastWeather() {
+  async getForecastWeather() {
     const openWeather = new OpenWeather();
     if (this.city !== '') {
-      this.output = openWeather.getForecastForCity(this.city);
+      this.output = await openWeather.getForecastForCity(this.city);
     } else {
       this.output = openWeather.getForecastForCoordinate(this.lat, this.lon);
     }
