@@ -25,21 +25,20 @@ export default class OpenWeatherMap {
   * Returns the weather forecast for the next 5 days in 3 hour steps
   *  for the city specificed
   */
-  public getForecastForCity(city: string): any {
-    let output;
+  public async getForecastForCity(city: string): Promise<object> {
+    let output: object;
     const url = this.baseUrl.concat('forecast?q=').concat(city)
       .concat('&units=imperial')
       .concat('&appid=')
       .concat(process.env.VUE_APP_API_ACCESS_KEY!);
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        output = data;
-      }).catch((error) => {
-        output = error;
-        console.log(JSON.stringify(error));
-      });
-    countapi.hit(process.env.VUE_APP_COUNTER_NAME, 'forecast-weather')
+    try {
+      const response = await fetch(url);
+      output = await response.json();
+    } catch (error) {
+      output = error;
+      console.log(JSON.stringify(error));
+    }
+    await countapi.hit(process.env.VUE_APP_COUNTER_NAME, 'forecast-weather')
       .then((result: { value: number; }) => { this.callCountForecast = result.value; });
 
     return output;
@@ -49,22 +48,21 @@ export default class OpenWeatherMap {
   * Returns the weather forecast for the next 5 days in 3 hour steps
   *  for the longitude and latitude specified
   */
-  public getForecastForCoordinate(lat: string, lon: string): any {
-    let output;
+  public async getForecastForCoordinate(lat: string, lon: string): Promise<object> {
+    let output: object;
     const url = this.baseUrl.concat('forecast?lat=').concat(lat)
       .concat('&lon=').concat(lon)
       .concat('&units=imperial')
       .concat('&appid=')
       .concat(process.env.VUE_APP_API_ACCESS_KEY!);
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        output = data;
-      }).catch((error) => {
-        output = error;
-        console.log(JSON.stringify(error));
-      });
-    countapi.hit(process.env.VUE_APP_COUNTER_NAME, 'forecast-weather')
+    try {
+      const response = await fetch(url);
+      output = await response.json();
+    } catch (error) {
+      output = error;
+      console.log(JSON.stringify(error));
+    }
+    await countapi.hit(process.env.VUE_APP_COUNTER_NAME, 'forecast-weather')
       .then((result: { value: number; }) => { this.callCountForecast = result.value; });
 
     return output;
@@ -73,21 +71,20 @@ export default class OpenWeatherMap {
   /**
   * Returns current weather data for the city specificed
   */
-  public getCurrentForCity(city: string): any {
-    let output;
+  public async getCurrentForCity(city: string): Promise<object> {
+    let output: object;
     const url = this.baseUrl.concat('weather?q=').concat(city)
       .concat('&units=imperial')
       .concat('&appid=')
       .concat(process.env.VUE_APP_API_ACCESS_KEY!);
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        output = data;
-      }).catch((error) => {
-        output = error;
-        console.log(JSON.stringify(error));
-      });
-    countapi.hit(process.env.VUE_APP_COUNTER_NAME, 'current-weather')
+    try {
+      const response = await fetch(url);
+      output = await response.json();
+    } catch (error) {
+      output = error;
+      console.log(JSON.stringify(error));
+    }
+    await countapi.hit(process.env.VUE_APP_COUNTER_NAME, 'current-weather')
       .then((result: { value: number; }) => { this.callCountCurrent = result.value; });
 
     return output;
@@ -96,22 +93,21 @@ export default class OpenWeatherMap {
   /**
   * Returns current weather data for the longitude and latitude specified
   */
-  public getCurrentForCoordinate(lat: string, lon: string): any {
-    let output;
+  public async getCurrentForCoordinate(lat: string, lon: string): Promise<object> {
+    let output: object;
     const url = this.baseUrl.concat('weather?lat=').concat(lat)
       .concat('&lon=').concat(lon)
       .concat('&units=imperial')
       .concat('&appid=')
       .concat(process.env.VUE_APP_API_ACCESS_KEY!);
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        output = data;
-      }).catch((error) => {
-        output = error;
-        console.log(JSON.stringify(error));
-      });
-    countapi.hit(process.env.VUE_APP_COUNTER_NAME, 'current-weather')
+    try {
+      const response = await fetch(url);
+      output = await response.json();
+    } catch (error) {
+      output = error;
+      console.log(JSON.stringify(error));
+    }
+    await countapi.hit(process.env.VUE_APP_COUNTER_NAME, 'current-weather')
       .then((result: { value: number; }) => { this.callCountCurrent = result.value; });
 
     return output;
@@ -121,22 +117,21 @@ export default class OpenWeatherMap {
   * Use OpenWeatherMap OneCall Endpoint to get current weather, minute forecast for 1 hour,
   *   hourly forecast for 48 hours, and daily forecast for 7 days.
   */
-  public getOneCallWeather(lat: string, lon: string): any {
-    let output;
+  public async getOneCallWeather(lat: string, lon: string): Promise<object> {
+    let output: object;
     const url = this.baseUrl.concat('onecall?lat=').concat(lat)
       .concat('&lon=').concat(lon)
       .concat('&units=imperial')
       .concat('&appid=')
       .concat(process.env.VUE_APP_API_ACCESS_KEY!);
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        output = data;
-      }).catch((error) => {
-        output = error;
-        console.log(JSON.stringify(error));
-      });
-    countapi.hit(process.env.VUE_APP_COUNTER_NAME, 'one-weather')
+    try {
+      const response = await fetch(url);
+      output = await response.json();
+    } catch (error) {
+      output = error;
+      console.log(JSON.stringify(error));
+    }
+    await countapi.hit(process.env.VUE_APP_COUNTER_NAME, 'one-weather')
       .then((result: { value: number; }) => { this.callCountCurrent = result.value; });
 
     return output;

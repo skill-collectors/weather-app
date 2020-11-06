@@ -59,7 +59,7 @@ import OpenWeather from '../services/openWeatherMap';
 
 @Component
 export default class OpenWeatherSample extends Vue {
-  output: any = '';
+  output: object = {};
 
   callCount: number = 0;
 
@@ -69,22 +69,22 @@ export default class OpenWeatherSample extends Vue {
 
   lat: string = '';
 
-  getForecastWeather() {
+  async getForecastWeather() {
     const openWeather = new OpenWeather();
     if (this.city !== '') {
-      this.output = openWeather.getForecastForCity(this.city);
+      this.output = await openWeather.getForecastForCity(this.city);
     } else {
-      this.output = openWeather.getForecastForCoordinate(this.lat, this.lon);
+      this.output = await openWeather.getForecastForCoordinate(this.lat, this.lon);
     }
     this.callCount = openWeather.getCallCountForecast();
   }
 
-  getCurrentWeather() {
+  async getCurrentWeather() {
     const openWeather = new OpenWeather();
     if (this.city !== '') {
-      this.output = openWeather.getCurrentForCity(this.city);
+      this.output = await openWeather.getCurrentForCity(this.city);
     } else {
-      this.output = openWeather.getCurrentForCoordinate(this.lat, this.lon);
+      this.output = await openWeather.getCurrentForCoordinate(this.lat, this.lon);
     }
     this.callCount = openWeather.getCallCountCurrent();
   }
