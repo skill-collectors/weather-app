@@ -14,3 +14,9 @@ Scenario('Get Weather Forecast - Page Objects', async ({ I, openWeatherSamplePag
   I.click('OpenWeather Sample');
   openWeatherSamplePage.getForecast('Tulsa');
 });
+
+Scenario('Get Current Weather - Page Objects', async ({ I, openWeatherSamplePage, homePage }) => {
+  homePage.goToHome();
+  I.click('OpenWeather Sample');
+  openWeatherSamplePage.getCurrentWeather('93', '45');
+});

@@ -11,8 +11,8 @@
         </b-input-group>
         <p style='margin:inherit;'>Or</p>
         <b-input-group prepend="Longitude" append="Latitude">
-              <b-form-input v-model="lon" type="number"></b-form-input>
-              <b-form-input v-model="lat" type="number"></b-form-input>
+              <b-form-input id="longitude" v-model="lon" type="number"></b-form-input>
+              <b-form-input id="latitude" v-model="lat" type="number"></b-form-input>
         </b-input-group>
     </b-row>
     <b-button id="weatherForecast" squared v-on:click="getForecastWeather()" variant="info">
