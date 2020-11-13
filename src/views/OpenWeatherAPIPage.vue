@@ -4,14 +4,22 @@
       <p><b-link href="https://openweathermap.org/">Open Weather Map</b-link> - "Weather forecasts, nowcasts and history in fast and elegant way"</p>
     </b-jumbotron>
     <b-container>
-      <p>Enter a city to test out the <b-link href="https://openweathermap.org/forecast5">Weather Forecast Endpoint.</b-link></p>
-    <b-row class="my-3" style="width:400px;margin:auto;">
-        <b-input-group  prepend="City">
+      <p>Enter a city or leave blank to use coordinates and test out the <b-link href="https://openweathermap.org/forecast5">Weather Forecast</b-link> and <b-link href="https://openweathermap.org/current">Current Weather</b-link> Endpoints.</p>
+    <b-row class="my-3" style="width:600px;margin:auto;text-align:center;">
+        <b-input-group prepend="City">
               <b-form-input id="city" v-model="city" type="text"></b-form-input>
         </b-input-group>
+        <p style='margin:inherit;'>Or</p>
+        <b-input-group prepend="Longitude" append="Latitude">
+              <b-form-input id="longitude" v-model="lon" type="number"></b-form-input>
+              <b-form-input id="latitude" v-model="lat" type="number"></b-form-input>
+        </b-input-group>
     </b-row>
-    <b-button id="weatherForecast" v-on:click="getTheWeather()" variant="primary">
+    <b-button id="weatherForecast" squared v-on:click="getForecastWeather()" variant="info">
       Weather Forecast
+    </b-button>
+    <b-button id="currentWeather" squared v-on:click="getCurrentWeather()" variant="primary">
+      Current Weather
     </b-button>
     <b-row class="my-3">
       <b-col sm="6">
@@ -47,31 +55,38 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
-const countapi = require('countapi-js');
+import OpenWeather from '../services/openWeatherMap';
 
 @Component
-export default class ApiClass extends Vue {
-  output: any = '';
+export default class OpenWeatherSample extends Vue {
+  output: object = {};
 
   callCount: number = 0;
 
   city: string = 'Saint Paul';
 
-  getTheWeather() {
-    const url = 'https://api.openweathermap.org/data/2.5/forecast?q='.concat(this.city)
-      .concat('&units=imperial')
-      .concat('&appid=').concat(process.env.VUE_APP_API_ACCESS_KEY!);
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        this.output = data;
-        console.log(data.weather);
-      }).catch((error) => {
-        this.output = error;
-        console.log(JSON.stringify(error));
-      });
-    countapi.hit(process.env.VUE_APP_COUNTER_NAME, 'current-weather')
-      .then((result: { value: number; }) => { this.callCount = result.value; });
+  lon: string = '';
+
+  lat: string = '';
+
+  async getForecastWeather() {
+    const openWeather = new OpenWeather();
+    if (this.city !== '') {
+      this.output = await openWeather.getForecastForCity(this.city);
+    } else {
+      this.output = await openWeather.getForecastForCoordinate(this.lat, this.lon);
+    }
+    this.callCount = openWeather.getCallCountForecast();
+  }
+
+  async getCurrentWeather() {
+    const openWeather = new OpenWeather();
+    if (this.city !== '') {
+      this.output = await openWeather.getCurrentForCity(this.city);
+    } else {
+      this.output = await openWeather.getCurrentForCoordinate(this.lat, this.lon);
+    }
+    this.callCount = openWeather.getCallCountCurrent();
   }
 }
 </script>
