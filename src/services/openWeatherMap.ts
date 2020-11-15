@@ -36,7 +36,6 @@ export default class OpenWeatherMap {
       output = await response.json();
     } catch (error) {
       output = error;
-      console.log(JSON.stringify(error));
     }
     await countapi.hit(process.env.VUE_APP_COUNTER_NAME, 'forecast-weather')
       .then((result: { value: number; }) => { this.callCountForecast = result.value; });
@@ -60,7 +59,6 @@ export default class OpenWeatherMap {
       output = await response.json();
     } catch (error) {
       output = error;
-      console.log(JSON.stringify(error));
     }
     await countapi.hit(process.env.VUE_APP_COUNTER_NAME, 'forecast-weather')
       .then((result: { value: number; }) => { this.callCountForecast = result.value; });
@@ -82,7 +80,6 @@ export default class OpenWeatherMap {
       output = await response.json();
     } catch (error) {
       output = error;
-      console.log(JSON.stringify(error));
     }
     await countapi.hit(process.env.VUE_APP_COUNTER_NAME, 'current-weather')
       .then((result: { value: number; }) => { this.callCountCurrent = result.value; });
@@ -105,7 +102,6 @@ export default class OpenWeatherMap {
       output = await response.json();
     } catch (error) {
       output = error;
-      console.log(JSON.stringify(error));
     }
     await countapi.hit(process.env.VUE_APP_COUNTER_NAME, 'current-weather')
       .then((result: { value: number; }) => { this.callCountCurrent = result.value; });
@@ -129,7 +125,6 @@ export default class OpenWeatherMap {
       output = await response.json();
     } catch (error) {
       output = error;
-      console.log(JSON.stringify(error));
     }
     await countapi.hit(process.env.VUE_APP_COUNTER_NAME, 'one-weather')
       .then((result: { value: number; }) => { this.callCountCurrent = result.value; });
