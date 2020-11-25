@@ -3,11 +3,11 @@
 set -e # The '-e' option causes bash to exit on errors
 
 git checkout master
-git pull
+git pull --all --remote
 git checkout -b "dependabot/$(date +%F)"
 
 # Cherry-pick all remote dependabot branches. Ending with "|| true" prevents bash from exiting when cherry-pick "fails" on merge conflicts.
-git branch -r | grep dependabot | sed 's/^\s\+//' | xargs git cherry-pick || true
+git branch -r | grep dependabot | sed 's/^\s\+//' | sort | xargs git cherry-pick || true
 
 # Use mergetool until there are no more conflicts
 while [[ -n "$(git diff --name-only --diff-filter=U)" ]]; do
@@ -18,4 +18,6 @@ while [[ -n "$(git diff --name-only --diff-filter=U)" ]]; do
 done
 rm -f package.json.orig # Remove mergetool backup file, if present.
 git log --oneline master..HEAD
+
+echo "***Don't forget to increment the version***"
 
