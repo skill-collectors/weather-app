@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { INIT } from './mutations';
+import { INIT, SET_API_KEY } from './mutations';
 
 Vue.use(Vuex);
 
@@ -28,6 +28,10 @@ const store = new Vuex.Store({
           ...JSON.parse(localStore),
         });
       }
+    },
+    [SET_API_KEY](state: any, { apiName, newKey }: { apiName: string, newKey: string }) {
+      const defaultedApiName = apiName || 'openWeather';
+      state.apiKeys[apiName] = newKey;
     },
   },
   actions: {
