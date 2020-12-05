@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import { INIT } from './mutations';
 
 Vue.use(Vuex);
 
@@ -19,7 +20,7 @@ const store = new Vuex.Store({
     },
   },
   mutations: {
-    init(state) {
+    [INIT](state) {
       const localStore = localStorage.getItem('store');
       if (localStore) {
         this.replaceState({
