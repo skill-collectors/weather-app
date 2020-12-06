@@ -14,3 +14,5 @@ export interface RootState {
   location: Location,
   weather: Weather,
 }
+
+export default RootState;
