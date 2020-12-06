@@ -2,8 +2,10 @@
 
 set -e # The '-e' option causes bash to exit on errors
 
+git stash
+
 git checkout master
-git pull --all --remote
+git pull --all
 git checkout -b "dependabot/$(date +%F)"
 
 # Cherry-pick all remote dependabot branches. Ending with "|| true" prevents bash from exiting when cherry-pick "fails" on merge conflicts.
@@ -20,4 +22,6 @@ rm -f package.json.orig # Remove mergetool backup file, if present.
 git log --oneline master..HEAD
 
 echo "***Don't forget to increment the version***"
+
+git stash pop
 
