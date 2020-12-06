@@ -127,7 +127,7 @@ export default class OpenWeatherMap {
       output = error;
     }
     await countapi.hit(process.env.VUE_APP_COUNTER_NAME, 'one-weather')
-      .then((result: { value: number; }) => { this.callCountCurrent = result.value; });
+      .then((result: { value: number; }) => { this.callCountOneCall = result.value; });
 
     return output;
   }

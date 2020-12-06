@@ -4,7 +4,8 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/css-demo">CSS Demo</router-link> |
-      <router-link to="/openWeatherAPI">OpenWeather Sample</router-link>
+      <router-link to="/openWeatherAPI">OpenWeather Sample</router-link> |
+      <router-link to="/examples">Examples</router-link>
     </div>
     <router-view/>
   </div>
