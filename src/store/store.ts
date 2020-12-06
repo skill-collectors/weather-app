@@ -1,11 +1,12 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
+import Vuex, { StoreOptions } from 'vuex';
 import { INIT, SET_API_KEY } from './mutations';
 import OPEN_WEATHER from './apiNames';
+import RootState from './types';
 
 Vue.use(Vuex);
 
-const store = new Vuex.Store({
+const storeOptions: StoreOptions<RootState> = {
   state: {
     apiKeys: {
       [OPEN_WEATHER]: '',
@@ -13,15 +14,15 @@ const store = new Vuex.Store({
     location: {
       city: '',
       lat: 0,
-      log: 0,
+      lon: 0,
     },
     weather: {
       current: {},
-      forcase: {},
+      forcast: {},
     },
   },
   mutations: {
-    [INIT](state) {
+    [INIT](state: RootState) {
       const localStore = localStorage.getItem('store');
       if (localStore) {
         this.replaceState({
@@ -38,9 +39,11 @@ const store = new Vuex.Store({
   actions: {
 
   },
-});
+};
 
-store.subscribe((mutation, state) => {
+const store = new Vuex.Store<RootState>(storeOptions);
+
+store.subscribe((mutation: any, state: RootState) => {
   localStorage.setItem('store', JSON.stringify(state));
 });
 
