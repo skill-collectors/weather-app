@@ -11,7 +11,13 @@ const Template = (args, { argTypes }) => ({
   components: { ApiKeyInput },
   props: Object.keys(argTypes),
   store,
-  template: '<ApiKeyInput/>',
+  template: `
+    <div>
+      <ApiKeyInput/>
+      <p>(Open the browser developer tools to see the apiKey synced with Vuex
+      and localStorage)</p>
+    </div>
+  `,
 });
 
 export const Default = Template.bind({});
