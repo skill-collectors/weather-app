@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex, { StoreOptions } from 'vuex';
 import { INIT, SET_API_KEY } from './mutations';
 import OPEN_WEATHER from './apiNames';
-import RootState from './types';
+import { RootState } from './types';
 
 Vue.use(Vuex);
 
