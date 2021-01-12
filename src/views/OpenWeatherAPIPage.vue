@@ -4,6 +4,7 @@
       <p><b-link href="https://openweathermap.org/">Open Weather Map</b-link> - "Weather forecasts, nowcasts and history in fast and elegant way"</p>
     </b-jumbotron>
     <b-container>
+      <api-key-input></api-key-input>
       <p>Enter a city or leave blank to use coordinates and test out the <b-link href="https://openweathermap.org/forecast5">Weather Forecast</b-link> and <b-link href="https://openweathermap.org/current">Current Weather</b-link> Endpoints.</p>
     <b-row class="my-3" style="width:600px;margin:auto;text-align:center;">
         <b-input-group prepend="City">
@@ -55,9 +56,14 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
+import ApiKeyInput from '@/components/ApiKeyInput.vue';
 import OpenWeather from '../services/openWeatherMap';
 
-@Component
+@Component({
+  components: {
+    ApiKeyInput,
+  },
+})
 export default class OpenWeatherSample extends Vue {
   output: object = {};
 
