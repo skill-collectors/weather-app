@@ -16,10 +16,10 @@
               <b-form-input id="latitude" v-model="lat" type="number"></b-form-input>
         </b-input-group>
     </b-row>
-    <b-button id="weatherForecast" squared v-on:click="getForecastWeather()" variant="info">
+    <b-button id="weatherForecast" squared v-on:click="getForecastWeather" variant="info">
       Weather Forecast
     </b-button>
-    <b-button id="currentWeather" squared v-on:click="getCurrentWeather()" variant="primary">
+    <b-button id="currentWeather" squared v-on:click="getCurrentWeather" variant="primary">
       Current Weather
     </b-button>
     <b-row class="my-3">

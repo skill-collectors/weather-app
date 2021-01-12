@@ -1,4 +1,4 @@
-const countapi = require('countapi-js');
+import countapi from 'countapi-js';
 
 export default class OpenWeatherMap {
   private baseUrl: string = 'https://api.openweathermap.org/data/2.5/';
@@ -37,7 +37,7 @@ export default class OpenWeatherMap {
     } catch (error) {
       output = error;
     }
-    await countapi.hit(process.env.VUE_APP_COUNTER_NAME, 'forecast-weather')
+    await countapi.hit(process.env.VUE_APP_COUNTER_NAME ?? 'WeatherApp', 'forecast-weather')
       .then((result: { value: number; }) => { this.callCountForecast = result.value; });
 
     return output;
@@ -60,7 +60,7 @@ export default class OpenWeatherMap {
     } catch (error) {
       output = error;
     }
-    await countapi.hit(process.env.VUE_APP_COUNTER_NAME, 'forecast-weather')
+    await countapi.hit(process.env.VUE_APP_COUNTER_NAME ?? 'WeatherApp', 'forecast-weather')
       .then((result: { value: number; }) => { this.callCountForecast = result.value; });
 
     return output;
@@ -81,7 +81,7 @@ export default class OpenWeatherMap {
     } catch (error) {
       output = error;
     }
-    await countapi.hit(process.env.VUE_APP_COUNTER_NAME, 'current-weather')
+    await countapi.hit(process.env.VUE_APP_COUNTER_NAME ?? 'WeatherApp', 'current-weather')
       .then((result: { value: number; }) => { this.callCountCurrent = result.value; });
 
     return output;
@@ -103,7 +103,7 @@ export default class OpenWeatherMap {
     } catch (error) {
       output = error;
     }
-    await countapi.hit(process.env.VUE_APP_COUNTER_NAME, 'current-weather')
+    await countapi.hit(process.env.VUE_APP_COUNTER_NAME ?? 'WeatherApp', 'current-weather')
       .then((result: { value: number; }) => { this.callCountCurrent = result.value; });
 
     return output;
@@ -126,7 +126,7 @@ export default class OpenWeatherMap {
     } catch (error) {
       output = error;
     }
-    await countapi.hit(process.env.VUE_APP_COUNTER_NAME, 'one-weather')
+    await countapi.hit(process.env.VUE_APP_COUNTER_NAME ?? 'WeatherApp', 'one-weather')
       .then((result: { value: number; }) => { this.callCountCurrent = result.value; });
 
     return output;
