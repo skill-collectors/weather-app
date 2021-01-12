@@ -1,6 +1,6 @@
 <template>
   <b-form-group label="API Key" label-for="apikey" description="Enter your OpenWeather API Key">
-    <b-input id="apiKey" :value="apiKey" @input="setApiKey"></b-input>
+    <b-input id="apiKey" type="password" :value="apiKey" @input="setApiKey"></b-input>
   </b-form-group>
 </template>
 <script lang="ts">
