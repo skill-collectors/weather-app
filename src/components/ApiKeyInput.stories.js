@@ -1,5 +1,5 @@
-import ApiKeyInput from './ApiKeyInput.vue';
-import store from '../store/store';
+import ApiKeyInput from '@/components/ApiKeyInput.vue';
+import store from '@/store/store';
 import '../plugins/bootstrap-vue';
 
 export default {
