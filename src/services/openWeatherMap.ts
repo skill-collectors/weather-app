@@ -1,4 +1,6 @@
 import countapi from 'countapi-js';
+import store from '@/store/store';
+import OPEN_WEATHER from '@/store/apiNames';
 
 export default class OpenWeatherMap {
   private baseUrl: string = 'https://api.openweathermap.org/data/2.5/';
@@ -30,7 +32,7 @@ export default class OpenWeatherMap {
     const url = this.baseUrl.concat('forecast?q=').concat(city)
       .concat('&units=imperial')
       .concat('&appid=')
-      .concat(process.env.VUE_APP_API_ACCESS_KEY!);
+      .concat(store.state.apiKeys[OPEN_WEATHER]);
     try {
       const response = await fetch(url);
       output = await response.json();
@@ -53,7 +55,7 @@ export default class OpenWeatherMap {
       .concat('&lon=').concat(lon)
       .concat('&units=imperial')
       .concat('&appid=')
-      .concat(process.env.VUE_APP_API_ACCESS_KEY!);
+      .concat(store.state.apiKeys[OPEN_WEATHER]!);
     try {
       const response = await fetch(url);
       output = await response.json();
@@ -74,7 +76,7 @@ export default class OpenWeatherMap {
     const url = this.baseUrl.concat('weather?q=').concat(city)
       .concat('&units=imperial')
       .concat('&appid=')
-      .concat(process.env.VUE_APP_API_ACCESS_KEY!);
+      .concat(store.state.apiKeys[OPEN_WEATHER]!);
     try {
       const response = await fetch(url);
       output = await response.json();
@@ -96,7 +98,7 @@ export default class OpenWeatherMap {
       .concat('&lon=').concat(lon)
       .concat('&units=imperial')
       .concat('&appid=')
-      .concat(process.env.VUE_APP_API_ACCESS_KEY!);
+      .concat(store.state.apiKeys[OPEN_WEATHER]!);
     try {
       const response = await fetch(url);
       output = await response.json();
@@ -119,7 +121,7 @@ export default class OpenWeatherMap {
       .concat('&lon=').concat(lon)
       .concat('&units=imperial')
       .concat('&appid=')
-      .concat(process.env.VUE_APP_API_ACCESS_KEY!);
+      .concat(store.state.apiKeys[OPEN_WEATHER]!);
     try {
       const response = await fetch(url);
       output = await response.json();
