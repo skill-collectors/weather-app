@@ -6,9 +6,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Store } from 'vuex';
-import { SET_API_KEY } from '../store/mutations';
-import { RootState } from '../store/types';
-import OPEN_WEATHER from '../store/apiNames';
+import { SET_API_KEY } from '@/store/mutations';
+import { RootState } from '@/store/types';
+import OPEN_WEATHER from '@/store/apiNames';
 
 @Component
 export default class OpenWeatherSample extends Vue {
