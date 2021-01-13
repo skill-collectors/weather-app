@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Vuex, { StoreOptions } from 'vuex';
-import { INIT, SET_CITY, SET_API_KEY } from './mutations';
+import {
+  INIT, SET_CITY, SET_LAT, SET_LON, SET_API_KEY,
+} from './mutations';
 import OPEN_WEATHER from './apiNames';
 import { RootState } from './types';
 
@@ -37,6 +39,12 @@ const storeOptions: StoreOptions<RootState> = {
     },
     [SET_CITY](state: RootState, { city }: { city: string }) {
       state.location.city = city;
+    },
+    [SET_LAT](state: RootState, { lat }: { lat: number }) {
+      state.location.lat = lat;
+    },
+    [SET_LON](state: RootState, { lon }: { lon: number }) {
+      state.location.lon = lon;
     },
   },
   actions: {

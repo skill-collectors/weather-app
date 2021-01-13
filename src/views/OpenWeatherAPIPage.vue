@@ -12,8 +12,10 @@
         </b-input-group>
         <p style='margin:inherit;'>Or</p>
         <b-input-group prepend="Longitude" append="Latitude">
-              <b-form-input id="longitude" v-model="lon" type="number"></b-form-input>
-              <b-form-input id="latitude" v-model="lat" type="number"></b-form-input>
+              <b-form-input id="longitude" :value="lon" @input="setLon" type="number" step=".001">
+              </b-form-input>
+              <b-form-input id="latitude" :value="lat" @input="setLat" type="number" step=".001">
+              </b-form-input>
         </b-input-group>
     </b-row>
     <b-button id="weatherForecast" squared v-on:click="getForecastWeather" variant="info">
@@ -58,7 +60,7 @@ import { Component, Vue } from 'vue-property-decorator';
 
 import ApiKeyInput from '@/components/ApiKeyInput.vue';
 import OpenWeather from '../services/openWeatherMap';
-import { SET_CITY } from '../store/mutations';
+import { SET_CITY, SET_LAT, SET_LON } from '../store/mutations';
 
 @Component({
   components: {
@@ -70,9 +72,21 @@ export default class OpenWeatherSample extends Vue {
 
   callCount: number = 0;
 
-  lon: string = '';
+  get lat(): number {
+    return this.$store.state.location.lat ?? 0;
+  }
 
-  lat: string = '';
+  setLat(lat: string) {
+    this.$store.commit(SET_LAT, { lat });
+  }
+
+  get lon(): number {
+    return this.$store.state.location.lon ?? 0;
+  }
+
+  setLon(lon: string) {
+    this.$store.commit(SET_LON, { lon });
+  }
 
   get city(): string {
     return this.$store.state.location.city ?? 'Saint Paul';

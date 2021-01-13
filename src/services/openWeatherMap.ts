@@ -49,10 +49,10 @@ export default class OpenWeatherMap {
   * Returns the weather forecast for the next 5 days in 3 hour steps
   *  for the longitude and latitude specified
   */
-  public async getForecastForCoordinate(lat: string, lon: string): Promise<object> {
+  public async getForecastForCoordinate(lat: number, lon: number): Promise<object> {
     let output: object;
-    const url = this.baseUrl.concat('forecast?lat=').concat(lat)
-      .concat('&lon=').concat(lon)
+    const url = this.baseUrl.concat('forecast?lat=').concat(lat.toString())
+      .concat('&lon=').concat(lon.toString())
       .concat('&units=imperial')
       .concat('&appid=')
       .concat(store.state.apiKeys[OPEN_WEATHER]!);
@@ -92,10 +92,10 @@ export default class OpenWeatherMap {
   /**
   * Returns current weather data for the longitude and latitude specified
   */
-  public async getCurrentForCoordinate(lat: string, lon: string): Promise<object> {
+  public async getCurrentForCoordinate(lat: number, lon: number): Promise<object> {
     let output: object;
-    const url = this.baseUrl.concat('weather?lat=').concat(lat)
-      .concat('&lon=').concat(lon)
+    const url = this.baseUrl.concat('weather?lat=').concat(lat.toString())
+      .concat('&lon=').concat(lon.toString())
       .concat('&units=imperial')
       .concat('&appid=')
       .concat(store.state.apiKeys[OPEN_WEATHER]!);
@@ -115,10 +115,10 @@ export default class OpenWeatherMap {
   * Use OpenWeatherMap OneCall Endpoint to get current weather, minute forecast for 1 hour,
   *   hourly forecast for 48 hours, and daily forecast for 7 days.
   */
-  public async getOneCallWeather(lat: string, lon: string): Promise<object> {
+  public async getOneCallWeather(lat: number, lon: number): Promise<object> {
     let output: object;
-    const url = this.baseUrl.concat('onecall?lat=').concat(lat)
-      .concat('&lon=').concat(lon)
+    const url = this.baseUrl.concat('onecall?lat=').concat(lat.toString())
+      .concat('&lon=').concat(lon.toString())
       .concat('&units=imperial')
       .concat('&appid=')
       .concat(store.state.apiKeys[OPEN_WEATHER]!);
