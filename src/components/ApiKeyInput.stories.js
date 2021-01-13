@@ -14,8 +14,7 @@ const Template = (args, { argTypes }) => ({
   template: `
     <div>
       <ApiKeyInput/>
-      <p>(Open the browser developer tools to see the apiKey synced with Vuex
-      and localStorage)</p>
+      <p>$store.state.apiKeys = {{$store.state.apiKeys}}</p>
     </div>
   `,
 });
