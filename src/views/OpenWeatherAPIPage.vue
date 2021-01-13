@@ -8,7 +8,7 @@
       <p>Enter a city or leave blank to use coordinates and test out the <b-link href="https://openweathermap.org/forecast5">Weather Forecast</b-link> and <b-link href="https://openweathermap.org/current">Current Weather</b-link> Endpoints.</p>
     <b-row class="my-3" style="width:600px;margin:auto;text-align:center;">
         <b-input-group prepend="City">
-              <b-form-input id="city" v-model="city" type="text"></b-form-input>
+              <b-form-input id="city" :value="city" @input="setCity" type="text"></b-form-input>
         </b-input-group>
         <p style='margin:inherit;'>Or</p>
         <b-input-group prepend="Longitude" append="Latitude">
@@ -58,6 +58,7 @@ import { Component, Vue } from 'vue-property-decorator';
 
 import ApiKeyInput from '@/components/ApiKeyInput.vue';
 import OpenWeather from '../services/openWeatherMap';
+import { SET_CITY } from '../store/mutations';
 
 @Component({
   components: {
@@ -69,11 +70,17 @@ export default class OpenWeatherSample extends Vue {
 
   callCount: number = 0;
 
-  city: string = 'Saint Paul';
-
   lon: string = '';
 
   lat: string = '';
+
+  get city(): string {
+    return this.$store.state.location.city ?? 'Saint Paul';
+  }
+
+  setCity(city: string) {
+    this.$store.commit(SET_CITY, { city });
+  }
 
   async getForecastWeather() {
     const openWeather = new OpenWeather();

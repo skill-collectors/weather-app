@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex, { StoreOptions } from 'vuex';
-import { INIT, SET_API_KEY } from './mutations';
+import { INIT, SET_CITY, SET_API_KEY } from './mutations';
 import OPEN_WEATHER from './apiNames';
 import { RootState } from './types';
 
@@ -31,9 +31,12 @@ const storeOptions: StoreOptions<RootState> = {
         });
       }
     },
-    [SET_API_KEY](state: any, { apiName, newKey }: { apiName: string, newKey: string }) {
+    [SET_API_KEY](state: RootState, { apiName, newKey }: { apiName: string, newKey: string }) {
       const defaultedApiName = apiName || OPEN_WEATHER;
       state.apiKeys[apiName] = newKey;
+    },
+    [SET_CITY](state: RootState, { city }: { city: string }) {
+      state.location.city = city;
     },
   },
   actions: {
