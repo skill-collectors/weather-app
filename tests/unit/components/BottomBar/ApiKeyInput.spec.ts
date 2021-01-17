@@ -1,7 +1,7 @@
 import Vuex, { Store, MutationTree } from 'vuex';
 import { RootState } from '@/store/types';
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils';
-import ApiKeyInput from '@/components/ApiKeyInput.vue';
+import ApiKeyInput from '@/components/BottomBar/ApiKeyInput.vue';
 import { SET_API_KEY } from '@/store/mutations';
 import OPEN_WEATHER from '@/store/apiNames';
 import BootstrapVue from 'bootstrap-vue';
