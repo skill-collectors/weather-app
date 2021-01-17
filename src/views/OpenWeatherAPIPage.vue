@@ -58,8 +58,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
-import ApiKeyInput from '@/components/ApiKeyInput.vue';
-import OpenWeather from '../services/openWeatherMap';
+import ApiKeyInput from '@/components/BottomBar/ApiKeyInput.vue';
+import OpenWeather from '@/services/openWeatherMap';
 import { SET_CITY, SET_LAT, SET_LON } from '../store/mutations';
 
 @Component({

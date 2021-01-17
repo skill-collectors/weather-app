@@ -7,9 +7,21 @@
       <router-link to="/openWeatherAPI">OpenWeather Sample</router-link>
     </div>
     <router-view/>
+    <bottom-bar></bottom-bar>
   </div>
 </template>
 
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import BottomBar from '@/components/BottomBar/BottomBar.vue';
+
+@Component({
+  components: {
+    BottomBar,
+  },
+})
+export default class App extends Vue {}
+</script>
 <style lang="scss">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
