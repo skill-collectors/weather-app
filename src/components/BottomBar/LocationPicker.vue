@@ -13,7 +13,7 @@ import { SET_CITY } from '@/store/mutations';
 })
 export default class BottomBar extends Vue {
   get city(): string {
-    return this.$store.state.location.city ?? 'Saint Paul';
+    return this.$store.state.location.city || 'Saint Paul';
   }
 
   setCity(city: string) {

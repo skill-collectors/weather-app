@@ -1,20 +1,21 @@
-import ApiKeyInput from '@/components/BottomBar/ApiKeyInput.vue';
+import BottomBar from '@/components/BottomBar/BottomBar.vue';
 import store from '@/store/store';
 import '../../plugins/bootstrap-vue';
 
 export default {
-  title: 'ApiKeyInput',
-  component: ApiKeyInput,
+  title: 'BottomBar',
+  component: BottomBar,
 };
 
 const Template = (args, { argTypes }) => ({
-  components: { ApiKeyInput },
+  components: { BottomBar },
   props: Object.keys(argTypes),
   store,
   template: `
     <div>
-      <ApiKeyInput/>
       <p>$store.state.apiKeys = {{$store.state.apiKeys}}</p>
+      <p>$store.state.city = {{$store.state.location.city}}</p>
+      <BottomBar/>
     </div>
   `,
 });
