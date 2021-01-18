@@ -1,8 +1,7 @@
 Feature('Example Tests');
 
-// NOTE: You'll need to serve the app prior to executing!
 Scenario('Get Weather Forecast - Basic Example', async ({ I }) => {
-  I.amOnPage('http://localhost:8080/#');
+  I.amOnPage('https://skill-collectors.github.io/weather-app/#/');
   I.click('OpenWeather Sample');
   I.fillField('#city', 'Minneapolis');
   I.click('#weatherForecast');

@@ -10,7 +10,7 @@ exports.config = {
   output: './output',
   helpers: {
     Playwright: {
-      url: 'http://localhost:8080/#',
+      url: 'https://skill-collectors.github.io/weather-app/#/',
       show: true,
       restart: false,
       waitForNavigation: 'networkidle0',
@@ -31,6 +31,10 @@ exports.config = {
     },
     screenshotOnFail: {
       enabled: true,
+    },
+    wdio: {
+      enabled: false,
+      services: ['selenium-standalone'],
     },
   },
 };
