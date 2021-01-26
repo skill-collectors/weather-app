@@ -4,21 +4,24 @@
       <p><b-link href="https://openweathermap.org/">Open Weather Map</b-link> - "Weather forecasts, nowcasts and history in fast and elegant way"</p>
     </b-jumbotron>
     <b-container>
+      <api-key-input></api-key-input>
       <p>Enter a city or leave blank to use coordinates and test out the <b-link href="https://openweathermap.org/forecast5">Weather Forecast</b-link> and <b-link href="https://openweathermap.org/current">Current Weather</b-link> Endpoints.</p>
     <b-row class="my-3" style="width:600px;margin:auto;text-align:center;">
         <b-input-group prepend="City">
-              <b-form-input id="city" v-model="city" type="text"></b-form-input>
+              <b-form-input id="city" :value="city" @input="setCity" type="text"></b-form-input>
         </b-input-group>
         <p style='margin:inherit;'>Or</p>
         <b-input-group prepend="Longitude" append="Latitude">
-              <b-form-input id="longitude" v-model="lon" type="number"></b-form-input>
-              <b-form-input id="latitude" v-model="lat" type="number"></b-form-input>
+              <b-form-input id="longitude" :value="lon" @input="setLon" type="number" step=".001">
+              </b-form-input>
+              <b-form-input id="latitude" :value="lat" @input="setLat" type="number" step=".001">
+              </b-form-input>
         </b-input-group>
     </b-row>
-    <b-button id="weatherForecast" squared v-on:click="getForecastWeather()" variant="info">
+    <b-button id="weatherForecast" squared v-on:click="getForecastWeather" variant="info">
       Weather Forecast
     </b-button>
-    <b-button id="currentWeather" squared v-on:click="getCurrentWeather()" variant="primary">
+    <b-button id="currentWeather" squared v-on:click="getCurrentWeather" variant="primary">
       Current Weather
     </b-button>
     <b-row class="my-3">
@@ -55,19 +58,43 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
-import OpenWeather from '../services/openWeatherMap';
+import ApiKeyInput from '@/components/BottomBar/ApiKeyInput.vue';
+import OpenWeather from '@/services/openWeatherMap';
+import { SET_CITY, SET_LAT, SET_LON } from '../store/mutations';
 
-@Component
+@Component({
+  components: {
+    ApiKeyInput,
+  },
+})
 export default class OpenWeatherSample extends Vue {
   output: object = {};
 
   callCount: number = 0;
 
-  city: string = 'Saint Paul';
+  get lat(): number {
+    return this.$store.state.location.lat ?? 0;
+  }
 
-  lon: string = '';
+  setLat(lat: string) {
+    this.$store.commit(SET_LAT, { lat });
+  }
 
-  lat: string = '';
+  get lon(): number {
+    return this.$store.state.location.lon ?? 0;
+  }
+
+  setLon(lon: string) {
+    this.$store.commit(SET_LON, { lon });
+  }
+
+  get city(): string {
+    return this.$store.state.location.city ?? 'Saint Paul';
+  }
+
+  setCity(city: string) {
+    this.$store.commit(SET_CITY, { city });
+  }
 
   async getForecastWeather() {
     const openWeather = new OpenWeather();
