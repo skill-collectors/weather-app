@@ -41,7 +41,7 @@ describe('ApiKeyInput.vue', () => {
 
   it('renders correctly', () => {
     const wrapper = shallowMount(ApiKeyInput, { store, localVue });
-    expect(wrapper.contains('#apiKey')).toBe(true);
+    expect(wrapper.findComponent(ApiKeyInput).exists()).toBe(true);
   });
 
   it('stores the value in vuex when it changes', () => {
