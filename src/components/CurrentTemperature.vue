@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div>{{currentTemperature}}°</div>
-    <div>Feels like {{currentFeelsLike}}°</div>
+    <h1>{{currentTemperature}}°</h1>
+    <aside>Feels like {{currentFeelsLike}}°</aside>
   </div>
 </template>
 
@@ -20,5 +20,14 @@ export default class CurrentTemperature extends CurrentTemperatureProps {}
 </script>
 
 <style>
-
+* {
+  font-weight: bold;
+}
+h1 {
+  font-size: 5rem;
+  margin-left: 0;
+}
+aside {
+  font-size: smaller;
+}
 </style>
