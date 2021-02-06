@@ -1,17 +1,26 @@
 <template>
   <b-container class="home">
-    <b-row align-h="around">
+    <b-row>
       <b-col><b-skeleton class="m-auto" type="button" size="lg"></b-skeleton></b-col>
       <b-col><b-skeleton class="m-auto" type="avatar" size="lg"></b-skeleton></b-col>
     </b-row>
     <b-row>
-      <b-col><b-skeleton type="text"></b-skeleton></b-col>
+      <b-col>
+        <h6>Today's forcast</h6>
+        <b-skeleton type="text"></b-skeleton>
+      </b-col>
     </b-row>
     <b-row>
-      <b-col><b-skeleton type="text"></b-skeleton></b-col>
+      <b-col>
+        <h6>Coming up</h6>
+        <b-skeleton type="text"></b-skeleton>
+      </b-col>
     </b-row>
     <b-row>
-      <b-col><b-skeleton type="text"></b-skeleton></b-col>
+      <b-col>
+        <h6>5-day forcast</h6>
+        <b-skeleton type="text"></b-skeleton>
+      </b-col>
     </b-row>
   </b-container>
 </template>
@@ -25,7 +34,20 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class Home extends Vue {}
 </script>
 <style scoped>
+.home {
+  max-width: 30rem;
+}
 .row {
-  border-bottom: 1px solid gray;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid lightgray;
+}
+h6 {
+  text-align: left;
+  font-size: x-small;
+  font-weight: bold;
+}
+.b-skeleton-text {
+  min-height: 3rem;
 }
 </style>
