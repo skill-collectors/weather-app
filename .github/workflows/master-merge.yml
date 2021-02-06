@@ -5,8 +5,6 @@ name: Deploy
 on:
   push:
     branches: [ master ]
-  pull_request: # Temporary for testing
-    branches: [ master ]
 
 jobs:
   build:
