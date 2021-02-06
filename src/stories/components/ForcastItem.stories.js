@@ -1,7 +1,7 @@
 import ForcastItem from '@/components/ForcastItem.vue';
 
 export default {
-  title: 'Weather/Forcast',
+  title: 'Weather/ForcastItem',
   component: ForcastItem,
   argTypes: {
     dateTime: { control: { type: 'date' } },
@@ -35,6 +35,15 @@ export const Current = Template.bind({});
 Current.args = {
   dateTime: new Date(),
   dateTimeFormat: 'ha',
-  imageSrc: 'http://openweathermap.org/img/wn/04n@2x.png',
+  imageSrc: 'http://openweathermap.org/img/wn/04n.png',
   temperature: 72,
+};
+
+export const FiveDay = Template.bind({});
+FiveDay.args = {
+  dateTime: new Date(),
+  dateTimeFormat: 'E',
+  imageSrc: 'http://openweathermap.org/img/wn/11n.png',
+  high: 72,
+  low: 63,
 };
