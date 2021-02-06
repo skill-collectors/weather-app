@@ -3,7 +3,7 @@
     <div class="dateTime">{{formattedDateTime}}</div>
     <img v-if="imageSrc" :src="imageSrc"/>
     <div class="temperature" v-if="temperature">{{temperature}}°</div>
-    <div class="temperature" v-if="high && low">{{high}}° / {{low}}°</div>
+    <div class="temperature" v-else-if="high && low">{{high}}° / {{low}}°</div>
   </div>
 </template>
 <script lang="ts">
