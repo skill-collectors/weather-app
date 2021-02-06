@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div>{{formattedDateTime}}</div>
+    <div class="dateTime">{{formattedDateTime}}</div>
     <img v-if="imageSrc" :src="imageSrc"/>
-    <div v-if="temperature">{{temperature}}</div>
-    <div v-if="high && low">{{high}} / {{low}}</div>
+    <div class="temperature" v-if="temperature">{{temperature}}°</div>
+    <div class="temperature" v-if="high && low">{{high}}° / {{low}}°</div>
   </div>
 </template>
 <script lang="ts">
@@ -29,3 +29,15 @@ export default class HelloWorld extends Vue {
   }
 }
 </script>
+<style scoped>
+* {
+  text-align: center;
+  font-size: smaller;
+}
+.dateTime {
+  color: gray;
+}
+img {
+  max-width: 4em;
+}
+</style>
