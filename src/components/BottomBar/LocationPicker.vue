@@ -2,14 +2,23 @@
   <b-input-group prepend="City">
     <b-form-input id="city" :value="city" @input="setCity" type="text" placeholder="St. Paul">
     </b-form-input>
+     <b-input-group-append>
+        <b-button title="Current Location" @click="getCurrentCity" variant="light">
+          <b-icon-geo-alt-fill></b-icon-geo-alt-fill>
+        </b-button>
+     </b-input-group-append>
   </b-input-group>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { SET_CITY } from '@/store/mutations';
+import { BIconGeoAltFill } from 'bootstrap-vue';
+// import geolocationService from '@/services/GeoLocationService';
 
 @Component({
-  components: {},
+  components: {
+    BIconGeoAltFill,
+  },
 })
 export default class BottomBar extends Vue {
   get city(): string {
@@ -18,6 +27,11 @@ export default class BottomBar extends Vue {
 
   setCity(city: string) {
     this.$store.commit(SET_CITY, { city });
+  }
+
+  async getCurrentCity() {
+    return this.$store.state.location.city;
+    // await geolocationService.getCurrentPositions();
   }
 }
 </script>
