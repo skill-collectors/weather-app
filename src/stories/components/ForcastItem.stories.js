@@ -34,7 +34,7 @@ const Template = (args, { argTypes }) => ({
 export const Current = Template.bind({});
 Current.args = {
   dateTime: new Date(),
-  dateTimeFormat: 'hh A',
+  dateTimeFormat: 'ha',
   imageSrc: 'http://openweathermap.org/img/wn/04n@2x.png',
   temperature: 72,
 };
