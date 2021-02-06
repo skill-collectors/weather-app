@@ -9,8 +9,7 @@
     "test:e2e": "codeceptjs run",
     "lint": "vue-cli-service lint",
     "build-storybook": "build-storybook",
-    "storybook": "start-storybook -p 6006",
-    "deploy": "npm run build; push-dir --dir=dist --branch=gh-pages --cleanup"
+    "storybook": "start-storybook -p 6006"
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
@@ -57,7 +56,6 @@
     "playwright": "^1.8.0",
     "popper.js": "^1.16.0",
     "portal-vue": "^2.1.7",
-    "push-dir": "^0.4.1",
     "react-is": "^17.0.1",
     "sass": "^1.32.6",
     "sass-loader": "^10.1.1",
