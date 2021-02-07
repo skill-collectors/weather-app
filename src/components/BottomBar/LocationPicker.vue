@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 <template>
   <b-input-group prepend="City">
     <b-form-input id="city" :value="city" @input="setCity" type="text" placeholder="St. Paul">
@@ -11,9 +12,9 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { SET_CITY } from '@/store/mutations';
+import { SET_CITY, SET_LON, SET_LAT } from '@/store/mutations';
 import { BIconGeoAltFill } from 'bootstrap-vue';
-// import geolocationService from '@/services/GeoLocationService';
+import geolocationService from '@/services/GeoLocationService';
 
 @Component({
   components: {
@@ -30,8 +31,13 @@ export default class BottomBar extends Vue {
   }
 
   async getCurrentCity() {
-    return this.$store.state.location.city;
-    // await geolocationService.getCurrentPositions();
+    await geolocationService.getCurrentPosition().then((coords) => {
+      this.$store.commit(SET_LON, coords.longitude);
+      this.$store.commit(SET_LAT, coords.latitude);
+    })
+      .catch((error) => {
+        console.error(error.message);
+      });
   }
 }
 </script>
