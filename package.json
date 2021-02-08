@@ -30,7 +30,7 @@
     "@codeceptjs/configure": "^0.6.2",
     "@codeceptjs/helper": "^1.0.2",
     "@storybook/addon-actions": "^6.1.15",
-    "@storybook/addon-essentials": "^6.1.15",
+    "@storybook/addon-essentials": "^6.1.17",
     "@storybook/addon-links": "^6.1.15",
     "@storybook/vue": "^6.1.15",
     "@types/jest": "^26.0.20",
