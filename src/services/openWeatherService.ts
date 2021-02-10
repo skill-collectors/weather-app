@@ -3,16 +3,17 @@ import store from '@/store/store';
 import OPEN_WEATHER from '@/store/apiNames';
 import { SET_CALL_COUNT } from '@/store/mutations';
 
-export default class OpenWeatherMap {
-  private baseUrl: string = 'https://api.openweathermap.org/data/2.5/';
+const BASE_URL: string = 'https://api.openweathermap.org/data/2.5/';
+
+export default {
 
   /**
   * Returns the weather forecast for the next 5 days in 3 hour steps
   *  for the city specificed
   */
-  public async getForecastForCity(city: string): Promise<object> {
+  async getForecastForCity(city: string): Promise<object> {
     let output: object;
-    const url = this.baseUrl.concat('forecast?q=').concat(city)
+    const url = BASE_URL.concat('forecast?q=').concat(city)
       .concat('&units=imperial')
       .concat('&appid=')
       .concat(store.state.apiKeys[OPEN_WEATHER]);
@@ -24,15 +25,15 @@ export default class OpenWeatherMap {
     }
 
     return output;
-  }
+  },
 
   /**
   * Returns the weather forecast for the next 5 days in 3 hour steps
   *  for the longitude and latitude specified
   */
-  public async getForecastForCoordinate(lat: number, lon: number): Promise<object> {
+  async getForecastForCoordinate(lat: number, lon: number): Promise<object> {
     let output: object;
-    const url = this.baseUrl.concat('forecast?lat=').concat(lat.toString())
+    const url = BASE_URL.concat('forecast?lat=').concat(lat.toString())
       .concat('&lon=').concat(lon.toString())
       .concat('&units=imperial')
       .concat('&appid=')
@@ -45,14 +46,14 @@ export default class OpenWeatherMap {
     }
 
     return output;
-  }
+  },
 
   /**
   * Returns current weather data for the city specificed
   */
-  public async getCurrentForCity(city: string): Promise<object> {
+  async getCurrentForCity(city: string): Promise<object> {
     let output: object;
-    const url = this.baseUrl.concat('weather?q=').concat(city)
+    const url = BASE_URL.concat('weather?q=').concat(city)
       .concat('&units=imperial')
       .concat('&appid=')
       .concat(store.state.apiKeys[OPEN_WEATHER]!);
@@ -64,14 +65,14 @@ export default class OpenWeatherMap {
     }
 
     return output;
-  }
+  },
 
   /**
   * Returns current weather data for the longitude and latitude specified
   */
-  public async getCurrentForCoordinate(lat: number, lon: number): Promise<object> {
+  async getCurrentForCoordinate(lat: number, lon: number): Promise<object> {
     let output: object;
-    const url = this.baseUrl.concat('weather?lat=').concat(lat.toString())
+    const url = BASE_URL.concat('weather?lat=').concat(lat.toString())
       .concat('&lon=').concat(lon.toString())
       .concat('&units=imperial')
       .concat('&appid=')
@@ -84,15 +85,15 @@ export default class OpenWeatherMap {
     }
 
     return output;
-  }
+  },
 
   /**
   * Use OpenWeatherMap OneCall Endpoint to get current weather, minute forecast for 1 hour,
   *   hourly forecast for 48 hours, and daily forecast for 7 days.
   */
-  public async getOneCallWeather(lat: number, lon: number): Promise<object> {
+  async getOneCallWeather(lat: number, lon: number): Promise<object> {
     let output: object;
-    const url = this.baseUrl.concat('onecall?lat=').concat(lat.toString())
+    const url = BASE_URL.concat('onecall?lat=').concat(lat.toString())
       .concat('&lon=').concat(lon.toString())
       .concat('&units=imperial')
       .concat('&appid=')
@@ -109,5 +110,5 @@ export default class OpenWeatherMap {
       });
 
     return output;
-  }
-}
+  },
+};

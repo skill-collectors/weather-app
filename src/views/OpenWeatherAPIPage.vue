@@ -61,7 +61,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { Store } from 'vuex';
 import { RootState } from '@/store/types';
 import ApiKeyInput from '@/components/BottomBar/ApiKeyInput.vue';
-import OpenWeather from '@/services/openWeatherMap';
+import openWeatherService from '@/services/openWeatherService';
 import { SET_CITY, SET_LAT, SET_LON } from '../store/mutations';
 
 @Component({
@@ -99,20 +99,18 @@ export default class OpenWeatherSample extends Vue {
   }
 
   async getForecastWeather() {
-    const openWeather = new OpenWeather();
     if (this.city !== '') {
-      this.output = await openWeather.getForecastForCity(this.city);
+      this.output = await openWeatherService.getForecastForCity(this.city);
     } else {
-      this.output = await openWeather.getForecastForCoordinate(this.lat, this.lon);
+      this.output = await openWeatherService.getForecastForCoordinate(this.lat, this.lon);
     }
   }
 
   async getCurrentWeather() {
-    const openWeather = new OpenWeather();
     if (this.city !== '') {
-      this.output = await openWeather.getCurrentForCity(this.city);
+      this.output = await openWeatherService.getCurrentForCity(this.city);
     } else {
-      this.output = await openWeather.getCurrentForCoordinate(this.lat, this.lon);
+      this.output = await openWeatherService.getCurrentForCoordinate(this.lat, this.lon);
     }
   }
 }
