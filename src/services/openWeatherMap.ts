@@ -1,6 +1,7 @@
 import countapi from 'countapi-js';
 import store from '@/store/store';
 import OPEN_WEATHER from '@/store/apiNames';
+import { SET_CALL_COUNT } from '@/store/mutations';
 
 export default class OpenWeatherMap {
   private baseUrl: string = 'https://api.openweathermap.org/data/2.5/';
@@ -129,7 +130,9 @@ export default class OpenWeatherMap {
       output = error;
     }
     await countapi.hit(process.env.VUE_APP_COUNTER_NAME ?? 'WeatherApp', 'one-weather')
-      .then((result: { value: number; }) => { this.callCountCurrent = result.value; });
+      .then((result: { value: number; }) => {
+        store.commit(SET_CALL_COUNT, { callCount: result.value });
+      });
 
     return output;
   }

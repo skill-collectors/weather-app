@@ -9,10 +9,15 @@ export interface Weather {
   forcast: object,
 }
 
+export interface Stats {
+  callCount: number,
+}
+
 export interface RootState {
   apiKeys: any,
   location: Location,
   weather: Weather,
+  stats: Stats,
 }
 
 export default RootState;

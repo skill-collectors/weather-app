@@ -29,6 +29,9 @@ describe('ApiKeyInput.vue', () => {
         current: {},
         forcast: {},
       },
+      stats: {
+        callCount: 0,
+      },
     };
     mutations = {
       [SET_API_KEY]: jest.fn(),

@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import Vuex, { StoreOptions } from 'vuex';
 import {
-  INIT, SET_CITY, SET_LAT, SET_LON, SET_API_KEY,
-} from './mutations';
+  INIT, SET_CITY, SET_LAT, SET_LON, SET_API_KEY, SET_CALL_COUNT,
+} from '@/store/mutations';
+
 import OPEN_WEATHER from './apiNames';
 import { RootState } from './types';
 
@@ -21,6 +22,9 @@ const storeOptions: StoreOptions<RootState> = {
     weather: {
       current: {},
       forcast: {},
+    },
+    stats: {
+      callCount: 0,
     },
   },
   mutations: {
@@ -45,6 +49,9 @@ const storeOptions: StoreOptions<RootState> = {
     },
     [SET_LON](state: RootState, { lon }: { lon: number }) {
       state.location.lon = lon;
+    },
+    [SET_CALL_COUNT](state: RootState, { callCount }: { callCount: number }) {
+      state.stats.callCount = callCount;
     },
   },
   actions: {
