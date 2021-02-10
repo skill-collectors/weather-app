@@ -50,7 +50,7 @@
         </b-card>
       </b-col>
     </b-row>
-          <p>This endpoint has been called {{callCount}} times.</p>
+          <p>This endpoint has been called {{$store.stats.callCount}} times.</p>
     </b-container>
   </main>
 </template>
@@ -58,6 +58,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
+import { Store } from 'vuex';
+import { RootState } from '@/store/types';
 import ApiKeyInput from '@/components/BottomBar/ApiKeyInput.vue';
 import OpenWeather from '@/services/openWeatherMap';
 import { SET_CITY, SET_LAT, SET_LON } from '../store/mutations';
@@ -68,9 +70,9 @@ import { SET_CITY, SET_LAT, SET_LON } from '../store/mutations';
   },
 })
 export default class OpenWeatherSample extends Vue {
-  output: object = {};
+  $store!: Store<RootState>
 
-  callCount: number = 0;
+  output: object = {};
 
   get lat(): number {
     return this.$store.state.location.lat ?? 0;
@@ -103,7 +105,6 @@ export default class OpenWeatherSample extends Vue {
     } else {
       this.output = await openWeather.getForecastForCoordinate(this.lat, this.lon);
     }
-    this.callCount = openWeather.getCallCountForecast();
   }
 
   async getCurrentWeather() {
@@ -113,7 +114,6 @@ export default class OpenWeatherSample extends Vue {
     } else {
       this.output = await openWeather.getCurrentForCoordinate(this.lat, this.lon);
     }
-    this.callCount = openWeather.getCallCountCurrent();
   }
 }
 </script>

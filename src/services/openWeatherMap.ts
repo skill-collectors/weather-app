@@ -6,24 +6,6 @@ import { SET_CALL_COUNT } from '@/store/mutations';
 export default class OpenWeatherMap {
   private baseUrl: string = 'https://api.openweathermap.org/data/2.5/';
 
-  private callCountForecast: number = 0;
-
-  private callCountCurrent: number = 0;
-
-  private callCountOneCall: number = 0;
-
-  public getCallCountForecast() {
-    return this.callCountForecast;
-  }
-
-  public getCallCountCurrent() {
-    return this.callCountCurrent;
-  }
-
-  public getCallCountOneCall() {
-    return this.callCountOneCall;
-  }
-
   /**
   * Returns the weather forecast for the next 5 days in 3 hour steps
   *  for the city specificed
@@ -40,8 +22,6 @@ export default class OpenWeatherMap {
     } catch (error) {
       output = error;
     }
-    await countapi.hit(process.env.VUE_APP_COUNTER_NAME ?? 'WeatherApp', 'forecast-weather')
-      .then((result: { value: number; }) => { this.callCountForecast = result.value; });
 
     return output;
   }
@@ -63,8 +43,6 @@ export default class OpenWeatherMap {
     } catch (error) {
       output = error;
     }
-    await countapi.hit(process.env.VUE_APP_COUNTER_NAME ?? 'WeatherApp', 'forecast-weather')
-      .then((result: { value: number; }) => { this.callCountForecast = result.value; });
 
     return output;
   }
@@ -84,8 +62,6 @@ export default class OpenWeatherMap {
     } catch (error) {
       output = error;
     }
-    await countapi.hit(process.env.VUE_APP_COUNTER_NAME ?? 'WeatherApp', 'current-weather')
-      .then((result: { value: number; }) => { this.callCountCurrent = result.value; });
 
     return output;
   }
@@ -106,8 +82,6 @@ export default class OpenWeatherMap {
     } catch (error) {
       output = error;
     }
-    await countapi.hit(process.env.VUE_APP_COUNTER_NAME ?? 'WeatherApp', 'current-weather')
-      .then((result: { value: number; }) => { this.callCountCurrent = result.value; });
 
     return output;
   }
