@@ -87,11 +87,25 @@ export default {
     return output;
   },
 
+  async searchCoordsByCity(query: string): Promise<any> {
+    let output: object;
+    const url = `${BASE_URL}onecall?&q=${query}&appId=${store.state.apiKeys[OPEN_WEATHER]!}`;
+    try {
+      const response = await fetch(url);
+      output = await response.json();
+    } catch (error) {
+      output = error;
+    }
+    // TODO add call to count API, but should we track different endpoint calls separately?
+
+    return output;
+  },
+
   /**
   * Use OpenWeatherMap OneCall Endpoint to get current weather, minute forecast for 1 hour,
   *   hourly forecast for 48 hours, and daily forecast for 7 days.
   */
-  async getOneCallWeather(lat: number, lon: number): Promise<object> {
+  async getOneCallWeather(lat: number, lon: number): Promise<any> {
     let output: object;
     const url = BASE_URL.concat('onecall?lat=').concat(lat.toString())
       .concat('&lon=').concat(lon.toString())
