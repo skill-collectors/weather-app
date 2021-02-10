@@ -5,6 +5,12 @@ import { SET_CALL_COUNT } from '@/store/mutations';
 
 const BASE_URL: string = 'https://api.openweathermap.org/data/2.5/';
 
+export interface GeoDirectResponse {
+  name: string,
+  lat: number,
+  lon: number,
+}
+
 export default {
 
   /**
@@ -87,18 +93,11 @@ export default {
     return output;
   },
 
-  async searchCoordsByCity(query: string): Promise<any> {
-    let output: object;
-    const url = `${BASE_URL}onecall?&q=${query}&appId=${store.state.apiKeys[OPEN_WEATHER]!}`;
-    try {
-      const response = await fetch(url);
-      output = await response.json();
-    } catch (error) {
-      output = error;
-    }
+  async searchCoordsByCity(query: string): Promise<GeoDirectResponse[]> {
+    const url = `http://api.openweathermap.org/geo/1.0/direct?&q=${query}&appId=${store.state.apiKeys[OPEN_WEATHER]!}`;
+    const response = await fetch(url);
     // TODO add call to count API, but should we track different endpoint calls separately?
-
-    return output;
+    return await response.json() as GeoDirectResponse[];
   },
 
   /**

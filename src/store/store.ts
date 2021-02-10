@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import Vuex, { StoreOptions } from 'vuex';
 import {
-  INIT, SET_CITY, SET_LAT, SET_LON, SET_API_KEY, SET_CALL_COUNT,
+  INIT, SET_CITY, SET_LAT, SET_LON, SET_API_KEY, SET_CALL_COUNT, SET_WEATHER,
 } from '@/store/mutations';
 
 import OPEN_WEATHER from './apiNames';
-import { RootState } from './types';
+import { RootState, OneCallWeather } from './types';
 
 Vue.use(Vuex);
 
@@ -20,8 +20,22 @@ const storeOptions: StoreOptions<RootState> = {
       lon: 0,
     },
     weather: {
-      current: {},
-      forcast: {},
+      current: {
+        temp: 0,
+        feels_like: 0,
+        weather: [{ description: '', icon: '' }],
+      },
+      minutely: [{ precipitation: 0 }],
+      hourly: [{ temp: 0, feels_like: 0, weather: [{ description: '', icon: '' }] }],
+      daily: [{
+        temp: {
+          day: 0, eve: 0, morn: 0, night: 0, min: 0, max: 0,
+        },
+        feels_like: {
+          day: 0, eve: 0, morn: 0, night: 0,
+        },
+        weather: [{ description: '', icon: '' }],
+      }],
     },
     stats: {
       callCount: 0,
@@ -49,6 +63,9 @@ const storeOptions: StoreOptions<RootState> = {
     },
     [SET_LON](state: RootState, { lon }: { lon: number }) {
       state.location.lon = lon;
+    },
+    [SET_WEATHER](state: RootState, weather: OneCallWeather) {
+      state.weather = weather;
     },
     [SET_CALL_COUNT](state: RootState, { callCount }: { callCount: number }) {
       state.stats.callCount = callCount;
