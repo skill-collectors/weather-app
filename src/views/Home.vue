@@ -7,7 +7,7 @@
     <b-row>
       <b-col>
         <h6>Today's forcast</h6>
-        <daily-forcast></daily-forcast>
+        <b-skeleton type="text"></b-skeleton>
       </b-col>
     </b-row>
     <b-row>
@@ -19,7 +19,7 @@
     <b-row>
       <b-col>
         <h6>5-day forcast</h6>
-        <b-skeleton type="text"></b-skeleton>
+        <daily-forcast></daily-forcast>
       </b-col>
     </b-row>
   </b-container>
