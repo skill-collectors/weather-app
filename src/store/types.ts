@@ -18,10 +18,12 @@ export interface CurrentWeather {
 }
 
 export interface MinutelyForcast {
+  dt: number,
   precipitation: number,
 }
 
 export interface HourlyForcast {
+  dt: number,
   temp: number,
   feels_like: number,
   weather: Weather[],
@@ -43,6 +45,7 @@ export interface DailyTemp {
 }
 
 export interface DailyForcast {
+  dt: number,
   temp: DailyTemp,
   feels_like: DailyFeelsLike,
   weather: Weather[],
