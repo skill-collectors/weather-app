@@ -1,6 +1,6 @@
 <template>
   <ul>
-    <li v-for="day in $store.state.weather.daily" :key="day.dt">
+    <li v-for="day in days" :key="day.dt">
       <forcast-item
         :dateTime="dtToDate(day.dt)"
         dateTimeFormat="E"
@@ -27,6 +27,10 @@ import openWeatherService from '@/services/openWeatherService';
 })
 export default class DailyForcast extends Vue {
   $store!: Store<RootState>
+
+  get days() {
+    return this.$store.state.weather.daily.slice(0, 6);
+  }
 }
 </script>
 <style scoped>
