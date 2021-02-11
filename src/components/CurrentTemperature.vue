@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1>{{currentTemperature}}°</h1>
-    <aside>Feels like {{currentFeelsLike}}°</aside>
+    <h1>{{Math.round(currentTemperature)}}°</h1>
+    <aside>Feels like {{Math.round(currentFeelsLike)}}°</aside>
   </div>
 </template>
 
