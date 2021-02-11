@@ -1,7 +1,12 @@
 <template>
   <b-container class="home">
     <b-row>
-      <b-col><b-skeleton class="m-auto" type="button" size="lg"></b-skeleton></b-col>
+      <b-col>
+        <current-temperature
+          :currentTemperature="$store.state.weather.current.temp"
+          :currentFeelsLike="$store.state.weather.current.feels_like"
+        ></current-temperature>
+      </b-col>
       <b-col><b-skeleton class="m-auto" type="avatar" size="lg"></b-skeleton></b-col>
     </b-row>
     <b-row>
@@ -27,11 +32,12 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import CurrentTemperature from '@/components/CurrentTemperature.vue';
 import DailyForcast from '@/components/DailyForcast.vue';
 import HourlyForcast from '@/components/HourlyForcast.vue';
 
 @Component({
-  components: { DailyForcast, HourlyForcast },
+  components: { CurrentTemperature, DailyForcast, HourlyForcast },
 })
 export default class Home extends Vue {}
 </script>
