@@ -7,7 +7,7 @@
     <b-row>
       <b-col>
         <h6>Today's forcast</h6>
-        <b-skeleton type="text"></b-skeleton>
+        <hourly-forcast></hourly-forcast>
       </b-col>
     </b-row>
     <b-row>
@@ -28,9 +28,10 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import DailyForcast from '@/components/DailyForcast.vue';
+import HourlyForcast from '@/components/HourlyForcast.vue';
 
 @Component({
-  components: { DailyForcast },
+  components: { DailyForcast, HourlyForcast },
 })
 export default class Home extends Vue {}
 </script>
