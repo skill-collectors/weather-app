@@ -2,6 +2,7 @@
   <ul>
     <li v-for="day in days" :key="day.dt">
       <forcast-item
+        class="m-2"
         :dateTime="dtToDate(day.dt)"
         dateTimeFormat="E"
         :imageSrc="iconToUrl(day.weather[0].icon)"
