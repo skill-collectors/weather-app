@@ -11,7 +11,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { format } from 'date-fns';
 
 @Component
-export default class HelloWorld extends Vue {
+export default class ForcastItem extends Vue {
   @Prop() private dateTime!: Date;
 
   @Prop() private dateTimeFormat!: string;
