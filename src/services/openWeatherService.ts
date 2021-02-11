@@ -97,6 +97,10 @@ export default {
     return new Date(dt * 1000);
   },
 
+  iconToUrl(icon: string): string {
+    return `http://openweathermap.org/img/wn/${icon}.png`;
+  },
+
   async searchCoordsByCity(query: string): Promise<GeoDirectResponse[]> {
     const url = `http://api.openweathermap.org/geo/1.0/direct?&q=${query}&appId=${store.state.apiKeys[OPEN_WEATHER]!}`;
     const response = await fetch(url);
