@@ -30,5 +30,10 @@ export default class DailyForcast extends Vue {
 }
 </script>
 <style scoped>
-
+ul {
+  list-style-type: none;
+}
+li {
+  display: inline-block;
+}
 </style>
