@@ -8,7 +8,7 @@
       <p>Enter a city or leave blank to use coordinates and test out the <b-link href="https://openweathermap.org/forecast5">Weather Forecast</b-link> and <b-link href="https://openweathermap.org/current">Current Weather</b-link> Endpoints.</p>
     <b-row class="my-3" style="width:600px;margin:auto;text-align:center;">
         <b-input-group prepend="City">
-              <b-form-input id="city" :value="city" @input="setCity" type="text"></b-form-input>
+          <b-form-input id="city" :value="city" @input="setCity" type="text"></b-form-input>
         </b-input-group>
         <p style='margin:inherit;'>Or</p>
         <b-input-group prepend="Longitude" append="Latitude">
@@ -50,7 +50,7 @@
         </b-card>
       </b-col>
     </b-row>
-          <p>This endpoint has been called {{callCount}} times.</p>
+          <p>This endpoint has been called {{$store.state.stats.callCount}} times.</p>
     </b-container>
   </main>
 </template>
@@ -58,8 +58,10 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
+import { Store } from 'vuex';
+import { RootState } from '@/store/types';
 import ApiKeyInput from '@/components/BottomBar/ApiKeyInput.vue';
-import OpenWeather from '@/services/openWeatherMap';
+import openWeatherService from '@/services/openWeatherService';
 import { SET_CITY, SET_LAT, SET_LON } from '../store/mutations';
 
 @Component({
@@ -68,9 +70,9 @@ import { SET_CITY, SET_LAT, SET_LON } from '../store/mutations';
   },
 })
 export default class OpenWeatherSample extends Vue {
-  output: object = {};
+  $store!: Store<RootState>
 
-  callCount: number = 0;
+  output: object = {};
 
   get lat(): number {
     return this.$store.state.location.lat ?? 0;
@@ -97,23 +99,19 @@ export default class OpenWeatherSample extends Vue {
   }
 
   async getForecastWeather() {
-    const openWeather = new OpenWeather();
     if (this.city !== '') {
-      this.output = await openWeather.getForecastForCity(this.city);
+      this.output = await openWeatherService.getForecastForCity(this.city);
     } else {
-      this.output = await openWeather.getForecastForCoordinate(this.lat, this.lon);
+      this.output = await openWeatherService.getForecastForCoordinate(this.lat, this.lon);
     }
-    this.callCount = openWeather.getCallCountForecast();
   }
 
   async getCurrentWeather() {
-    const openWeather = new OpenWeather();
     if (this.city !== '') {
-      this.output = await openWeather.getCurrentForCity(this.city);
+      this.output = await openWeatherService.getCurrentForCity(this.city);
     } else {
-      this.output = await openWeather.getCurrentForCoordinate(this.lat, this.lon);
+      this.output = await openWeatherService.getCurrentForCoordinate(this.lat, this.lon);
     }
-    this.callCount = openWeather.getCallCountCurrent();
   }
 }
 </script>

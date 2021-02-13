@@ -26,8 +26,25 @@ describe('ApiKeyInput.vue', () => {
         lon: 0,
       },
       weather: {
-        current: {},
-        forcast: {},
+        current: {
+          temp: 0,
+          feels_like: 0,
+          weather: [{ description: 'sunny', icon: '03n' }],
+        },
+        minutely: [{ precipitation: 0 }],
+        hourly: [{ temp: 0, feels_like: 0, weather: [{ description: 'sunny', icon: '03n' }] }],
+        daily: [{
+          temp: {
+            day: 0, eve: 0, morn: 0, night: 0, min: 0, max: 0,
+          },
+          feels_like: {
+            day: 0, eve: 0, morn: 0, night: 0,
+          },
+          weather: [{ description: 'sunny', icon: '03n' }],
+        }],
+      },
+      stats: {
+        callCount: 0,
       },
     };
     mutations = {
