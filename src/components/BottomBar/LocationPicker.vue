@@ -1,6 +1,9 @@
 /* eslint-disable class-methods-use-this */
 <template>
-  <b-input-group prepend="City">
+  <b-input-group>
+    <b-input-group-prepend>
+      <b-button variant="primary" @click="handleSearch"><b-icon-search></b-icon-search></b-button>
+    </b-input-group-prepend>
     <b-form-input id="city" :value="city" @input="setCity" type="text" placeholder="St. Paul">
     </b-form-input>
      <b-input-group-append>
@@ -12,14 +15,18 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { SET_CITY, SET_LON, SET_LAT } from '@/store/mutations';
-import { BIconGeoAltFill } from 'bootstrap-vue';
+
+import {
+  SET_CITY, SET_LAT, SET_LON, SET_WEATHER,
+} from '@/store/mutations';
+import { BIconSearch, BIconGeoAltFill } from 'bootstrap-vue';
+import openWeatherService, { GeoDirectResponse } from '@/services/openWeatherService';
 import geolocationService from '@/services/GeoLocationService';
+import { OneCallWeather } from '@/store/types';
 
 @Component({
-  components: {
-    BIconGeoAltFill,
-  },
+  components: { BIconSearch, BIconGeoAltFill },
+
 })
 export default class BottomBar extends Vue {
   get city(): string {
@@ -38,6 +45,17 @@ export default class BottomBar extends Vue {
       .catch((error) => {
         console.error(error.message);
       });
+  }
+
+  async handleSearch() {
+    const location: GeoDirectResponse[] = await openWeatherService.searchCoordsByCity(this.city);
+    if (location.length > 0) {
+      this.$store.commit(SET_LAT, { lat: location[0].lat });
+      this.$store.commit(SET_LON, { lon: location[0].lon });
+      const weather: OneCallWeather = await openWeatherService
+        .getOneCallWeather(this.$store.state.location.lat, this.$store.state.location.lon);
+      this.$store.commit(SET_WEATHER, weather);
+    }
   }
 }
 </script>
