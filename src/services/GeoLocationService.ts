@@ -1,5 +1,6 @@
 import store from '@/store/store';
-import openWeather from '@/services/openWeatherMap';
+import openWeather from '@/services/openWeatherService';
+import { GeolocationCoordinates } from '@/store/types';
 import { SET_CITY, SET_LAT, SET_LON } from '../store/mutations';
 
 export default class GeoLocationService {
@@ -7,27 +8,15 @@ export default class GeoLocationService {
 
   private output: object = {};
 
-  static getCurrentPosition(): Promise<any> {
-    // Possible TODO Create object for coords instead of using 'any'
-    // function response(coords: Coordinates) {
-    //   store.commit(SET_LON, coords.longitude);
-    //   store.commit(SET_LAT, coords.latitude);
-    // }
-
+  static getCurrentPosition(): Promise<GeolocationCoordinates> {
     return new Promise((resolve, reject) => {
       if (!navigator.geolocation) {
         reject(new Error('Geolocation is not supported by your browser'));
       }
       navigator.geolocation.getCurrentPosition(
-        (position: { coords: { longitude: any; latitude: any; }; }) => resolve(position.coords),
+        (position) => resolve(position.coords),
         () => reject(new Error(this.errorMessge)),
       );
     });
   }
-
-  // public async getCurrentCity(latitude : number, longitude : number): Promise<string> {
-  //   this.output = await openWeather.getCurrentForCoordinate(latitude, longitude);
-
-  //   return '';
-  // }
 }

@@ -38,13 +38,29 @@ export default class BottomBar extends Vue {
   }
 
   async getCurrentCity() {
-    await geolocationService.getCurrentPosition().then((coords) => {
-      this.$store.commit(SET_LON, coords.longitude);
+    await geolocationService.getCurrentPosition().then(async (coords) => {
       this.$store.commit(SET_LAT, coords.latitude);
-    })
-      .catch((error) => {
-        console.error(error.message);
-      });
+      this.$store.commit(SET_LON, coords.longitude);
+      // This might not be the best approach to displaying the City name and
+      // the converstion from coords to city might be alittle off
+      // TODO: We could remove the city setting all together and blank out
+      // the city since they are searching by coordinates and may not be in a city
+      const location: GeoDirectResponse[] = await openWeatherService
+        .searchCityByCoords(coords.latitude, coords.longitude);
+      this.$store.commit(SET_CITY, { city: location[0].name });
+
+      const weather: OneCallWeather = await openWeatherService
+        .getOneCallWeather(coords.latitude, coords.longitude);
+      this.$store.commit(SET_WEATHER, weather);
+    }).catch((error) => {
+      this.$bvToast.toast(`I'm sorry, there seems to be an issue. Error Message: ${error.message}`,
+        {
+          title: 'Oopsy-Daisy',
+          variant: 'danger',
+          solid: true,
+          toaster: 'b-toaster-top-center',
+        });
+    });
   }
 
   async handleSearch() {
