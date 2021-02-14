@@ -13,7 +13,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { format } from 'date-fns';
 
 @Component
-export default class ForcastItem extends Vue {
+export default class ForecastItem extends Vue {
   @Prop() private dateTime!: Date;
 
   @Prop() private dateTimeFormat!: string;

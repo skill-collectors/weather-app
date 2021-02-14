@@ -11,8 +11,8 @@
     </b-row>
     <b-row>
       <b-col>
-        <h6>Today's forcast</h6>
-        <hourly-forcast></hourly-forcast>
+        <h6>Today's forecast</h6>
+        <hourly-forecast></hourly-forecast>
       </b-col>
     </b-row>
     <b-row>
@@ -23,8 +23,8 @@
     </b-row>
     <b-row>
       <b-col>
-        <h6>5-day forcast</h6>
-        <daily-forcast></daily-forcast>
+        <h6>5-day forecast</h6>
+        <daily-forecast></daily-forecast>
       </b-col>
     </b-row>
   </b-container>
@@ -33,11 +33,11 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import CurrentTemperature from '@/components/CurrentTemperature.vue';
-import DailyForcast from '@/components/DailyForcast.vue';
-import HourlyForcast from '@/components/HourlyForcast.vue';
+import DailyForecast from '@/components/DailyForecast.vue';
+import HourlyForecast from '@/components/HourlyForecast.vue';
 
 @Component({
-  components: { CurrentTemperature, DailyForcast, HourlyForcast },
+  components: { CurrentTemperature, DailyForecast, HourlyForecast },
 })
 export default class Home extends Vue {}
 </script>
