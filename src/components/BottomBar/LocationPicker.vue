@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 <template>
   <b-input-group>
     <b-input-group-prepend>

@@ -99,7 +99,6 @@ export default {
   async searchCityByCoords(lat: number, lon: number): Promise<GeoDirectResponse[]> {
     const url = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat.toString()}&lon=${lon.toString()}&appId=${store.state.apiKeys[OPEN_WEATHER]!}`;
     const response = await fetch(url);
-    // TODO add call to count API, but should we track different endpoint calls separately?
     return await response.json() as GeoDirectResponse[];
   },
 

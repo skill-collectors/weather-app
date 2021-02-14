@@ -1,7 +1,7 @@
 import store from '@/store/store';
 import openWeather from '@/services/openWeatherService';
 import { GeolocationCoordinates } from '@/store/types';
-import { SET_CITY, SET_LAT, SET_LON } from '../store/mutations';
+import { SET_CITY, SET_LAT, SET_LON } from '@/store/mutations';
 
 export default {
 
