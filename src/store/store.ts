@@ -25,9 +25,12 @@ const storeOptions: StoreOptions<RootState> = {
         feels_like: 0,
         weather: [{ description: '', icon: '' }],
       },
-      minutely: [{ precipitation: 0 }],
-      hourly: [{ temp: 0, feels_like: 0, weather: [{ description: '', icon: '' }] }],
+      minutely: [{ dt: 0, precipitation: 0 }],
+      hourly: [{
+        dt: 0, temp: 0, feels_like: 0, weather: [{ description: '', icon: '' }],
+      }],
       daily: [{
+        dt: 0,
         temp: {
           day: 0, eve: 0, morn: 0, night: 0, min: 0, max: 0,
         },

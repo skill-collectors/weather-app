@@ -11,7 +11,7 @@ import { RootState } from '@/store/types';
 import OPEN_WEATHER from '@/store/apiNames';
 
 @Component
-export default class OpenWeatherSample extends Vue {
+export default class ApiKeyInput extends Vue {
   $store!: Store<RootState>
 
   get apiKey() {
