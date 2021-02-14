@@ -22,11 +22,13 @@ export interface CurrentWeather {
   weather: Weather[],
 }
 
-export interface MinutelyForcast {
+export interface MinutelyForecast {
+  dt: number,
   precipitation: number,
 }
 
-export interface HourlyForcast {
+export interface HourlyForecast {
+  dt: number,
   temp: number,
   feels_like: number,
   weather: Weather[],
@@ -47,7 +49,8 @@ export interface DailyTemp {
   max: number,
 }
 
-export interface DailyForcast {
+export interface DailyForecast {
+  dt: number,
   temp: DailyTemp,
   feels_like: DailyFeelsLike,
   weather: Weather[],
@@ -55,9 +58,9 @@ export interface DailyForcast {
 
 export interface OneCallWeather {
   current: CurrentWeather,
-  minutely: MinutelyForcast[],
-  hourly: HourlyForcast[],
-  daily: DailyForcast[],
+  minutely: MinutelyForecast[],
+  hourly: HourlyForecast[],
+  daily: DailyForecast[],
 }
 
 export interface Stats {

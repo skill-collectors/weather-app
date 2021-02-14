@@ -27,7 +27,7 @@ import { OneCallWeather } from '@/store/types';
   components: { BIconSearch, BIconGeoAltFill },
 
 })
-export default class BottomBar extends Vue {
+export default class LocationPicker extends Vue {
   get city(): string {
     return this.$store.state.location.city || 'Saint Paul';
   }
