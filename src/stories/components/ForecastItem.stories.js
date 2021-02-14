@@ -1,8 +1,8 @@
-import ForcastItem from '@/components/ForcastItem.vue';
+import ForecastItem from '@/components/ForecastItem.vue';
 
 export default {
-  title: 'Weather/ForcastItem',
-  component: ForcastItem,
+  title: 'Weather/ForecastItem',
+  component: ForecastItem,
   argTypes: {
     dateTime: { control: { type: 'date' } },
     dateTimeFormat: { control: { type: 'string' } },
@@ -27,8 +27,8 @@ export default {
 
 const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
-  components: { ForcastItem },
-  template: '<forcast-item v-bind="$props" />',
+  components: { ForecastItem },
+  template: '<forecast-item v-bind="$props" />',
 });
 
 export const Current = Template.bind({});
