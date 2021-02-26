@@ -21,6 +21,7 @@ quiet() {
 
 if [[ -n "$(git status -s)" ]]; then
   echo 'You have uncommited changes. Please stash them before running this script.'
+  exit 1
 fi
 
 git checkout master
