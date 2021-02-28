@@ -41,7 +41,7 @@
               <h5 style='align-self:center'>
                 {{ list.weather[0].description.charAt(0).toUpperCase()
                   + list.weather[0].description.slice(1)}}</h5>
-              <img :src="'http://openweathermap.org/img/wn/'+ list.weather[0].icon + '@2x.png'" alt="">
+              <img :src="'https://openweathermap.org/img/wn/'+ list.weather[0].icon + '@2x.png'" alt="">
             </div>
           </b-list-group-item>
           <p>Low: {{list.main.temp_min }} °F
