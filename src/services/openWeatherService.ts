@@ -125,7 +125,7 @@ export default {
     } catch (error) {
       output = error;
     }
-    await countapi.hit(process.env.VUE_APP_COUNTER_NAME ?? 'WeatherApp', 'one-weather')
+    await countapi.hit('WeatherApp', 'one-weather')
       .then((result: { value: number; }) => {
         store.commit(SET_CALL_COUNT, { callCount: result.value });
       });
