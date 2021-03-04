@@ -39,8 +39,13 @@ for branch in $(git branch -r | grep dependabot | sed 's/^\s\+//'); do
 		echo "- There were merge conflicts while cherry-picking ${branch}"
 		git mergetool package.json # Don't bother merging package-lock.json
 		quiet npm install
-		git add package.json package-lock.json
-		git cherry-pick --continue
+		quiet git add package.json package-lock.json
+		if [[ -z "$(git status -s)" ]]; then
+			echo "- This merge resulted in no changes. It will be skipped."
+			quiet git cherry-pick --skip
+		else
+			quiet git cherry-pick --continue
+		fi
 	else
 		echo "- No merge conflicts. Updating package-lock.json..."
 		quiet npm install # still need to do this for the test build
