@@ -38,6 +38,7 @@ for branch in $(git branch -r | grep dependabot | sed 's/^\s\+//'); do
 	if [[ -n "$(git diff --name-only --diff-filter=U)" ]]; then
 		echo "- There were merge conflicts while cherry-picking ${branch}"
 		git mergetool package.json # Don't bother merging package-lock.json
+		git clean -f # remove .orig files
 		quiet npm install
 		quiet git add package.json package-lock.json
 		if [[ -z "$(git status -s)" ]]; then
@@ -83,7 +84,6 @@ for branch in $(git branch -r | grep dependabot | sed 's/^\s\+//'); do
 	fi
 done
 
-rm -f package.json.orig # Remove mergetool backup file, if present.
 git log --oneline master..HEAD
 
 echo "***Don't forget to increment the version***"
