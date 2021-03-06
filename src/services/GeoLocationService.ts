@@ -12,7 +12,23 @@ export default {
       }
       navigator.geolocation.getCurrentPosition(
         (position) => resolve(position.coords),
-        () => reject(new Error('Unable to retrieve your location')),
+        (err) => {
+          console.log(err.message);
+          switch (err.code) {
+            case 1:
+              reject(new Error('Permission was not granted to retrieve your location.'));
+              break;
+            case 2:
+              reject(new Error('Your position is unavailable. Your device may not support geolocation.'));
+              break;
+            case 3:
+              reject(new Error("A timeout occured waiting for your location information. Perhaps your device can't get a GPS fix"));
+              break;
+            default:
+              reject(new Error('Unable to retrieve your location.'));
+              break;
+          }
+        },
       );
     });
   },
