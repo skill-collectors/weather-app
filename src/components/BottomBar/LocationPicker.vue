@@ -48,7 +48,6 @@ export default class LocationPicker extends Vue {
       try {
         const location: GeoDirectResponse[] = await openWeatherService
           .searchCityByCoords(coords.latitude, coords.longitude);
-        this.showError(JSON.stringify(location));
         this.$store.commit(SET_CITY, { city: location[0].name });
       } catch (err) {
         this.showError(`Could not determine your city from your location. ${err.message}`);
