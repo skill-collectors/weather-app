@@ -6,6 +6,11 @@ export interface Location {
   lon: number,
 }
 
+export interface GeolocationCoordinates {
+  latitude: number,
+  longitude: number,
+}
+
 export interface Weather {
   description: string,
   icon: string,
