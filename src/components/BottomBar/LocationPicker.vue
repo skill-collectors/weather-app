@@ -72,6 +72,7 @@ export default class LocationPicker extends Vue {
         variant: 'danger',
         solid: true,
         toaster: 'b-toaster-top-center',
+        autoHideDelay: 10_000,
       });
   }
 
