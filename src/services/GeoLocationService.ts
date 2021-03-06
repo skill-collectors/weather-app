@@ -13,7 +13,6 @@ export default {
       navigator.geolocation.getCurrentPosition(
         (position) => resolve(position.coords),
         (err) => {
-          console.log(err.message);
           switch (err.code) {
             case 1:
               reject(new Error('Permission was not granted to retrieve your location.'));
