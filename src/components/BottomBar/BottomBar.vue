@@ -1,7 +1,12 @@
 <template>
-  <b-navbar fixed="bottom" variant="dark">
-    <b-navbar-nav type="dark">
-      <location-picker></location-picker>
+  <b-navbar fixed="bottom" variant="dark" type="dark">
+    <b-navbar-nav class="mr-auto">
+    </b-navbar-nav>
+    <b-navbar-nav @click="$router.push('locations')">
+      <span v-if="$store.getters.hasLocation">{{$store.state.location.city}}</span>
+      <b-button variant="primary" v-else>
+        Tap here to set your location
+      </b-button>
     </b-navbar-nav>
     <b-navbar-nav class="ml-auto">
       <settings-modal-toggle></settings-modal-toggle>
@@ -11,15 +16,18 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import LocationPicker from '@/components/BottomBar/LocationPicker.vue';
 import SettingsModalToggle from '@/components/BottomBar/SettingsModalToggle.vue';
 
 @Component({
   components: {
-    LocationPicker,
     SettingsModalToggle,
   },
 })
 export default class BottomBar extends Vue {
 }
 </script>
+<style scoped>
+* {
+  color: var(--light);
+}
+</style>
