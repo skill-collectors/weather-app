@@ -7,6 +7,8 @@ const BASE_URL: string = 'https://api.openweathermap.org/data/2.5/';
 
 export interface GeoDirectResponse {
   name: string,
+  country: string,
+  state: string,
   lat: number,
   lon: number,
 }
@@ -97,8 +99,19 @@ export default {
     return `https://openweathermap.org/img/wn/${icon}.png`;
   },
 
+  geoToString(geo: GeoDirectResponse) {
+    let str = geo.name;
+    if (geo.country !== undefined) {
+      str += `, ${geo.country}`;
+    }
+    if (geo.state !== undefined) {
+      str += `, ${geo.state}`;
+    }
+    return str;
+  },
+
   async searchCoordsByCity(query: string): Promise<GeoDirectResponse[]> {
-    const url = `https://api.openweathermap.org/geo/1.0/direct?&q=${query}&appId=${store.state.apiKeys[OPEN_WEATHER]!}`;
+    const url = `https://api.openweathermap.org/geo/1.0/direct?&q=${query}&limit=5&appId=${store.state.apiKeys[OPEN_WEATHER]!}`;
     const response = await fetch(url);
     // TODO add call to count API, but should we track different endpoint calls separately?
     return await response.json() as GeoDirectResponse[];

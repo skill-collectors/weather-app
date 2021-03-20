@@ -27,19 +27,42 @@
         <daily-forecast></daily-forecast>
       </b-col>
     </b-row>
+    <bottom-bar></bottom-bar>
   </b-container>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import BottomBar from '@/components/BottomBar/BottomBar.vue';
 import CurrentTemperature from '@/components/CurrentTemperature.vue';
 import DailyForecast from '@/components/DailyForecast.vue';
 import HourlyForecast from '@/components/HourlyForecast.vue';
+import { SET_WEATHER } from '@/store/mutations';
+import { RootState, OneCallWeather } from '@/store/types';
+import { Store } from 'vuex';
+import openWeatherService from '@/services/openWeatherService';
+import ToastOptions from '@/services/ToastOptions';
 
 @Component({
-  components: { CurrentTemperature, DailyForecast, HourlyForecast },
+  components: {
+    CurrentTemperature, DailyForecast, HourlyForecast, BottomBar,
+  },
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  $store!: Store<RootState>
+
+  async mounted() {
+    if (this.$store.getters.hasLocation) {
+      try {
+        const { lat, lon } = this.$store.state.location;
+        const weather: OneCallWeather = await openWeatherService.getOneCallWeather(lat, lon);
+        this.$store.commit(SET_WEATHER, weather);
+      } catch (err) {
+        this.$bvToast.toast('I\'m sorry, we couldn\'t load the weather for your location.', ToastOptions.errorToast);
+      }
+    }
+  }
+}
 </script>
 <style scoped>
 .home {

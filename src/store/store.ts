@@ -77,6 +77,16 @@ const storeOptions: StoreOptions<RootState> = {
   actions: {
 
   },
+  getters: {
+    hasLocation(state) {
+      const { city, lat, lon } = state.location;
+      return lat !== 0 && lon !== 0 && city !== '';
+    },
+    hasWeather(state) {
+      // There may be a better way to detect this, but this is good enough for now
+      return state.weather.current.weather[0].description !== '';
+    },
+  },
 };
 
 const store = new Vuex.Store<RootState>(storeOptions);
