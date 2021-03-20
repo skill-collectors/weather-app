@@ -31,6 +31,7 @@ import locationService from '@/services/GeoLocationService';
 import { GeolocationCoordinates, RootState } from '@/store/types';
 import { Store } from 'vuex';
 import { SET_CITY, SET_LAT, SET_LON } from '@/store/mutations';
+import ToastOptions from '@/services/ToastOptions';
 
 @Component({
   components: {
@@ -67,7 +68,7 @@ export default class Locations extends Vue {
     const selected = this.searchResults
       .find((result) => selectedValue === openWeather.geoToString(result));
     if (selected === undefined) {
-      this.showError('Uh-oh, I couldn\'t find the value you selected.');
+      this.showError('couldn\'t find the value you selected.');
     } else {
       this.setLocation(selected);
     }
@@ -90,10 +91,10 @@ export default class Locations extends Vue {
           .searchCityByCoords(coords.latitude, coords.longitude);
         this.setLocation(results[0]);
       } catch (err) {
-        this.showError(`Could not determine your city from your location. ${err.message}`);
+        this.showError(`could not determine your city from your location. ${err.message}`);
       }
     } catch (err) {
-      this.showError(`Could not retrieve your location: ${err.message}`);
+      this.showError(`could not retrieve your location: ${err.message}`);
     }
   }
 
@@ -101,26 +102,19 @@ export default class Locations extends Vue {
     try {
       const results: GeoDirectResponse[] = await openWeather.searchCoordsByCity(this.query);
       if (results.length === 0) {
-        this.showError('Could not find any cities for your location.');
+        this.showError('could not find any cities for your location.');
       } else if (results.length === 1) {
         this.setLocation(results[0]);
       } else {
         this.searchResults = results;
       }
     } catch (err) {
-      this.showError(`Could not determine a city for your location: ${err.message}`);
+      this.showError(`could not determine a city for your location: ${err.message}`);
     }
   }
 
   showError(message: string) {
-    this.$bvToast.toast(`I'm sorry, there seems to be an issue. ${message}`,
-      {
-        title: 'Oopsy-Daisy',
-        variant: 'danger',
-        solid: true,
-        toaster: 'b-toaster-top-center',
-        autoHideDelay: 10_000,
-      });
+    this.$bvToast.toast(`I'm sorry, we ${message}`, ToastOptions.errorToast);
   }
 }
 </script>

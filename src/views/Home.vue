@@ -41,6 +41,7 @@ import { SET_WEATHER } from '@/store/mutations';
 import { RootState, OneCallWeather } from '@/store/types';
 import { Store } from 'vuex';
 import openWeatherService from '@/services/openWeatherService';
+import ToastOptions from '@/services/ToastOptions';
 
 @Component({
   components: {
@@ -58,6 +59,7 @@ export default class Home extends Vue {
         this.$store.commit(SET_WEATHER, weather);
       } catch (err) {
         console.log(err);
+        this.$bvToast.toast('I\'m sorry, we couldn\'t load the weather for your location.', ToastOptions.errorToast);
       }
     }
   }
