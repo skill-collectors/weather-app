@@ -37,13 +37,31 @@ import BottomBar from '@/components/BottomBar/BottomBar.vue';
 import CurrentTemperature from '@/components/CurrentTemperature.vue';
 import DailyForecast from '@/components/DailyForecast.vue';
 import HourlyForecast from '@/components/HourlyForecast.vue';
+import { SET_WEATHER } from '@/store/mutations';
+import { RootState, OneCallWeather } from '@/store/types';
+import { Store } from 'vuex';
+import openWeatherService from '@/services/openWeatherService';
 
 @Component({
   components: {
     CurrentTemperature, DailyForecast, HourlyForecast, BottomBar,
   },
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  $store!: Store<RootState>
+
+  async mounted() {
+    if (this.$store.getters.hasLocation) {
+      try {
+        const { lat, lon } = this.$store.state.location;
+        const weather: OneCallWeather = await openWeatherService.getOneCallWeather(lat, lon);
+        this.$store.commit(SET_WEATHER, weather);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
+}
 </script>
 <style scoped>
 .home {

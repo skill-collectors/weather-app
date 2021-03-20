@@ -11,7 +11,7 @@
         <search-suggest
           :value="query" @input="handleQueryInput"
           @select="handleSuggestionSelect"
-          :list="searchResults"
+          :list="searchResultNames"
         ></search-suggest>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
@@ -26,6 +26,11 @@
 import { BIconSearch, BIconGeoAltFill } from 'bootstrap-vue';
 import { Component, Vue } from 'vue-property-decorator';
 import SearchSuggest from '@/components/SearchSuggest.vue';
+import openWeather, { GeoDirectResponse } from '@/services/openWeatherService';
+import locationService from '@/services/GeoLocationService';
+import { GeolocationCoordinates, RootState } from '@/store/types';
+import { Store } from 'vuex';
+import { SET_CITY, SET_LAT, SET_LON } from '@/store/mutations';
 
 @Component({
   components: {
@@ -35,11 +40,21 @@ import SearchSuggest from '@/components/SearchSuggest.vue';
   },
 })
 export default class Locations extends Vue {
-  private query: string = '';
+  $store!: Store<RootState>
 
-  private searchResults: string[] = [];
+  private query: string = this.$store.state.location.city;
+
+  private searchResults: GeoDirectResponse[] = [];
 
   private searchTimeout!: number;
+
+  setLocation(location: GeoDirectResponse) {
+    const city = openWeather.geoToString(location);
+    this.$store.commit(SET_CITY, { city });
+    this.$store.commit(SET_LAT, { lat: location.lat });
+    this.$store.commit(SET_LON, { lon: location.lon });
+    this.query = city;
+  }
 
   handleQueryInput(newQuery: string) {
     this.query = newQuery;
@@ -49,7 +64,13 @@ export default class Locations extends Vue {
   }
 
   handleSuggestionSelect(selectedValue: string) {
-    this.query = selectedValue;
+    const selected = this.searchResults
+      .find((result) => selectedValue === openWeather.geoToString(result));
+    if (selected === undefined) {
+      this.showError('Uh-oh, I couldn\'t find the value you selected.');
+    } else {
+      this.setLocation(selected);
+    }
     this.searchResults = [];
   }
 
@@ -57,12 +78,49 @@ export default class Locations extends Vue {
     this.search();
   }
 
-  handleGeoSearch() {
-    this.query = 'Springfield';
+  get searchResultNames() {
+    return this.searchResults.map(openWeather.geoToString);
   }
 
-  search() {
-    this.searchResults = ['Springfield, IL, USA', 'Springfield, MI, USA'];
+  async handleGeoSearch() {
+    try {
+      const coords: GeolocationCoordinates = await locationService.getCurrentPosition();
+      try {
+        const results: GeoDirectResponse[] = await openWeather
+          .searchCityByCoords(coords.latitude, coords.longitude);
+        this.setLocation(results[0]);
+      } catch (err) {
+        this.showError(`Could not determine your city from your location. ${err.message}`);
+      }
+    } catch (err) {
+      this.showError(`Could not retrieve your location: ${err.message}`);
+    }
+  }
+
+  async search() {
+    try {
+      const results: GeoDirectResponse[] = await openWeather.searchCoordsByCity(this.query);
+      if (results.length === 0) {
+        this.showError('Could not find any cities for your location.');
+      } else if (results.length === 1) {
+        this.setLocation(results[0]);
+      } else {
+        this.searchResults = results;
+      }
+    } catch (err) {
+      this.showError(`Could not determine a city for your location: ${err.message}`);
+    }
+  }
+
+  showError(message: string) {
+    this.$bvToast.toast(`I'm sorry, there seems to be an issue. ${message}`,
+      {
+        title: 'Oopsy-Daisy',
+        variant: 'danger',
+        solid: true,
+        toaster: 'b-toaster-top-center',
+        autoHideDelay: 10_000,
+      });
   }
 }
 </script>
