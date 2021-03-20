@@ -3,6 +3,11 @@
     <h3>Locations</h3>
     <b-navbar fixed="bottom" variant="dark" type="dark">
       <b-navbar-nav class="mr-auto">
+        <b-button @click="$router.push('/')" variant="light">
+          <b-icon-arrow-left-square-fill></b-icon-arrow-left-square-fill>
+        </b-button>
+      </b-navbar-nav>
+      <b-navbar-nav>
         <b-button @click="handleTextSearch" variant="primary">
           <b-icon-search></b-icon-search>
         </b-button>
@@ -23,7 +28,7 @@
   </b-container>
 </template>
 <script lang="ts">
-import { BIconSearch, BIconGeoAltFill } from 'bootstrap-vue';
+import { BIconSearch, BIconGeoAltFill, BIconArrowLeftSquareFill } from 'bootstrap-vue';
 import { Component, Vue } from 'vue-property-decorator';
 import SearchSuggest from '@/components/SearchSuggest.vue';
 import openWeather, { GeoDirectResponse } from '@/services/openWeatherService';
@@ -37,6 +42,7 @@ import ToastOptions from '@/services/ToastOptions';
   components: {
     BIconSearch,
     BIconGeoAltFill,
+    BIconArrowLeftSquareFill,
     SearchSuggest,
   },
 })
