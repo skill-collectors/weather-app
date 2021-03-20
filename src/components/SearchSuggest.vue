@@ -19,7 +19,7 @@ import {
 import { BIconSearch, BIconGeoAltFill, BFormInput } from 'bootstrap-vue';
 
 @Component({
-  components: { BIconSearch, BIconGeoAltFill },
+  components: { BIconSearch, BIconGeoAltFill, BFormInput },
 })
 export default class SearchSuggest extends Vue {
   $refs!: {
@@ -31,7 +31,7 @@ export default class SearchSuggest extends Vue {
 
   @Prop({ type: String, default: '' }) public placeholder!: string;
 
-  @Prop({ type: Array as PropType<string[]>, default: [] }) public list!: string[];
+  @Prop({ type: Array as PropType<string[]>, default: () => [] }) public list!: string[];
 
   get dataListClass() {
     return (this.list && this.list.length > 0) ? 'visible' : 'hidden';
