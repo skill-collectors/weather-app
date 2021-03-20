@@ -65,9 +65,9 @@ export default class Locations extends Vue {
 
   handleQueryInput(newQuery: string) {
     this.query = newQuery;
-    // debounce the input and only perform a search every 2 seconds
+    // debounce the input and only perform a search every 1 seconds
     window.clearTimeout(this.searchTimeout);
-    this.searchTimeout = window.setTimeout(this.search, 2_000);
+    this.searchTimeout = window.setTimeout(this.search, 1_000);
   }
 
   handleSuggestionSelect(selectedValue: string) {
