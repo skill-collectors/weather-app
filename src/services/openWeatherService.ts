@@ -15,25 +15,6 @@ export interface GeoDirectResponse {
 
 export default {
 
-  dtToDate(dt: number): Date {
-    return new Date(dt * 1000);
-  },
-
-  iconToUrl(icon: string): string {
-    return `https://openweathermap.org/img/wn/${icon}.png`;
-  },
-
-  geoToString(geo: GeoDirectResponse) {
-    let str = geo.name;
-    if (geo.country !== undefined) {
-      str += `, ${geo.country}`;
-    }
-    if (geo.state !== undefined) {
-      str += `, ${geo.state}`;
-    }
-    return str;
-  },
-
   async searchCoordsByCity(query: string): Promise<GeoDirectResponse[]> {
     const url = `https://api.openweathermap.org/geo/1.0/direct?&q=${query}&limit=5&appId=${store.state.apiKeys[OPEN_WEATHER]!}`;
     const response = await fetch(url);

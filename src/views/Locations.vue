@@ -31,6 +31,7 @@
 import { BIconSearch, BIconGeoAltFill, BIconArrowLeftSquareFill } from 'bootstrap-vue';
 import { Component, Vue } from 'vue-property-decorator';
 import SearchSuggest from '@/components/SearchSuggest.vue';
+import convert from '@/utils/ConversionUtils';
 import openWeather, { GeoDirectResponse } from '@/services/openWeatherService';
 import locationService from '@/services/GeoLocationService';
 import { GeolocationCoordinates, RootState } from '@/store/types';
@@ -56,7 +57,7 @@ export default class Locations extends Vue {
   private searchTimeout!: number;
 
   setLocation(location: GeoDirectResponse) {
-    const city = openWeather.geoToString(location);
+    const city = convert.geoToString(location);
     this.$store.commit(SET_CITY, { city });
     this.$store.commit(SET_LAT, { lat: location.lat });
     this.$store.commit(SET_LON, { lon: location.lon });
@@ -72,7 +73,7 @@ export default class Locations extends Vue {
 
   handleSuggestionSelect(selectedValue: string) {
     const selected = this.searchResults
-      .find((result) => selectedValue === openWeather.geoToString(result));
+      .find((result) => selectedValue === convert.geoToString(result));
     if (selected === undefined) {
       this.showError('couldn\'t find the value you selected.');
     } else {
@@ -86,7 +87,7 @@ export default class Locations extends Vue {
   }
 
   get searchResultNames() {
-    return this.searchResults.map(openWeather.geoToString);
+    return this.searchResults.map(convert.geoToString);
   }
 
   async handleGeoSearch() {
