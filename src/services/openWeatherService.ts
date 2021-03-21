@@ -24,15 +24,9 @@ export default {
   *   hourly forecast for 48 hours, and daily forecast for 7 days.
   */
   async getOneCallWeather(lat: number, lon: number, apiKey: string): Promise<any> {
-    let output: object;
     const units = 'imperial';
     const url = `${BASE_URL}onecall?lat=${lat.toString()}&lon=${lon.toString()}&units=${units}&appid=${apiKey}`;
-    try {
-      const response = await fetch(url);
-      output = await response.json();
-    } catch (error) {
-      output = error;
-    }
-    return output;
+    const response = await fetch(url);
+    return response.json();
   },
 };
