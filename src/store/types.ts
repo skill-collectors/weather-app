@@ -72,6 +72,7 @@ export interface Stats {
 export interface RootState {
   apiKey: string,
   location: GeoDirectResponse,
+  recentLocations: GeoDirectResponse[],
   weather: OneCallWeather,
   stats: Stats,
 }

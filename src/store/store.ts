@@ -20,6 +20,7 @@ const storeOptions: StoreOptions<RootState> = {
       lat: 0,
       lon: 0,
     },
+    recentLocations: [],
     weather: {
       current: {
         temp: 0,
@@ -59,6 +60,11 @@ const storeOptions: StoreOptions<RootState> = {
       state.apiKey = newKey;
     },
     [SET_LOCATION](state: RootState, location: GeoDirectResponse) {
+      state.recentLocations.push(state.location);
+      while (state.recentLocations.length > 10) {
+        // Forget oldest locations
+        state.recentLocations.shift();
+      }
       state.location = location;
     },
     [SET_WEATHER](state: RootState, weather: OneCallWeather) {

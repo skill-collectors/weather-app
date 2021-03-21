@@ -24,6 +24,7 @@ describe('ApiKeyInput.vue', () => {
         lat: 0,
         lon: 0,
       },
+      recentLocations: [],
       weather: {
         current: {
           temp: 0,
