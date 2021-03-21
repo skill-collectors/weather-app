@@ -92,7 +92,7 @@ export default class Locations extends Vue {
       const coords: GeolocationCoordinates = await locationService.getCurrentPosition();
       try {
         const results: GeoDirectResponse[] = await openWeather
-          .searchCityByCoords(coords.latitude, coords.longitude);
+          .searchCityByCoords(coords.latitude, coords.longitude, this.$store.state.apiKey);
         this.setLocation(results[0]);
       } catch (err) {
         this.showError(`could not determine your city from your location. ${err.message}`);
@@ -104,7 +104,8 @@ export default class Locations extends Vue {
 
   async search() {
     try {
-      const results: GeoDirectResponse[] = await openWeather.searchCoordsByCity(this.query);
+      const results: GeoDirectResponse[] = await openWeather
+        .searchCoordsByCity(this.query, this.$store.state.apiKey);
       if (results.length === 0) {
         this.showError('could not find any cities for your location.');
       } else if (results.length === 1) {

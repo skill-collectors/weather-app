@@ -55,7 +55,8 @@ export default class Home extends Vue {
     if (this.$store.getters.hasLocation) {
       try {
         const { lat, lon } = this.$store.state.location;
-        const weather: OneCallWeather = await openWeatherService.getOneCallWeather(lat, lon);
+        const weather: OneCallWeather = await openWeatherService
+          .getOneCallWeather(lat, lon, this.$store.state.apiKey);
         this.$store.commit(SET_WEATHER, weather);
       } catch (err) {
         this.$bvToast.toast('I\'m sorry, we couldn\'t load the weather for your location.', ToastOptions.errorToast);

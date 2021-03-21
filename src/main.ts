@@ -19,9 +19,10 @@ new Vue({
   async beforeCreate() {
     this.$store.commit(INIT);
     const { lat, lon } = this.$store.state.location;
+    const { apiKey } = this.$store.state;
     if (lat !== 0 && lon !== 0) { // This won't work for boats off the western coast of Africa :-)
       const weather: OneCallWeather = await openWeatherService
-        .getOneCallWeather(lat, lon);
+        .getOneCallWeather(lat, lon, apiKey);
     }
   },
 }).$mount('#app');
