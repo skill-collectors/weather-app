@@ -3,7 +3,7 @@
     <b-navbar-nav class="mr-auto">
     </b-navbar-nav>
     <b-navbar-nav @click="$router.push('locations')">
-      <span v-if="$store.getters.hasLocation">{{$store.state.location.city}}</span>
+      <span v-if="$store.getters.hasLocation">{{$store.getters.locationDisplayName}}</span>
       <b-button variant="primary" v-else>
         Tap here to set your location
       </b-button>
