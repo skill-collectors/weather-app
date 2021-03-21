@@ -1,4 +1,4 @@
-import { GeoDirectResponse } from '@/services/openWeatherService';
+import { GeoDirectResponse } from '@/store/types';
 
 export default {
   dtToDate(dt: number): Date {

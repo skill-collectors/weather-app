@@ -32,11 +32,11 @@ import { BIconSearch, BIconGeoAltFill, BIconArrowLeftSquareFill } from 'bootstra
 import { Component, Vue } from 'vue-property-decorator';
 import SearchSuggest from '@/components/SearchSuggest.vue';
 import convert from '@/utils/ConversionUtils';
-import openWeather, { GeoDirectResponse } from '@/services/openWeatherService';
+import openWeather from '@/services/openWeatherService';
 import locationService from '@/services/GeoLocationService';
-import { GeolocationCoordinates, RootState } from '@/store/types';
+import { GeoDirectResponse, GeolocationCoordinates, RootState } from '@/store/types';
 import { Store } from 'vuex';
-import { SET_CITY, SET_LAT, SET_LON } from '@/store/mutations';
+import { SET_LOCATION } from '@/store/mutations';
 import ToastOptions from '@/services/ToastOptions';
 
 @Component({
@@ -50,18 +50,15 @@ import ToastOptions from '@/services/ToastOptions';
 export default class Locations extends Vue {
   $store!: Store<RootState>
 
-  private query: string = this.$store.state.location.city;
+  private query: string = this.$store.getters.locationDisplayString;
 
   private searchResults: GeoDirectResponse[] = [];
 
   private searchTimeout!: number;
 
   setLocation(location: GeoDirectResponse) {
-    const city = convert.geoToString(location);
-    this.$store.commit(SET_CITY, { city });
-    this.$store.commit(SET_LAT, { lat: location.lat });
-    this.$store.commit(SET_LON, { lon: location.lon });
-    this.query = city;
+    this.$store.commit(SET_LOCATION, location);
+    this.query = this.$store.getters.locationDisplayString;
   }
 
   handleQueryInput(newQuery: string) {

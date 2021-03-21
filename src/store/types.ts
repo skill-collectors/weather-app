@@ -1,7 +1,9 @@
 /* eslint-disable camelcase */
 // Underscores match the format of the OpenWeather API
-export interface Location {
-  city: string,
+export interface GeoDirectResponse {
+  name: string,
+  country: string,
+  state: string,
   lat: number,
   lon: number,
 }
@@ -69,7 +71,7 @@ export interface Stats {
 
 export interface RootState {
   apiKeys: any,
-  location: Location,
+  location: GeoDirectResponse,
   weather: OneCallWeather,
   stats: Stats,
 }

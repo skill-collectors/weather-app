@@ -21,7 +21,9 @@ describe('ApiKeyInput.vue', () => {
         [OPEN_WEATHER]: '',
       },
       location: {
-        city: '',
+        name: '',
+        country: '',
+        state: '',
         lat: 0,
         lon: 0,
       },

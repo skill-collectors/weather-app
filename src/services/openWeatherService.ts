@@ -1,17 +1,10 @@
 import countapi from 'countapi-js';
 import store from '@/store/store';
+import { GeoDirectResponse } from '@/store/types';
 import OPEN_WEATHER from '@/store/apiNames';
 import { SET_CALL_COUNT } from '@/store/mutations';
 
 const BASE_URL: string = 'https://api.openweathermap.org/data/2.5/';
-
-export interface GeoDirectResponse {
-  name: string,
-  country: string,
-  state: string,
-  lat: number,
-  lon: number,
-}
 
 export default {
 

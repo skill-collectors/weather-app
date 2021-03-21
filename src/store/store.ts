@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import Vuex, { StoreOptions } from 'vuex';
 import {
-  INIT, SET_CITY, SET_LAT, SET_LON, SET_API_KEY, SET_CALL_COUNT, SET_WEATHER,
+  INIT, SET_LOCATION, SET_API_KEY, SET_CALL_COUNT, SET_WEATHER,
 } from '@/store/mutations';
-
+import convert from '@/utils/ConversionUtils';
 import OPEN_WEATHER from './apiNames';
-import { RootState, OneCallWeather } from './types';
+import { RootState, OneCallWeather, GeoDirectResponse } from './types';
 
 Vue.use(Vuex);
 
@@ -15,7 +15,9 @@ const storeOptions: StoreOptions<RootState> = {
       [OPEN_WEATHER]: '',
     },
     location: {
-      city: '',
+      name: '',
+      country: '',
+      state: '',
       lat: 0,
       lon: 0,
     },
@@ -58,14 +60,8 @@ const storeOptions: StoreOptions<RootState> = {
       const defaultedApiName = apiName || OPEN_WEATHER;
       state.apiKeys[apiName] = newKey;
     },
-    [SET_CITY](state: RootState, { city }: { city: string }) {
-      state.location.city = city;
-    },
-    [SET_LAT](state: RootState, { lat }: { lat: number }) {
-      state.location.lat = lat;
-    },
-    [SET_LON](state: RootState, { lon }: { lon: number }) {
-      state.location.lon = lon;
+    [SET_LOCATION](state: RootState, location: GeoDirectResponse) {
+      state.location = location;
     },
     [SET_WEATHER](state: RootState, weather: OneCallWeather) {
       state.weather = weather;
@@ -78,9 +74,12 @@ const storeOptions: StoreOptions<RootState> = {
 
   },
   getters: {
+    locationDisplayName(state) {
+      return convert.geoToString(state.location);
+    },
     hasLocation(state) {
-      const { city, lat, lon } = state.location;
-      return lat !== 0 && lon !== 0 && city !== '';
+      const { name, lat, lon } = state.location;
+      return lat !== 0 && lon !== 0 && name !== '';
     },
     hasWeather(state) {
       // There may be a better way to detect this, but this is good enough for now
