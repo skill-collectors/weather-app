@@ -1,7 +1,6 @@
 import countapi from 'countapi-js';
 import store from '@/store/store';
 import { GeoDirectResponse } from '@/store/types';
-import OPEN_WEATHER from '@/store/apiNames';
 import { SET_CALL_COUNT } from '@/store/mutations';
 
 const BASE_URL: string = 'https://api.openweathermap.org/data/2.5/';
@@ -9,14 +8,14 @@ const BASE_URL: string = 'https://api.openweathermap.org/data/2.5/';
 export default {
 
   async searchCoordsByCity(query: string): Promise<GeoDirectResponse[]> {
-    const url = `https://api.openweathermap.org/geo/1.0/direct?&q=${query}&limit=5&appId=${store.state.apiKeys[OPEN_WEATHER]!}`;
+    const url = `https://api.openweathermap.org/geo/1.0/direct?&q=${query}&limit=5&appId=${store.state.apiKey}`;
     const response = await fetch(url);
     // TODO add call to count API, but should we track different endpoint calls separately?
     return await response.json() as GeoDirectResponse[];
   },
 
   async searchCityByCoords(lat: number, lon: number): Promise<GeoDirectResponse[]> {
-    const url = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat.toString()}&lon=${lon.toString()}&appId=${store.state.apiKeys[OPEN_WEATHER]!}`;
+    const url = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat.toString()}&lon=${lon.toString()}&appId=${store.state.apiKey}`;
     const response = await fetch(url);
     return await response.json() as GeoDirectResponse[];
   },
@@ -31,7 +30,7 @@ export default {
       .concat('&lon=').concat(lon.toString())
       .concat('&units=imperial')
       .concat('&appid=')
-      .concat(store.state.apiKeys[OPEN_WEATHER]!);
+      .concat(store.state.apiKey);
     try {
       const response = await fetch(url);
       output = await response.json();

@@ -4,16 +4,13 @@ import {
   INIT, SET_LOCATION, SET_API_KEY, SET_CALL_COUNT, SET_WEATHER,
 } from '@/store/mutations';
 import convert from '@/utils/ConversionUtils';
-import OPEN_WEATHER from './apiNames';
 import { RootState, OneCallWeather, GeoDirectResponse } from './types';
 
 Vue.use(Vuex);
 
 const storeOptions: StoreOptions<RootState> = {
   state: {
-    apiKeys: {
-      [OPEN_WEATHER]: '',
-    },
+    apiKey: '',
     location: {
       name: '',
       country: '',
@@ -56,9 +53,8 @@ const storeOptions: StoreOptions<RootState> = {
         });
       }
     },
-    [SET_API_KEY](state: RootState, { apiName, newKey }: { apiName: string, newKey: string }) {
-      const defaultedApiName = apiName || OPEN_WEATHER;
-      state.apiKeys[apiName] = newKey;
+    [SET_API_KEY](state: RootState, newKey: string) {
+      state.apiKey = newKey;
     },
     [SET_LOCATION](state: RootState, location: GeoDirectResponse) {
       state.location = location;
