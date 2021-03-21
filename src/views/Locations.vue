@@ -37,6 +37,7 @@ import locationService from '@/services/GeoLocationService';
 import { GeoDirectResponse, GeolocationCoordinates, RootState } from '@/store/types';
 import { Store } from 'vuex';
 import ToastOptions from '@/services/ToastOptions';
+import { UPDATE_LOCATION } from '@/store/actions';
 
 @Component({
   components: {
@@ -56,7 +57,7 @@ export default class Locations extends Vue {
   private searchTimeout!: number;
 
   async setLocation(location: GeoDirectResponse) {
-    await this.$store.dispatch('updateLocation', location);
+    await this.$store.dispatch(UPDATE_LOCATION, location);
     this.query = this.$store.getters.locationDisplayString;
   }
 

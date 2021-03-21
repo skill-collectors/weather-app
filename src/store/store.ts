@@ -3,6 +3,7 @@ import Vuex, { StoreOptions } from 'vuex';
 import {
   INIT, SET_LOCATION, SET_API_KEY, SET_CALL_COUNT, SET_WEATHER,
 } from '@/store/mutations';
+import { UPDATE_WEATHER, UPDATE_LOCATION } from '@/store/actions';
 import openWeather from '@/services/openWeatherService';
 import convert from '@/utils/ConversionUtils';
 import { RootState, OneCallWeather, GeoDirectResponse } from './types';
@@ -68,7 +69,7 @@ const storeOptions: StoreOptions<RootState> = {
     },
   },
   actions: {
-    async updateWeather(context) {
+    async [UPDATE_WEATHER](context) {
       if (context.getters.hasLocation) {
         const { lat, lon } = context.state.location;
         const { apiKey } = context.state;
@@ -76,9 +77,9 @@ const storeOptions: StoreOptions<RootState> = {
         context.commit(SET_WEATHER, weather);
       }
     },
-    async setLocation(context, location: GeoDirectResponse) {
+    async [UPDATE_LOCATION](context, location: GeoDirectResponse) {
       context.commit(SET_LOCATION, location);
-      context.dispatch('updateWeather');
+      context.dispatch(UPDATE_WEATHER);
     },
   },
   getters: {

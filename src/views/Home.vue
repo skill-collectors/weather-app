@@ -40,6 +40,7 @@ import HourlyForecast from '@/components/HourlyForecast.vue';
 import { RootState } from '@/store/types';
 import { Store } from 'vuex';
 import ToastOptions from '@/services/ToastOptions';
+import { UPDATE_WEATHER } from '@/store/actions';
 
 @Component({
   components: {
@@ -51,7 +52,7 @@ export default class Home extends Vue {
 
   async mounted() {
     try {
-      await this.$store.dispatch('updateWeather');
+      await this.$store.dispatch(UPDATE_WEATHER);
     } catch (err) {
       this.$bvToast.toast('I\'m sorry, we couldn\'t load the weather for your location.', ToastOptions.errorToast);
     }
