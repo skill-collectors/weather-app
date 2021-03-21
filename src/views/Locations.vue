@@ -36,7 +36,6 @@ import openWeather from '@/services/openWeatherService';
 import locationService from '@/services/GeoLocationService';
 import { GeoDirectResponse, GeolocationCoordinates, RootState } from '@/store/types';
 import { Store } from 'vuex';
-import { SET_LOCATION } from '@/store/mutations';
 import ToastOptions from '@/services/ToastOptions';
 
 @Component({
@@ -56,8 +55,8 @@ export default class Locations extends Vue {
 
   private searchTimeout!: number;
 
-  setLocation(location: GeoDirectResponse) {
-    this.$store.commit(SET_LOCATION, location);
+  async setLocation(location: GeoDirectResponse) {
+    await this.$store.dispatch('updateLocation', location);
     this.query = this.$store.getters.locationDisplayString;
   }
 
@@ -68,13 +67,13 @@ export default class Locations extends Vue {
     this.searchTimeout = window.setTimeout(this.search, 1_000);
   }
 
-  handleSuggestionSelect(selectedValue: string) {
+  async handleSuggestionSelect(selectedValue: string) {
     const selected = this.searchResults
       .find((result) => selectedValue === convert.geoToString(result));
     if (selected === undefined) {
       this.showError('couldn\'t find the value you selected.');
     } else {
-      this.setLocation(selected);
+      await this.setLocation(selected);
     }
     this.searchResults = [];
   }
@@ -93,7 +92,7 @@ export default class Locations extends Vue {
       try {
         const results: GeoDirectResponse[] = await openWeather
           .searchCityByCoords(coords.latitude, coords.longitude, this.$store.state.apiKey);
-        this.setLocation(results[0]);
+        await this.setLocation(results[0]);
       } catch (err) {
         this.showError(`could not determine your city from your location. ${err.message}`);
       }
@@ -109,7 +108,7 @@ export default class Locations extends Vue {
       if (results.length === 0) {
         this.showError('could not find any cities for your location.');
       } else if (results.length === 1) {
-        this.setLocation(results[0]);
+        await this.setLocation(results[0]);
       } else {
         this.searchResults = results;
       }

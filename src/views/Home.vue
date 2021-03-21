@@ -37,10 +37,8 @@ import BottomBar from '@/components/BottomBar/BottomBar.vue';
 import CurrentTemperature from '@/components/CurrentTemperature.vue';
 import DailyForecast from '@/components/DailyForecast.vue';
 import HourlyForecast from '@/components/HourlyForecast.vue';
-import { SET_WEATHER } from '@/store/mutations';
-import { RootState, OneCallWeather } from '@/store/types';
+import { RootState } from '@/store/types';
 import { Store } from 'vuex';
-import openWeatherService from '@/services/openWeatherService';
 import ToastOptions from '@/services/ToastOptions';
 
 @Component({
@@ -52,15 +50,10 @@ export default class Home extends Vue {
   $store!: Store<RootState>
 
   async mounted() {
-    if (this.$store.getters.hasLocation) {
-      try {
-        const { lat, lon } = this.$store.state.location;
-        const weather: OneCallWeather = await openWeatherService
-          .getOneCallWeather(lat, lon, this.$store.state.apiKey);
-        this.$store.commit(SET_WEATHER, weather);
-      } catch (err) {
-        this.$bvToast.toast('I\'m sorry, we couldn\'t load the weather for your location.', ToastOptions.errorToast);
-      }
+    try {
+      await this.$store.dispatch('updateWeather');
+    } catch (err) {
+      this.$bvToast.toast('I\'m sorry, we couldn\'t load the weather for your location.', ToastOptions.errorToast);
     }
   }
 }

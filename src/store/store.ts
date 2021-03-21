@@ -69,10 +69,12 @@ const storeOptions: StoreOptions<RootState> = {
   },
   actions: {
     async updateWeather(context) {
-      const { lat, lon } = context.state.location;
-      const { apiKey } = context.state;
-      const weather = await openWeather.getOneCallWeather(lat, lon, apiKey);
-      context.commit(SET_WEATHER, weather);
+      if (context.getters.hasLocation) {
+        const { lat, lon } = context.state.location;
+        const { apiKey } = context.state;
+        const weather = await openWeather.getOneCallWeather(lat, lon, apiKey);
+        context.commit(SET_WEATHER, weather);
+      }
     },
     async setLocation(context, location: GeoDirectResponse) {
       context.commit(SET_LOCATION, location);
