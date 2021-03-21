@@ -1,5 +1,5 @@
 import countapi from 'countapi-js';
-import { GeoDirectResponse } from '@/store/types';
+import { GeoDirectResponse, OneCallWeather } from '@/store/types';
 import { SET_CALL_COUNT } from '@/store/mutations';
 
 const BASE_URL: string = 'https://api.openweathermap.org/data/2.5/';
@@ -23,7 +23,7 @@ export default {
   * Use OpenWeatherMap OneCall Endpoint to get current weather, minute forecast for 1 hour,
   *   hourly forecast for 48 hours, and daily forecast for 7 days.
   */
-  async getOneCallWeather(lat: number, lon: number, apiKey: string): Promise<any> {
+  async getOneCallWeather(lat: number, lon: number, apiKey: string): Promise<OneCallWeather> {
     const units = 'imperial';
     const url = `${BASE_URL}onecall?lat=${lat.toString()}&lon=${lon.toString()}&units=${units}&appid=${apiKey}`;
     const response = await fetch(url);
