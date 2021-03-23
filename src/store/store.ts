@@ -89,8 +89,11 @@ const storeOptions: StoreOptions<RootState> = {
     },
   },
   getters: {
-    locationDisplayName(state) {
-      return convert.geoToString(state.location);
+    locationDisplayName(state, getters) {
+      if (getters.hasLocation) {
+        return convert.geoToString(state.location);
+      }
+      return '';
     },
     hasLocation(state) {
       const { name, lat, lon } = state.location;

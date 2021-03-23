@@ -1,6 +1,14 @@
 <template>
   <b-container class="locations">
     <h3>Locations</h3>
+    <b-list-group>
+      <b-list-group-item v-for="location in recentLocations" :key="location.key">
+        {{location.displayName}}
+      </b-list-group-item>
+      <b-list-group-item v-if="$store.getters.hasLocation">
+        {{$store.getters.locationDisplayName}}
+      </b-list-group-item>
+    </b-list-group>
     <b-navbar fixed="bottom" variant="dark" type="dark">
       <b-navbar-nav class="mr-auto">
         <b-button @click="$router.push('/')" variant="light">
@@ -50,15 +58,29 @@ import { UPDATE_LOCATION } from '@/store/actions';
 export default class Locations extends Vue {
   $store!: Store<RootState>
 
-  private query: string = this.$store.getters.locationDisplayString;
+  private query: string;
 
-  private searchResults: GeoDirectResponse[] = [];
+  private searchResults: GeoDirectResponse[];
 
   private searchTimeout!: number;
 
+  constructor() {
+    super();
+    this.query = this.$store.getters.locationDisplayName;
+    this.searchResults = [];
+  }
+
+  get recentLocations() {
+    return this.$store.state.recentLocations.map((location) => ({
+      ...location,
+      key: `${location.lat},${location.lon}`,
+      displayName: convert.geoToString(location),
+    }));
+  }
+
   async setLocation(location: GeoDirectResponse) {
     await this.$store.dispatch(UPDATE_LOCATION, location);
-    this.query = this.$store.getters.locationDisplayString;
+    this.query = this.$store.getters.locationDisplayName;
   }
 
   handleQueryInput(newQuery: string) {

@@ -10,6 +10,9 @@ export default {
   },
 
   geoToString(geo: GeoDirectResponse) {
+    if (geo === undefined) {
+      return '';
+    }
     let str = geo.name;
     if (geo.country !== undefined) {
       str += `, ${geo.country}`;
