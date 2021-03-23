@@ -3,10 +3,13 @@
     <h3>Locations</h3>
     <b-list-group>
       <b-list-group-item
+        class="d-flex justify-content-between align-items-center"
+        button
         @click="setLocation(location)"
         v-for="location in recentLocations" :key="location.key"
       >
-        {{location.displayName}}
+        <span>{{location.displayName}}</span>
+        <b-icon-trash @click.stop="deleteRecentLocation(location)"></b-icon-trash>
       </b-list-group-item>
     </b-list-group>
     <b-navbar fixed="bottom" variant="dark" type="dark">
@@ -36,7 +39,9 @@
   </b-container>
 </template>
 <script lang="ts">
-import { BIconSearch, BIconGeoAltFill, BIconArrowLeftSquareFill } from 'bootstrap-vue';
+import {
+  BIconSearch, BIconGeoAltFill, BIconArrowLeftSquareFill, BIconTrash,
+} from 'bootstrap-vue';
 import { Component, Vue } from 'vue-property-decorator';
 import SearchSuggest from '@/components/SearchSuggest.vue';
 import convert from '@/utils/ConversionUtils';
@@ -45,6 +50,7 @@ import locationService from '@/services/GeoLocationService';
 import { GeoDirectResponse, GeolocationCoordinates, RootState } from '@/store/types';
 import { Store } from 'vuex';
 import ToastOptions from '@/services/ToastOptions';
+import { DELETE_RECENT_LOCATION } from '@/store/mutations';
 import { UPDATE_LOCATION } from '@/store/actions';
 
 @Component({
@@ -52,6 +58,7 @@ import { UPDATE_LOCATION } from '@/store/actions';
     BIconSearch,
     BIconGeoAltFill,
     BIconArrowLeftSquareFill,
+    BIconTrash,
     SearchSuggest,
   },
 })
@@ -81,6 +88,10 @@ export default class Locations extends Vue {
   async setLocation(location: GeoDirectResponse) {
     await this.$store.dispatch(UPDATE_LOCATION, location);
     this.query = this.$store.getters.locationDisplayName;
+  }
+
+  deleteRecentLocation(location: GeoDirectResponse) {
+    this.$store.commit(DELETE_RECENT_LOCATION, location);
   }
 
   handleQueryInput(newQuery: string) {

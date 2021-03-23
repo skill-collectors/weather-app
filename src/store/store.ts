@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex, { StoreOptions } from 'vuex';
 import {
-  INIT, SET_LOCATION, SET_API_KEY, SET_CALL_COUNT, SET_WEATHER,
+  INIT, SET_LOCATION, DELETE_RECENT_LOCATION, SET_API_KEY, SET_CALL_COUNT, SET_WEATHER,
 } from '@/store/mutations';
 import { UPDATE_WEATHER, UPDATE_LOCATION } from '@/store/actions';
 import openWeather from '@/services/openWeatherService';
@@ -60,20 +60,20 @@ const storeOptions: StoreOptions<RootState> = {
       state.apiKey = newKey;
     },
     [SET_LOCATION](state: RootState, location: GeoDirectResponse) {
-      // If the new item is a duplicate, remove the old entry before adding the new one
-      const duplicate = state.recentLocations
-        .findIndex((recent) => recent.lat === location.lat && recent.lon === location.lon);
-      if (duplicate !== -1) {
-        state.recentLocations.splice(duplicate, 1);
-      }
       state.recentLocations.push(location);
-
       // trim oldest entries
       while (state.recentLocations.length > 10) {
         state.recentLocations.shift();
       }
-
       state.location = location;
+    },
+    [DELETE_RECENT_LOCATION](state: RootState, locationToRemove: GeoDirectResponse) {
+      const index = state.recentLocations
+        .findIndex((recent) => recent.lat === locationToRemove.lat
+          && recent.lon === locationToRemove.lon);
+      if (index !== -1) {
+        state.recentLocations.splice(index, 1);
+      }
     },
     [SET_WEATHER](state: RootState, weather: OneCallWeather) {
       state.weather = weather;
@@ -92,6 +92,8 @@ const storeOptions: StoreOptions<RootState> = {
       }
     },
     async [UPDATE_LOCATION](context, location: GeoDirectResponse) {
+      // delete any old entries if they are duplicates
+      context.commit(DELETE_RECENT_LOCATION, location);
       context.commit(SET_LOCATION, location);
       context.dispatch(UPDATE_WEATHER);
     },
