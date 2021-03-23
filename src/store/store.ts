@@ -60,11 +60,19 @@ const storeOptions: StoreOptions<RootState> = {
       state.apiKey = newKey;
     },
     [SET_LOCATION](state: RootState, location: GeoDirectResponse) {
-      state.recentLocations.push(state.location);
+      // If the new item is a duplicate, remove the old entry before adding the new one
+      const duplicate = state.recentLocations
+        .findIndex((recent) => recent.lat === location.lat && recent.lon === location.lon);
+      if (duplicate !== -1) {
+        state.recentLocations.splice(duplicate, 1);
+      }
+      state.recentLocations.push(location);
+
+      // trim oldest entries
       while (state.recentLocations.length > 10) {
-        // Forget oldest locations
         state.recentLocations.shift();
       }
+
       state.location = location;
     },
     [SET_WEATHER](state: RootState, weather: OneCallWeather) {

@@ -8,9 +8,6 @@
       >
         {{location.displayName}}
       </b-list-group-item>
-      <b-list-group-item v-if="$store.getters.hasLocation">
-        {{$store.getters.locationDisplayName}}
-      </b-list-group-item>
     </b-list-group>
     <b-navbar fixed="bottom" variant="dark" type="dark">
       <b-navbar-nav class="mr-auto">
