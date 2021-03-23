@@ -2,7 +2,10 @@
   <b-container class="locations">
     <h3>Locations</h3>
     <b-list-group>
-      <b-list-group-item v-for="location in recentLocations" :key="location.key">
+      <b-list-group-item
+        @click="setLocation(location)"
+        v-for="location in recentLocations" :key="location.key"
+      >
         {{location.displayName}}
       </b-list-group-item>
       <b-list-group-item v-if="$store.getters.hasLocation">
