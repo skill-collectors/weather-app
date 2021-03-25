@@ -1,22 +1,31 @@
 <template>
-  <b-container class="locations">
-    <h3>Locations</h3>
+  <b-container class="locations d-flex flex-column justify-content-end">
     <b-list-group>
+      <b-list-group-item
+        class="d-flex align-items-center"
+        @click="handleGeoSearch"
+        button
+      >
+        <span>
+          <b-icon-geo-alt-fill></b-icon-geo-alt-fill>
+          Your current location
+        </span>
+      </b-list-group-item>
       <b-list-group-item
         class="d-flex justify-content-between align-items-center"
         button
         @click="setLocation(location)"
         v-for="location in recentLocations" :key="location.key"
       >
-        <span>{{location.displayName}}</span>
+        <span>
+          <b-icon-geo></b-icon-geo>
+          {{location.displayName}}
+        </span>
         <b-icon-trash @click.stop="deleteRecentLocation(location)"></b-icon-trash>
       </b-list-group-item>
     </b-list-group>
     <b-navbar fixed="bottom" variant="dark" type="dark">
       <b-navbar-nav class="mr-auto">
-        <b-button @click="$router.push('/')" variant="light">
-          <b-icon-arrow-left-square-fill></b-icon-arrow-left-square-fill>
-        </b-button>
       </b-navbar-nav>
       <b-navbar-nav>
         <b-button @click="handleTextSearch" variant="primary">
@@ -31,8 +40,8 @@
         ></search-suggest>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
-        <b-button title="Current Location" @click="handleGeoSearch" variant="light">
-          <b-icon-geo-alt-fill></b-icon-geo-alt-fill>
+        <b-button @click="$router.push('/')" variant="light">
+          Done
         </b-button>
       </b-navbar-nav>
     </b-navbar>
@@ -40,7 +49,7 @@
 </template>
 <script lang="ts">
 import {
-  BIconSearch, BIconGeoAltFill, BIconArrowLeftSquareFill, BIconTrash,
+  BIconSearch, BIconGeoAltFill, BIconTrash, BIconGeo,
 } from 'bootstrap-vue';
 import { Component, Vue } from 'vue-property-decorator';
 import SearchSuggest from '@/components/SearchSuggest.vue';
@@ -57,7 +66,7 @@ import { UPDATE_LOCATION } from '@/store/actions';
   components: {
     BIconSearch,
     BIconGeoAltFill,
-    BIconArrowLeftSquareFill,
+    BIconGeo,
     BIconTrash,
     SearchSuggest,
   },
