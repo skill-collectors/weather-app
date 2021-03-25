@@ -28,21 +28,21 @@
       <b-navbar-nav class="mr-auto">
       </b-navbar-nav>
       <b-navbar-nav>
-        <b-button @click="handleTextSearch" variant="primary">
-          <b-icon-search></b-icon-search>
-        </b-button>
-      </b-navbar-nav>
-      <b-navbar-nav>
-        <search-suggest
-          :value="query" @input="handleQueryInput"
-          @select="handleSuggestionSelect"
-          :list="searchResultNames"
-        ></search-suggest>
+        <b-nav-form>
+          <b-button @click="handleTextSearch" variant="primary">
+            <b-icon-search></b-icon-search>
+          </b-button>
+          <search-suggest
+            :value="query" @input="handleQueryInput"
+            @select="handleSuggestionSelect"
+            :list="searchResultNames"
+          ></search-suggest>
+        </b-nav-form>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
-        <b-button @click="$router.push('/')" variant="light">
+        <b-nav-item @click="$router.push('/')">
           Done
-        </b-button>
+        </b-nav-item>
       </b-navbar-nav>
     </b-navbar>
   </b-container>
