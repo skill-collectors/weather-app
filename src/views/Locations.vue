@@ -24,24 +24,29 @@
         <b-icon-trash @click.stop="deleteRecentLocation(location)"></b-icon-trash>
       </b-list-group-item>
     </b-list-group>
+    <div class="d-flex align-items-center mt-2">
+      <b-button @click="handleTextSearch" variant="primary">
+        <b-icon-search></b-icon-search>
+      </b-button>
+      <search-suggest
+        class="flex-grow-1"
+        :value="query" @input="handleQueryInput"
+        @select="handleSuggestionSelect"
+        :list="searchResultNames"
+      ></search-suggest>
+      <b-link to="/" class="flex-shrink-1 ml-2">
+        Done
+      </b-link>
+    </div>
     <b-navbar>
       <b-navbar-nav class="mr-auto">
       </b-navbar-nav>
       <b-navbar-nav>
         <b-nav-form>
-          <b-button @click="handleTextSearch" variant="primary">
-            <b-icon-search></b-icon-search>
-          </b-button>
-          <search-suggest
-            :value="query" @input="handleQueryInput"
-            @select="handleSuggestionSelect"
-            :list="searchResultNames"
-          ></search-suggest>
         </b-nav-form>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
         <b-nav-item to="/">
-          Done
         </b-nav-item>
       </b-navbar-nav>
     </b-navbar>
