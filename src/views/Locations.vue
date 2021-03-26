@@ -40,7 +40,7 @@
         </b-nav-form>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
-        <b-nav-item @click="$router.push('/')">
+        <b-nav-item to="/">
           Done
         </b-nav-item>
       </b-navbar-nav>
