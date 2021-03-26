@@ -34,7 +34,7 @@
     "@storybook/addon-essentials": "^6.1.21",
     "@storybook/addon-links": "^6.1.21",
     "@storybook/vue": "^6.1.21",
-    "@types/jest": "^26.0.20",
+    "@types/jest": "^26.0.21",
     "@types/webdriverio": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.17.0",
