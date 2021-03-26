@@ -166,9 +166,6 @@ export default class Locations extends Vue {
 }
 </script>
 <style scoped>
-.locations {
-  max-width: 30rem;
-}
 .navbar-dark {
   color: var(--light);
 }
