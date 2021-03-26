@@ -1,24 +1,18 @@
 <template>
-  <b-navbar fixed="bottom" variant="dark" type="dark">
-    <b-navbar-nav class="mr-auto">
-    </b-navbar-nav>
-    <b-navbar-nav @click="$router.push('locations')">
-      <b-nav-item v-if="$store.getters.hasLocation">
+  <div class="d-flex align-items-center mt-2">
+    <div class="flex-grow-1">
+      <div v-if="$store.getters.hasLocation">
         <b-icon-search class="mr-2"></b-icon-search>
-        {{$store.getters.locationDisplayName}}
-      </b-nav-item>
-      <b-nav-item v-else>
-        <b-button variant="primary">
+        <b-link to="locations">{{$store.getters.locationDisplayName}}</b-link>
+      </div>
+      <div v-else>
+        <b-button variant="primary" to="locations">
           Tap here to set your location
         </b-button>
-      </b-nav-item>
-    </b-navbar-nav>
-    <b-navbar-nav class="ml-auto">
-      <b-nav-item>
-        <settings-modal-toggle></settings-modal-toggle>
-      </b-nav-item>
-    </b-navbar-nav>
-  </b-navbar>
+      </div>
+    </div>
+    <settings-modal-toggle></settings-modal-toggle>
+  </div>
 </template>
 
 <script lang="ts">
@@ -36,7 +30,4 @@ export default class BottomBar extends Vue {
 }
 </script>
 <style scoped>
-* {
-  color: var(--light);
-}
 </style>

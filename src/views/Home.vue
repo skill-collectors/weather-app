@@ -1,34 +1,37 @@
 <template>
-  <b-container class="home">
-    <b-row>
-      <b-col>
-        <current-temperature
-          :currentTemperature="$store.state.weather.current.temp"
-          :currentFeelsLike="$store.state.weather.current.feels_like"
-        ></current-temperature>
-      </b-col>
-      <b-col><b-skeleton class="m-auto" type="avatar" size="lg"></b-skeleton></b-col>
-    </b-row>
-    <b-row>
-      <b-col>
-        <h6>Today's forecast</h6>
-        <hourly-forecast></hourly-forecast>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col>
-        <h6>Coming up</h6>
-        <b-skeleton type="text"></b-skeleton>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col>
-        <h6>5-day forecast</h6>
-        <daily-forecast></daily-forecast>
-      </b-col>
-    </b-row>
-    <bottom-bar></bottom-bar>
-  </b-container>
+  <div class="d-flex flex-column h-100">
+    <b-container class="home">
+      <b-row>
+        <b-col>
+          <current-temperature
+            :currentTemperature="$store.state.weather.current.temp"
+            :currentFeelsLike="$store.state.weather.current.feels_like"
+          ></current-temperature>
+        </b-col>
+        <b-col><b-skeleton class="m-auto" type="avatar" size="lg"></b-skeleton></b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <h6>Today's forecast</h6>
+          <hourly-forecast></hourly-forecast>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <h6>Coming up</h6>
+          <b-skeleton type="text"></b-skeleton>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <h6>5-day forecast</h6>
+          <daily-forecast></daily-forecast>
+        </b-col>
+      </b-row>
+    </b-container>
+    <div class="flex-grow-1"></div>
+    <bottom-bar class="mb-2 mr-3"></bottom-bar>
+  </div>
 </template>
 
 <script lang="ts">
@@ -62,10 +65,11 @@ export default class Home extends Vue {
 <style scoped>
 .home {
   max-width: 30rem;
+  margin-top: 2rem;
 }
 .row {
   padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding-bottom: 0.5rem;
   border-bottom: 1px solid lightgray;
 }
 h6 {
