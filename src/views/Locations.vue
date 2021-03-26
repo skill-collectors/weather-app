@@ -102,6 +102,7 @@ export default class Locations extends Vue {
   async setLocation(location: GeoDirectResponse) {
     await this.$store.dispatch(UPDATE_LOCATION, location);
     this.query = this.$store.getters.locationDisplayName;
+    this.$router.go(-1);
   }
 
   deleteRecentLocation(location: GeoDirectResponse) {
