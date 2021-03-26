@@ -1,5 +1,5 @@
 <template>
-  <b-container class="locations d-flex flex-column justify-content-end">
+  <b-container fluid class="d-flex flex-column justify-content-end h-100">
     <b-list-group>
       <b-list-group-item
         class="d-flex align-items-center"
@@ -24,7 +24,7 @@
         <b-icon-trash @click.stop="deleteRecentLocation(location)"></b-icon-trash>
       </b-list-group-item>
     </b-list-group>
-    <b-navbar fixed="bottom" variant="dark" type="dark">
+    <b-navbar>
       <b-navbar-nav class="mr-auto">
       </b-navbar-nav>
       <b-navbar-nav>
