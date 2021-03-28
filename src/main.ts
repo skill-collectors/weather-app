@@ -2,12 +2,11 @@ import '@babel/polyfill';
 import 'mutationobserver-shim';
 import Vue from 'vue';
 import './plugins/bootstrap-vue';
-import { OneCallWeather } from '@/store/types';
-import openWeatherService, { GeoDirectResponse } from '@/services/openWeatherService';
 import App from './App.vue';
 import router from './router';
 import store from './store/store';
 import { INIT } from './store/mutations';
+import { UPDATE_WEATHER } from './store/actions';
 import './registerServiceWorker';
 
 Vue.config.productionTip = false;
@@ -18,10 +17,6 @@ new Vue({
   render: (h) => h(App),
   async beforeCreate() {
     this.$store.commit(INIT);
-    const { lat, lon } = this.$store.state.location;
-    if (lat !== 0 && lon !== 0) { // This won't work for boats off the western coast of Africa :-)
-      const weather: OneCallWeather = await openWeatherService
-        .getOneCallWeather(lat, lon);
-    }
+    this.$store.dispatch(UPDATE_WEATHER);
   },
 }).$mount('#app');

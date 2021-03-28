@@ -16,13 +16,13 @@ import { Component, Vue } from 'vue-property-decorator';
 import { Store } from 'vuex';
 import { RootState } from '@/store/types';
 import ForecastItem from '@/components/ForecastItem.vue';
-import openWeatherService from '@/services/openWeatherService';
+import convert from '@/utils/ConversionUtils';
 
 @Component({
   components: { ForecastItem },
   methods: {
-    dtToDate: openWeatherService.dtToDate,
-    iconToUrl: openWeatherService.iconToUrl,
+    dtToDate: convert.dtToDate,
+    iconToUrl: convert.iconToUrl,
   },
 })
 export default class HourlyForecast extends Vue {

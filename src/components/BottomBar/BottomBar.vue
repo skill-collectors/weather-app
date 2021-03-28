@@ -1,25 +1,28 @@
 <template>
-  <b-navbar fixed="bottom" variant="dark" type="dark">
-    <b-navbar-nav class="mr-auto">
-    </b-navbar-nav>
-    <b-navbar-nav @click="$router.push('locations')">
-      <span v-if="$store.getters.hasLocation">{{$store.state.location.city}}</span>
-      <b-button variant="primary" v-else>
-        Tap here to set your location
-      </b-button>
-    </b-navbar-nav>
-    <b-navbar-nav class="ml-auto">
-      <settings-modal-toggle></settings-modal-toggle>
-    </b-navbar-nav>
-  </b-navbar>
+  <div class="d-flex align-items-center mt-2">
+    <div class="flex-grow-1">
+      <div v-if="$store.getters.hasLocation">
+        <b-icon-search class="mr-2"></b-icon-search>
+        <b-link to="locations">{{$store.getters.locationDisplayName}}</b-link>
+      </div>
+      <div v-else>
+        <b-button variant="primary" to="locations">
+          Tap here to set your location
+        </b-button>
+      </div>
+    </div>
+    <settings-modal-toggle></settings-modal-toggle>
+  </div>
 </template>
 
 <script lang="ts">
+import { BIconSearch } from 'bootstrap-vue';
 import { Component, Vue } from 'vue-property-decorator';
 import SettingsModalToggle from '@/components/BottomBar/SettingsModalToggle.vue';
 
 @Component({
   components: {
+    BIconSearch,
     SettingsModalToggle,
   },
 })
@@ -27,7 +30,4 @@ export default class BottomBar extends Vue {
 }
 </script>
 <style scoped>
-* {
-  color: var(--light);
-}
 </style>

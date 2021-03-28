@@ -3,7 +3,6 @@ import { RootState } from '@/store/types';
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils';
 import ApiKeyInput from '@/components/BottomBar/ApiKeyInput.vue';
 import { SET_API_KEY } from '@/store/mutations';
-import OPEN_WEATHER from '@/store/apiNames';
 import BootstrapVue from 'bootstrap-vue';
 
 const localVue = createLocalVue();
@@ -17,14 +16,15 @@ describe('ApiKeyInput.vue', () => {
 
   beforeEach(() => {
     state = {
-      apiKeys: {
-        [OPEN_WEATHER]: '',
-      },
+      apiKey: '',
       location: {
-        city: '',
+        name: '',
+        country: '',
+        state: '',
         lat: 0,
         lon: 0,
       },
+      recentLocations: [],
       weather: {
         current: {
           temp: 0,

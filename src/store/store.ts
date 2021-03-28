@@ -1,24 +1,26 @@
 import Vue from 'vue';
 import Vuex, { StoreOptions } from 'vuex';
 import {
-  INIT, SET_CITY, SET_LAT, SET_LON, SET_API_KEY, SET_CALL_COUNT, SET_WEATHER,
+  INIT, SET_LOCATION, DELETE_RECENT_LOCATION, SET_API_KEY, SET_CALL_COUNT, SET_WEATHER,
 } from '@/store/mutations';
-
-import OPEN_WEATHER from './apiNames';
-import { RootState, OneCallWeather } from './types';
+import { UPDATE_WEATHER, UPDATE_LOCATION } from '@/store/actions';
+import openWeather from '@/services/openWeatherService';
+import convert from '@/utils/ConversionUtils';
+import { RootState, OneCallWeather, GeoDirectResponse } from './types';
 
 Vue.use(Vuex);
 
 const storeOptions: StoreOptions<RootState> = {
   state: {
-    apiKeys: {
-      [OPEN_WEATHER]: '',
-    },
+    apiKey: '',
     location: {
-      city: '',
+      name: '',
+      country: '',
+      state: '',
       lat: 0,
       lon: 0,
     },
+    recentLocations: [],
     weather: {
       current: {
         temp: 0,
@@ -54,18 +56,24 @@ const storeOptions: StoreOptions<RootState> = {
         });
       }
     },
-    [SET_API_KEY](state: RootState, { apiName, newKey }: { apiName: string, newKey: string }) {
-      const defaultedApiName = apiName || OPEN_WEATHER;
-      state.apiKeys[apiName] = newKey;
+    [SET_API_KEY](state: RootState, newKey: string) {
+      state.apiKey = newKey;
     },
-    [SET_CITY](state: RootState, { city }: { city: string }) {
-      state.location.city = city;
+    [SET_LOCATION](state: RootState, location: GeoDirectResponse) {
+      state.recentLocations.push(location);
+      // trim oldest entries
+      while (state.recentLocations.length > 10) {
+        state.recentLocations.shift();
+      }
+      state.location = location;
     },
-    [SET_LAT](state: RootState, { lat }: { lat: number }) {
-      state.location.lat = lat;
-    },
-    [SET_LON](state: RootState, { lon }: { lon: number }) {
-      state.location.lon = lon;
+    [DELETE_RECENT_LOCATION](state: RootState, locationToRemove: GeoDirectResponse) {
+      const index = state.recentLocations
+        .findIndex((recent) => recent.lat === locationToRemove.lat
+          && recent.lon === locationToRemove.lon);
+      if (index !== -1) {
+        state.recentLocations.splice(index, 1);
+      }
     },
     [SET_WEATHER](state: RootState, weather: OneCallWeather) {
       state.weather = weather;
@@ -75,12 +83,31 @@ const storeOptions: StoreOptions<RootState> = {
     },
   },
   actions: {
-
+    async [UPDATE_WEATHER](context) {
+      if (context.getters.hasLocation) {
+        const { lat, lon } = context.state.location;
+        const { apiKey } = context.state;
+        const weather = await openWeather.getOneCallWeather(lat, lon, apiKey);
+        context.commit(SET_WEATHER, weather);
+      }
+    },
+    async [UPDATE_LOCATION](context, location: GeoDirectResponse) {
+      // delete any old entries if they are duplicates
+      context.commit(DELETE_RECENT_LOCATION, location);
+      context.commit(SET_LOCATION, location);
+      context.dispatch(UPDATE_WEATHER);
+    },
   },
   getters: {
+    locationDisplayName(state, getters) {
+      if (getters.hasLocation) {
+        return convert.geoToString(state.location);
+      }
+      return '';
+    },
     hasLocation(state) {
-      const { city, lat, lon } = state.location;
-      return lat !== 0 && lon !== 0 && city !== '';
+      const { name, lat, lon } = state.location;
+      return lat !== 0 && lon !== 0 && name !== '';
     },
     hasWeather(state) {
       // There may be a better way to detect this, but this is good enough for now
