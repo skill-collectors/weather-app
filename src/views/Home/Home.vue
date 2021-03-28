@@ -54,6 +54,11 @@ export default class Home extends Vue {
   $store!: Store<RootState>
 
   async mounted() {
+    if (!this.$store.getters.hasApiKey) {
+      this.$router.push('/settings');
+    } else if (!this.$store.getters.hasLocation) {
+      this.$router.push('/locations');
+    }
     try {
       await this.$store.dispatch(UPDATE_WEATHER);
     } catch (err) {

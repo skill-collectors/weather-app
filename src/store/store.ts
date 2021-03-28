@@ -105,9 +105,14 @@ const storeOptions: StoreOptions<RootState> = {
       }
       return '';
     },
+    hasApiKey(state) {
+      // Consider all 'falsy' values: '', null, or undefined
+      return Boolean(state.apiKey);
+    },
     hasLocation(state) {
       const { name, lat, lon } = state.location;
-      return lat !== 0 && lon !== 0 && name !== '';
+      // Consider all 'falsy' values: 0, '', null, undefined
+      return Boolean(lat) && Boolean(lon) && Boolean(name);
     },
     hasWeather(state) {
       // There may be a better way to detect this, but this is good enough for now
