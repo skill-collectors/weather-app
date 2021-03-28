@@ -36,7 +36,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import BottomBar from '@/components/BottomBar/BottomBar.vue';
+import BottomBar from '@/views/Home/BottomBar.vue';
 import CurrentTemperature from '@/components/CurrentTemperature.vue';
 import DailyForecast from '@/components/DailyForecast.vue';
 import HourlyForecast from '@/components/HourlyForecast.vue';
