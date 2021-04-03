@@ -34,7 +34,7 @@
         @select="handleSuggestionSelect"
         :list="searchResultNames"
       ></search-suggest>
-      <b-link to="/" class="flex-shrink-1 ml-2">
+      <b-link @click="handleDone" class="flex-shrink-1 ml-2">
         Done
       </b-link>
     </div>
@@ -101,8 +101,18 @@ export default class Locations extends Vue {
 
   async setLocation(location: GeoDirectResponse) {
     await this.$store.dispatch(UPDATE_LOCATION, location);
-    this.query = this.$store.getters.locationDisplayName;
-    this.$router.go(-1);
+    if (this.$store.getters.hasLocation) {
+      this.query = this.$store.getters.locationDisplayName;
+      this.$router.push('/');
+    }
+  }
+
+  handleDone() {
+    if (this.$store.getters.hasLocation) {
+      this.$router.push('/');
+    } else {
+      this.$bvToast.toast('You need to set a location to continue.', ToastOptions.errorToast);
+    }
   }
 
   deleteRecentLocation(location: GeoDirectResponse) {
