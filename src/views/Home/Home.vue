@@ -44,6 +44,7 @@ import { RootState } from '@/store/types';
 import { Store } from 'vuex';
 import ToastOptions from '@/services/ToastOptions';
 import { UPDATE_WEATHER } from '@/store/actions';
+import HttpError from '@/services/HttpError';
 
 @Component({
   components: {
@@ -62,7 +63,11 @@ export default class Home extends Vue {
     try {
       await this.$store.dispatch(UPDATE_WEATHER);
     } catch (err) {
-      this.$bvToast.toast('I\'m sorry, we couldn\'t load the weather for your location.', ToastOptions.errorToast);
+      if (err instanceof HttpError && err.httpStatusCode === 401) {
+        this.$router.push('/settings');
+      } else {
+        this.$bvToast.toast('I\'m sorry, we couldn\'t load the weather for your location.', ToastOptions.errorToast);
+      }
     }
   }
 }
