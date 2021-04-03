@@ -29,7 +29,7 @@ export default class HourlyForecast extends Vue {
   $store!: Store<RootState>
 
   get hours() {
-    return this.$store.state.weather.hourly.slice(0, 6);
+    return this.$store.state.weather.hourly.slice(0, 5);
   }
 }
 </script>

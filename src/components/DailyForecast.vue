@@ -30,7 +30,7 @@ export default class DailyForecast extends Vue {
   $store!: Store<RootState>
 
   get days() {
-    return this.$store.state.weather.daily.slice(0, 6);
+    return this.$store.state.weather.daily.slice(0, 5);
   }
 }
 </script>
