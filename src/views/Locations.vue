@@ -66,6 +66,7 @@ import { Store } from 'vuex';
 import ToastOptions from '@/services/ToastOptions';
 import { DELETE_RECENT_LOCATION } from '@/store/mutations';
 import { UPDATE_LOCATION } from '@/store/actions';
+import HttpError from '@/services/HttpError';
 
 @Component({
   components: {
@@ -153,7 +154,11 @@ export default class Locations extends Vue {
           .searchCityByCoords(coords.latitude, coords.longitude, this.$store.state.apiKey);
         await this.setLocation(results[0]);
       } catch (err) {
-        this.showError(`could not determine your city from your location. ${err.message}`);
+        if (err instanceof HttpError && err.httpStatusCode === 401) {
+          this.$router.push('/settings');
+        } else {
+          this.showError(`could not determine your city from your location. ${err.message}`);
+        }
       }
     } catch (err) {
       this.showError(`could not retrieve your location: ${err.message}`);
@@ -172,7 +177,11 @@ export default class Locations extends Vue {
         this.searchResults = results;
       }
     } catch (err) {
-      this.showError(`could not determine a city for your location: ${err.message}`);
+      if (err instanceof HttpError && err.httpStatusCode === 401) {
+        this.$router.push('/settings');
+      } else {
+        this.showError(`could not determine a city for your location: ${err.message}`);
+      }
     }
   }
 
