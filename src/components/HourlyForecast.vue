@@ -36,6 +36,7 @@ export default class HourlyForecast extends Vue {
 <style scoped>
 ul {
   list-style-type: none;
+  padding-left: 0;
 }
 li {
   display: inline-block;
