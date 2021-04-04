@@ -8,7 +8,7 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col cols="11"></b-col>
+      <b-col cols="10"></b-col>
       <b-col cols="1">
         <b-link @click="handleDone">Done</b-link>
       </b-col>
