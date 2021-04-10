@@ -44,6 +44,7 @@ import { RootState } from '@/store/types';
 import { Store } from 'vuex';
 import ToastOptions from '@/services/ToastOptions';
 import { UPDATE_WEATHER } from '@/store/actions';
+import determineComingUpNotifications, { ComingUpNotification } from '@/services/ComingUpService';
 
 @Component({
   components: {
@@ -53,12 +54,20 @@ import { UPDATE_WEATHER } from '@/store/actions';
 export default class Home extends Vue {
   $store!: Store<RootState>
 
+  private comingUpNotifications: ComingUpNotification[] = [];
+
   async mounted() {
     try {
       await this.$store.dispatch(UPDATE_WEATHER);
     } catch (err) {
       this.$bvToast.toast('I\'m sorry, we couldn\'t load the weather for your location.', ToastOptions.errorToast);
     }
+    this.comingUpNotifications
+      .splice(
+        0,
+        this.comingUpNotifications.length,
+        ...determineComingUpNotifications(this.$store.state.weather),
+      );
   }
 }
 </script>
