@@ -13,7 +13,7 @@
       <b-row>
         <b-col>
           <h6>Today's forecast</h6>
-          <hourly-forecast></hourly-forecast>
+          <hourly-forecast class="forecast-list"></hourly-forecast>
         </b-col>
       </b-row>
       <b-row>
@@ -25,7 +25,7 @@
       <b-row>
         <b-col>
           <h6>5-day forecast</h6>
-          <daily-forecast></daily-forecast>
+          <daily-forecast class="forecast-list"></daily-forecast>
         </b-col>
       </b-row>
     </b-container>
@@ -79,5 +79,13 @@ h6 {
 }
 .b-skeleton-text {
   min-height: 3rem;
+}
+.forecast-list {
+  white-space: nowrap;
+  overflow-x: scroll;
+  scrollbar-width: none; /* Firefox */
+}
+.forecast-list::-webkit-scrollbar {
+  display: none; /* Webkit */
 }
 </style>
