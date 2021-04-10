@@ -16,10 +16,9 @@
           <hourly-forecast></hourly-forecast>
         </b-col>
       </b-row>
-      <b-row>
+      <b-row v-if="comingUpNotifications.length > 0">
         <b-col>
           <h6>Coming up</h6>
-          <b-skeleton type="text"></b-skeleton>
         </b-col>
       </b-row>
       <b-row>
