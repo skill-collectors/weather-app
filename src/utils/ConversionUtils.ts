@@ -5,8 +5,8 @@ export default {
     return new Date(dt * 1000);
   },
 
-  iconToUrl(icon: string): string {
-    return `https://openweathermap.org/img/wn/${icon}.png`;
+  iconToUrl(icon: string, variant: string = ''): string {
+    return `https://openweathermap.org/img/wn/${icon}${variant}.png`;
   },
 
   geoToString(geo: GeoDirectResponse) {
