@@ -8,7 +8,12 @@
             :currentFeelsLike="$store.state.weather.current.feels_like"
           ></current-temperature>
         </b-col>
-        <b-col><b-skeleton class="m-auto" type="avatar" size="lg"></b-skeleton></b-col>
+        <b-col>
+          <img
+            v-if="$store.getters.hasWeather"
+            :src="iconToUrl($store.state.weather.current.weather[0].icon, '@2x')"
+          />
+        </b-col>
       </b-row>
       <b-row>
         <b-col>
@@ -44,11 +49,15 @@ import { RootState } from '@/store/types';
 import { Store } from 'vuex';
 import ToastOptions from '@/services/ToastOptions';
 import { UPDATE_WEATHER } from '@/store/actions';
+import convert from '@/utils/ConversionUtils';
 import HttpError from '@/services/HttpError';
 
 @Component({
   components: {
     CurrentTemperature, DailyForecast, HourlyForecast, BottomBar,
+  },
+  methods: {
+    iconToUrl: convert.iconToUrl,
   },
 })
 export default class Home extends Vue {
