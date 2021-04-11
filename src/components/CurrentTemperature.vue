@@ -20,14 +20,15 @@ export default class CurrentTemperature extends CurrentTemperatureProps {}
 </script>
 
 <style>
-* {
-  font-weight: bold;
-}
 h1 {
   font-size: 5rem;
   margin-left: 0;
+  margin-bottom: 0;
+  font-weight: bold;
+  line-height: 1;
 }
 aside {
   font-size: smaller;
+  font-weight: bold;
 }
 </style>
