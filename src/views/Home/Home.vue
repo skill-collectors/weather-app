@@ -103,6 +103,7 @@ export default class Home extends Vue {
 }
 .hero-row {
   justify-content: space-evenly;
+  padding-bottom: 2rem;
 }
 .hero-row .col {
   flex-grow: unset;
