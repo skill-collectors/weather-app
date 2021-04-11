@@ -34,7 +34,7 @@
         @select="handleSuggestionSelect"
         :list="searchResultNames"
       ></search-suggest>
-      <b-link to="/" class="flex-shrink-1 ml-2">
+      <b-link @click="handleDone" class="flex-shrink-1 ml-2">
         Done
       </b-link>
     </div>
@@ -66,6 +66,7 @@ import { Store } from 'vuex';
 import ToastOptions from '@/services/ToastOptions';
 import { DELETE_RECENT_LOCATION } from '@/store/mutations';
 import { UPDATE_LOCATION } from '@/store/actions';
+import HttpError from '@/services/HttpError';
 
 @Component({
   components: {
@@ -101,8 +102,18 @@ export default class Locations extends Vue {
 
   async setLocation(location: GeoDirectResponse) {
     await this.$store.dispatch(UPDATE_LOCATION, location);
-    this.query = this.$store.getters.locationDisplayName;
-    this.$router.go(-1);
+    if (this.$store.getters.hasLocation) {
+      this.query = this.$store.getters.locationDisplayName;
+      this.$router.push('/');
+    }
+  }
+
+  handleDone() {
+    if (this.$store.getters.hasLocation) {
+      this.$router.push('/');
+    } else {
+      this.$bvToast.toast('You need to set a location to continue.', ToastOptions.errorToast);
+    }
   }
 
   deleteRecentLocation(location: GeoDirectResponse) {
@@ -143,7 +154,11 @@ export default class Locations extends Vue {
           .searchCityByCoords(coords.latitude, coords.longitude, this.$store.state.apiKey);
         await this.setLocation(results[0]);
       } catch (err) {
-        this.showError(`could not determine your city from your location. ${err.message}`);
+        if (err instanceof HttpError && err.httpStatusCode === 401) {
+          this.$router.push('/settings');
+        } else {
+          this.showError(`could not determine your city from your location. ${err.message}`);
+        }
       }
     } catch (err) {
       this.showError(`could not retrieve your location: ${err.message}`);
@@ -162,7 +177,11 @@ export default class Locations extends Vue {
         this.searchResults = results;
       }
     } catch (err) {
-      this.showError(`could not determine a city for your location: ${err.message}`);
+      if (err instanceof HttpError && err.httpStatusCode === 401) {
+        this.$router.push('/settings');
+      } else {
+        this.showError(`could not determine a city for your location: ${err.message}`);
+      }
     }
   }
 

@@ -1,7 +1,7 @@
 import Vuex, { Store, MutationTree } from 'vuex';
 import { RootState } from '@/store/types';
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils';
-import ApiKeyInput from '@/components/BottomBar/ApiKeyInput.vue';
+import ApiKeyInput from '@/views/Settings/ApiKeyInput.vue';
 import { SET_API_KEY } from '@/store/mutations';
 import BootstrapVue from 'bootstrap-vue';
 
