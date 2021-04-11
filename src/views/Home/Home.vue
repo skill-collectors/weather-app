@@ -10,6 +10,7 @@
         </b-col>
         <b-col>
           <img
+            @click="handleHeroIconClick"
             v-if="$store.getters.hasWeather"
             :src="iconToUrl($store.state.weather.current.weather[0].icon, '@2x')"
           />
@@ -66,6 +67,33 @@ export default class Home extends Vue {
   $store!: Store<RootState>
 
   private comingUpNotifications: ComingUpNotification[] = [];
+
+  handleHeroIconClick() {
+    // This is a temporary demo to force the display of a 'coming up' notification
+    // It can be removed when we implement the 'details' view for the header, or sooner
+    // if desired.
+    const demoNotifications = [
+      {
+        type: 'DEMORAIN',
+        iconUrl: convert.iconToUrl('10d'),
+        text: 'light rain coming up at 2PM',
+      },
+      {
+        type: 'DEMOSNOW',
+        iconUrl: convert.iconToUrl('13n'),
+        text: 'snow tonight',
+      },
+    ];
+    demoNotifications.forEach((demoNotification) => {
+      const demoIndex = this.comingUpNotifications
+        .findIndex((notification) => notification.type === demoNotification.type);
+      if (demoIndex === -1) {
+        this.comingUpNotifications.push(demoNotification);
+      } else {
+        this.comingUpNotifications.splice(demoIndex, 1);
+      }
+    });
+  }
 
   async mounted() {
     if (!this.$store.getters.hasApiKey) {
