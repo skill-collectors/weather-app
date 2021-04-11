@@ -29,11 +29,18 @@ describe('ApiKeyInput.vue', () => {
         current: {
           temp: 0,
           feels_like: 0,
-          weather: [{ description: 'sunny', icon: '03n' }],
+          weather: [{
+            description: 'sunny', icon: '03n', id: 800, main: 'Clear',
+          }],
         },
         minutely: [{ dt: 0, precipitation: 0 }],
         hourly: [{
-          dt: 0, temp: 0, feels_like: 0, weather: [{ description: '', icon: '' }],
+          dt: 0,
+          temp: 0,
+          feels_like: 0,
+          weather: [{
+            description: '', icon: '', id: 0, main: '',
+          }],
         }],
         daily: [{
           dt: 0,
@@ -43,7 +50,9 @@ describe('ApiKeyInput.vue', () => {
           feels_like: {
             day: 0, eve: 0, morn: 0, night: 0,
           },
-          weather: [{ description: '', icon: '' }],
+          weather: [{
+            description: '', icon: '', id: 0, main: '',
+          }],
         }],
       },
       stats: {

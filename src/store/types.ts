@@ -16,6 +16,8 @@ export interface GeolocationCoordinates {
 export interface Weather {
   description: string,
   icon: string,
+  id: number,
+  main: string,
 }
 
 export interface CurrentWeather {
