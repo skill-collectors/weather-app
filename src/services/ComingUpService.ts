@@ -1,6 +1,6 @@
 import { HourlyForecast, OneCallWeather } from '@/store/types';
 import convert from '@/utils/ConversionUtils';
-import { format, differenceInHours } from 'date-fns';
+import { format, differenceInHours, getHours } from 'date-fns';
 
 export interface ComingUpNotification {
   type: string,
@@ -9,12 +9,9 @@ export interface ComingUpNotification {
 }
 
 function getUpcomingRainNotification(weather: OneCallWeather): ComingUpNotification | undefined {
-  function isRainy(forecast: HourlyForecast) {
-    return forecast.weather[0].main === 'Rain';
-  }
   const maybeRainy = weather.hourly
     .filter((forecast) => differenceInHours(new Date(), forecast.dt) < 12)
-    .find((forecast) => isRainy(forecast));
+    .find((forecast) => forecast.weather[0].main === 'Rain');
   if (maybeRainy !== undefined) {
     return {
       type: 'RAIN',
@@ -25,13 +22,16 @@ function getUpcomingRainNotification(weather: OneCallWeather): ComingUpNotificat
   return undefined;
 }
 
-function getSnowTomorrowNotification(weather: OneCallWeather): ComingUpNotification | undefined {
-  const tomorrowWeather = weather.daily[1].weather[0];
-  if (tomorrowWeather.main === 'Snow') {
+function getSnowTonightNotification(weather: OneCallWeather): ComingUpNotification | undefined {
+  const maybeSnowTonight = weather.hourly
+    .filter((forecast) => differenceInHours(new Date(), forecast.dt) < 24)
+    .filter((forecast) => getHours(forecast.dt) > 20 || getHours(forecast.dt) < 8)
+    .find((forecast) => forecast.weather[0].main === 'Snow');
+  if (maybeSnowTonight !== undefined) {
     return {
       type: 'SNOW',
-      iconUrl: convert.iconToUrl(tomorrowWeather.icon),
-      text: 'Snow tomorrow',
+      iconUrl: convert.iconToUrl(maybeSnowTonight.weather[0].icon),
+      text: 'Snow tonight',
     };
   }
   return undefined;
@@ -50,7 +50,7 @@ determineComingUpNotifications(weather: OneCallWeather): ComingUpNotification[] 
   const results: ComingUpNotification[] = [];
 
   pushIfPresent(results, getUpcomingRainNotification(weather));
-  pushIfPresent(results, getSnowTomorrowNotification(weather));
+  pushIfPresent(results, getSnowTonightNotification(weather));
 
   return results;
 }
