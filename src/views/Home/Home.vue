@@ -94,7 +94,7 @@ export default class Home extends Vue {
 <style scoped>
 .home {
   max-width: 30rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 .row {
   padding-top: 1rem;
