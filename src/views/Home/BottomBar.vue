@@ -11,19 +11,18 @@
         </b-button>
       </div>
     </div>
-    <settings-modal-toggle></settings-modal-toggle>
+    <b-link to="/settings"><b-icon-gear-fill font-scale="2"></b-icon-gear-fill></b-link>
   </div>
 </template>
 
 <script lang="ts">
-import { BIconSearch } from 'bootstrap-vue';
+import { BIconSearch, BIconGearFill } from 'bootstrap-vue';
 import { Component, Vue } from 'vue-property-decorator';
-import SettingsModalToggle from '@/components/BottomBar/SettingsModalToggle.vue';
 
 @Component({
   components: {
     BIconSearch,
-    SettingsModalToggle,
+    BIconGearFill,
   },
 })
 export default class BottomBar extends Vue {

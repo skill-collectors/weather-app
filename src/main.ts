@@ -17,6 +17,5 @@ new Vue({
   render: (h) => h(App),
   async beforeCreate() {
     this.$store.commit(INIT);
-    this.$store.dispatch(UPDATE_WEATHER);
   },
 }).$mount('#app');

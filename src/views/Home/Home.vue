@@ -36,7 +36,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import BottomBar from '@/components/BottomBar/BottomBar.vue';
+import BottomBar from '@/views/Home/BottomBar.vue';
 import CurrentTemperature from '@/components/CurrentTemperature.vue';
 import DailyForecast from '@/components/DailyForecast.vue';
 import HourlyForecast from '@/components/HourlyForecast.vue';
@@ -44,6 +44,7 @@ import { RootState } from '@/store/types';
 import { Store } from 'vuex';
 import ToastOptions from '@/services/ToastOptions';
 import { UPDATE_WEATHER } from '@/store/actions';
+import HttpError from '@/services/HttpError';
 
 @Component({
   components: {
@@ -54,10 +55,19 @@ export default class Home extends Vue {
   $store!: Store<RootState>
 
   async mounted() {
+    if (!this.$store.getters.hasApiKey) {
+      this.$router.push('/settings');
+    } else if (!this.$store.getters.hasLocation) {
+      this.$router.push('/locations');
+    }
     try {
       await this.$store.dispatch(UPDATE_WEATHER);
     } catch (err) {
-      this.$bvToast.toast('I\'m sorry, we couldn\'t load the weather for your location.', ToastOptions.errorToast);
+      if (err instanceof HttpError && err.httpStatusCode === 401) {
+        this.$router.push('/settings');
+      } else {
+        this.$bvToast.toast('I\'m sorry, we couldn\'t load the weather for your location.', ToastOptions.errorToast);
+      }
     }
   }
 }
