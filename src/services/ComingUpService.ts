@@ -25,6 +25,18 @@ function getUpcomingRainNotification(weather: OneCallWeather): ComingUpNotificat
   return undefined;
 }
 
+function getSnowTomorrowNotification(weather: OneCallWeather): ComingUpNotification | undefined {
+  const tomorrowWeather = weather.daily[1].weather[0];
+  if (tomorrowWeather.main === 'Snow') {
+    return {
+      type: 'SNOW',
+      iconUrl: convert.iconToUrl(tomorrowWeather.icon),
+      text: 'Snow tomorrow',
+    };
+  }
+  return undefined;
+}
+
 export default function
 determineComingUpNotifications(weather: OneCallWeather): ComingUpNotification[] {
   const results: ComingUpNotification[] = [];
@@ -32,6 +44,11 @@ determineComingUpNotifications(weather: OneCallWeather): ComingUpNotification[] 
   const upcomingRain = getUpcomingRainNotification(weather);
   if (upcomingRain != null) {
     results.push(upcomingRain);
+  }
+
+  const upcomingSnow = getSnowTomorrowNotification(weather);
+  if (upcomingSnow !== undefined) {
+    results.push(upcomingSnow);
   }
 
   return results;
