@@ -1,5 +1,5 @@
-import BottomBar from '@/components/BottomBar/BottomBar.vue';
 import store from '@/store/store';
+import BottomBar from './BottomBar.vue';
 import '../../plugins/bootstrap-vue';
 
 export default {

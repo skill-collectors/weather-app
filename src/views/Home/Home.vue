@@ -13,7 +13,7 @@
       <b-row>
         <b-col>
           <h6>Today's forecast</h6>
-          <hourly-forecast></hourly-forecast>
+          <hourly-forecast class="forecast-list"></hourly-forecast>
         </b-col>
       </b-row>
       <b-row v-if="comingUpNotifications.length > 0">
@@ -25,7 +25,7 @@
       <b-row>
         <b-col>
           <h6>5-day forecast</h6>
-          <daily-forecast></daily-forecast>
+          <daily-forecast class="forecast-list"></daily-forecast>
         </b-col>
       </b-row>
     </b-container>
@@ -36,7 +36,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import BottomBar from '@/components/BottomBar/BottomBar.vue';
+import BottomBar from '@/views/Home/BottomBar.vue';
 import CurrentTemperature from '@/components/CurrentTemperature.vue';
 import DailyForecast from '@/components/DailyForecast.vue';
 import ComingUpList from '@/components/ComingUpList.vue';
@@ -46,6 +46,7 @@ import { Store } from 'vuex';
 import ToastOptions from '@/services/ToastOptions';
 import { UPDATE_WEATHER } from '@/store/actions';
 import determineComingUpNotifications, { ComingUpNotification } from '@/services/ComingUpService';
+import HttpError from '@/services/HttpError';
 
 @Component({
   components: {
@@ -58,10 +59,19 @@ export default class Home extends Vue {
   private comingUpNotifications: ComingUpNotification[] = [];
 
   async mounted() {
+    if (!this.$store.getters.hasApiKey) {
+      this.$router.push('/settings');
+    } else if (!this.$store.getters.hasLocation) {
+      this.$router.push('/locations');
+    }
     try {
       await this.$store.dispatch(UPDATE_WEATHER);
     } catch (err) {
-      this.$bvToast.toast('I\'m sorry, we couldn\'t load the weather for your location.', ToastOptions.errorToast);
+      if (err instanceof HttpError && err.httpStatusCode === 401) {
+        this.$router.push('/settings');
+      } else {
+        this.$bvToast.toast('I\'m sorry, we couldn\'t load the weather for your location.', ToastOptions.errorToast);
+      }
     }
     this.comingUpNotifications
       .splice(
@@ -89,5 +99,13 @@ h6 {
 }
 .b-skeleton-text {
   min-height: 3rem;
+}
+.forecast-list {
+  white-space: nowrap;
+  overflow-x: scroll;
+  scrollbar-width: none; /* Firefox */
+}
+.forecast-list::-webkit-scrollbar {
+  display: none; /* Webkit */
 }
 </style>
