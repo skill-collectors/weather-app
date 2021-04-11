@@ -21,7 +21,7 @@
           <hourly-forecast class="forecast-list"></hourly-forecast>
         </b-col>
       </b-row>
-      <b-row v-if="comingUpNotifications.length > 0">
+      <b-row v-if="comingUpNotifications.length > 0" class="coming-up-row">
         <b-col>
           <h6>Coming up</h6>
           <coming-up-list :notifications="comingUpNotifications"></coming-up-list>
@@ -122,5 +122,8 @@ h6 {
 }
 .forecast-list::-webkit-scrollbar {
   display: none; /* Webkit */
+}
+.coming-up-row {
+  background: #d8d8d8;
 }
 </style>

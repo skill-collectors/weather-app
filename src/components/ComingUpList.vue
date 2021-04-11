@@ -1,5 +1,5 @@
 <template>
-  <ul class="coming-up-list">
+  <ul>
     <li v-if="!notifications || notifications.length === 0">Nothing to worry about!</li>
     <li v-else v-for="notification in notifications" :key="notification.text">
       <img :src="notification.iconUrl"/>{{notification.text}}
@@ -18,13 +18,14 @@ export default class ComingUpList extends Vue {
 </script>
 
 <style scoped>
-.coming-up-list {
+ul {
   font-size: smaller;
   list-style-type: none;
   padding-left: 0;
+  margin-bottom: 0;
   text-align: left;
 }
-.coming-up-list li {
+li {
   font-weight: normal;
 }
 </style>
