@@ -21,10 +21,10 @@
           <hourly-forecast class="forecast-list"></hourly-forecast>
         </b-col>
       </b-row>
-      <b-row>
+      <b-row v-if="comingUpNotifications.length > 0">
         <b-col>
           <h6>Coming up</h6>
-          <b-skeleton type="text"></b-skeleton>
+          <coming-up-list :notifications="comingUpNotifications"></coming-up-list>
         </b-col>
       </b-row>
       <b-row>
@@ -44,17 +44,19 @@ import { Component, Vue } from 'vue-property-decorator';
 import BottomBar from '@/views/Home/BottomBar.vue';
 import CurrentTemperature from '@/components/CurrentTemperature.vue';
 import DailyForecast from '@/components/DailyForecast.vue';
+import ComingUpList from '@/components/ComingUpList.vue';
 import HourlyForecast from '@/components/HourlyForecast.vue';
 import { RootState } from '@/store/types';
 import { Store } from 'vuex';
 import ToastOptions from '@/services/ToastOptions';
 import { UPDATE_WEATHER } from '@/store/actions';
+import determineComingUpNotifications, { ComingUpNotification } from '@/services/ComingUpService';
 import convert from '@/utils/ConversionUtils';
 import HttpError from '@/services/HttpError';
 
 @Component({
   components: {
-    CurrentTemperature, DailyForecast, HourlyForecast, BottomBar,
+    CurrentTemperature, DailyForecast, HourlyForecast, BottomBar, ComingUpList,
   },
   methods: {
     iconToUrl: convert.iconToUrl,
@@ -62,6 +64,8 @@ import HttpError from '@/services/HttpError';
 })
 export default class Home extends Vue {
   $store!: Store<RootState>
+
+  private comingUpNotifications: ComingUpNotification[] = [];
 
   async mounted() {
     if (!this.$store.getters.hasApiKey) {
@@ -78,6 +82,12 @@ export default class Home extends Vue {
         this.$bvToast.toast('I\'m sorry, we couldn\'t load the weather for your location.', ToastOptions.errorToast);
       }
     }
+    this.comingUpNotifications
+      .splice(
+        0,
+        this.comingUpNotifications.length,
+        ...determineComingUpNotifications(this.$store.state.weather),
+      );
   }
 }
 </script>
