@@ -39,6 +39,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import BottomBar from '@/components/BottomBar/BottomBar.vue';
 import CurrentTemperature from '@/components/CurrentTemperature.vue';
 import DailyForecast from '@/components/DailyForecast.vue';
+import ComingUpList from '@/components/ComingUpList.vue';
 import HourlyForecast from '@/components/HourlyForecast.vue';
 import { RootState } from '@/store/types';
 import { Store } from 'vuex';
@@ -48,7 +49,7 @@ import determineComingUpNotifications, { ComingUpNotification } from '@/services
 
 @Component({
   components: {
-    CurrentTemperature, DailyForecast, HourlyForecast, BottomBar,
+    CurrentTemperature, DailyForecast, HourlyForecast, BottomBar, ComingUpList,
   },
 })
 export default class Home extends Vue {
