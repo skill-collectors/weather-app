@@ -1,6 +1,6 @@
 import { HourlyForecast, OneCallWeather } from '@/store/types';
 import convert from '@/utils/ConversionUtils';
-import { format } from 'date-fns';
+import { format, differenceInHours } from 'date-fns';
 
 export interface ComingUpNotification {
   type: string,
@@ -12,7 +12,9 @@ function getUpcomingRainNotification(weather: OneCallWeather): ComingUpNotificat
   function isRainy(forecast: HourlyForecast) {
     return forecast.weather[0].main === 'Rain';
   }
-  const maybeRainy = weather.hourly.find((forecast) => isRainy(forecast));
+  const maybeRainy = weather.hourly
+    .filter((forecast) => differenceInHours(new Date(), forecast.dt) < 12)
+    .find((forecast) => isRainy(forecast));
   if (maybeRainy !== undefined) {
     return {
       type: 'RAIN',
