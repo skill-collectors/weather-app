@@ -10,9 +10,7 @@ export interface ComingUpNotification {
 
 function getUpcomingRainNotification(weather: OneCallWeather): ComingUpNotification | undefined {
   function isRainy(forecast: HourlyForecast) {
-    const typeCode = forecast.weather[0].icon.charAt(0);
-    // See https://openweathermap.org/weather-conditions#How-to-get-icon-URL for icon codes
-    return ['2', '3', '5'].includes(typeCode);
+    return forecast.weather[0].main === 'Rain';
   }
   const maybeRainy = weather.hourly.find((forecast) => isRainy(forecast));
   if (maybeRainy !== undefined) {
@@ -37,19 +35,20 @@ function getSnowTomorrowNotification(weather: OneCallWeather): ComingUpNotificat
   return undefined;
 }
 
+function pushIfPresent(
+  arr: ComingUpNotification[], notification: ComingUpNotification | undefined,
+) {
+  if (notification !== undefined) {
+    arr.push(notification);
+  }
+}
+
 export default function
 determineComingUpNotifications(weather: OneCallWeather): ComingUpNotification[] {
   const results: ComingUpNotification[] = [];
 
-  const upcomingRain = getUpcomingRainNotification(weather);
-  if (upcomingRain != null) {
-    results.push(upcomingRain);
-  }
-
-  const upcomingSnow = getSnowTomorrowNotification(weather);
-  if (upcomingSnow !== undefined) {
-    results.push(upcomingSnow);
-  }
+  pushIfPresent(results, getUpcomingRainNotification(weather));
+  pushIfPresent(results, getSnowTomorrowNotification(weather));
 
   return results;
 }
