@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex flex-column h-100">
     <b-container class="home">
-      <b-row>
+      <b-row class="hero-row">
         <b-col>
           <current-temperature
             :currentTemperature="$store.state.weather.current.temp"
@@ -100,6 +100,12 @@ export default class Home extends Vue {
   padding-top: 1rem;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid lightgray;
+}
+.hero-row {
+  justify-content: space-evenly;
+}
+.hero-row .col {
+  flex-grow: unset;
 }
 h6 {
   text-align: left;

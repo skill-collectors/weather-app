@@ -26,9 +26,11 @@ h1 {
   margin-bottom: 0;
   font-weight: bold;
   line-height: 1;
+  text-align: left;
 }
 aside {
   font-size: smaller;
   font-weight: bold;
+  text-align: left;
 }
 </style>
