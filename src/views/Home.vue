@@ -19,6 +19,7 @@
       <b-row v-if="comingUpNotifications.length > 0">
         <b-col>
           <h6>Coming up</h6>
+          <coming-up-list :notifications="comingUpNotifications"></coming-up-list>
         </b-col>
       </b-row>
       <b-row>
