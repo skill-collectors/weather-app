@@ -113,9 +113,6 @@ h6 {
   font-size: x-small;
   font-weight: bold;
 }
-.b-skeleton-text {
-  min-height: 3rem;
-}
 .forecast-list {
   white-space: nowrap;
   overflow-x: scroll;
