@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex flex-column h-100">
     <b-container class="home">
-      <b-row>
+      <b-row class="hero-row">
         <b-col>
           <current-temperature
             :currentTemperature="$store.state.weather.current.temp"
@@ -10,6 +10,7 @@
         </b-col>
         <b-col>
           <img
+            @click="handleHeroIconClick"
             v-if="$store.getters.hasWeather"
             :src="iconToUrl($store.state.weather.current.weather[0].icon, '@2x')"
           />
@@ -21,9 +22,9 @@
           <hourly-forecast class="forecast-list"></hourly-forecast>
         </b-col>
       </b-row>
-      <b-row v-if="comingUpNotifications.length > 0">
+      <b-row v-if="comingUpNotifications.length > 0" class="coming-up-row">
         <b-col>
-          <h6>Coming up</h6>
+          <h6>Coming up...</h6>
           <coming-up-list :notifications="comingUpNotifications"></coming-up-list>
         </b-col>
       </b-row>
@@ -67,6 +68,33 @@ export default class Home extends Vue {
 
   private comingUpNotifications: ComingUpNotification[] = [];
 
+  handleHeroIconClick() {
+    // This is a temporary demo to force the display of a 'coming up' notification
+    // It can be removed when we implement the 'details' view for the header, or sooner
+    // if desired.
+    const demoNotifications = [
+      {
+        type: 'DEMORAIN',
+        iconUrl: convert.iconToUrl('10d'),
+        text: 'light rain coming up at 2PM',
+      },
+      {
+        type: 'DEMOSNOW',
+        iconUrl: convert.iconToUrl('13n'),
+        text: 'snow tonight',
+      },
+    ];
+    demoNotifications.forEach((demoNotification) => {
+      const demoIndex = this.comingUpNotifications
+        .findIndex((notification) => notification.type === demoNotification.type);
+      if (demoIndex === -1) {
+        this.comingUpNotifications.push(demoNotification);
+      } else {
+        this.comingUpNotifications.splice(demoIndex, 1);
+      }
+    });
+  }
+
   async mounted() {
     if (!this.$store.getters.hasApiKey) {
       this.$router.push('/settings');
@@ -94,20 +122,24 @@ export default class Home extends Vue {
 <style scoped>
 .home {
   max-width: 30rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 .row {
   padding-top: 1rem;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid lightgray;
 }
+.hero-row {
+  justify-content: space-evenly;
+  padding-bottom: 2rem;
+}
+.hero-row .col {
+  flex-grow: unset;
+}
 h6 {
   text-align: left;
   font-size: x-small;
   font-weight: bold;
-}
-.b-skeleton-text {
-  min-height: 3rem;
 }
 .forecast-list {
   white-space: nowrap;
@@ -116,5 +148,8 @@ h6 {
 }
 .forecast-list::-webkit-scrollbar {
   display: none; /* Webkit */
+}
+.coming-up-row {
+  background: #d8d8d8;
 }
 </style>

@@ -38,8 +38,8 @@ export default class DailyForecast extends Vue {
 ul {
   list-style-type: none;
   padding-left: 0;
-}
-li {
-  display: inline-block;
+  margin-bottom: 0;
+  display: flex;
+  justify-content: space-between;
 }
 </style>
