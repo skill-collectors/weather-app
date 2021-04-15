@@ -10,13 +10,13 @@ export interface ComingUpNotification {
 
 function getUpcomingRainNotification(weather: OneCallWeather): ComingUpNotification | undefined {
   const maybeRainy = weather.hourly
-    .filter((forecast) => differenceInHours(new Date(), forecast.dt) < 12)
+    .filter((forecast) => differenceInHours(convert.dtToDate(forecast.dt), new Date()) < 12)
     .find((forecast) => forecast.weather[0].main === 'Rain');
   if (maybeRainy !== undefined) {
     return {
       type: 'RAIN',
       iconUrl: convert.iconToUrl(maybeRainy.weather[0].icon),
-      text: `${maybeRainy.weather[0].description} coming up at ${format(maybeRainy.dt, 'ha')}`,
+      text: `${maybeRainy.weather[0].description} coming up at ${format(convert.dtToDate(maybeRainy.dt), 'ha')}`,
     };
   }
   return undefined;
@@ -24,7 +24,7 @@ function getUpcomingRainNotification(weather: OneCallWeather): ComingUpNotificat
 
 function getSnowTonightNotification(weather: OneCallWeather): ComingUpNotification | undefined {
   const maybeSnowTonight = weather.hourly
-    .filter((forecast) => differenceInHours(new Date(), forecast.dt) < 24)
+    .filter((forecast) => differenceInHours(convert.dtToDate(forecast.dt), new Date()) < 24)
     .filter((forecast) => getHours(forecast.dt) > 20 || getHours(forecast.dt) < 8)
     .find((forecast) => forecast.weather[0].main === 'Snow');
   if (maybeSnowTonight !== undefined) {
