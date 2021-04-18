@@ -174,8 +174,6 @@ export default class Locations extends Vue {
         .searchCoordsByCity(this.query, this.$store.state.apiKey);
       if (results.length === 0) {
         this.showError('could not find any cities for your location.');
-      } else if (results.length === 1) {
-        await this.setLocation(results[0]);
       } else {
         this.searchResults = results;
       }
