@@ -24,7 +24,10 @@ function getUpcomingRainNotification(weather: OneCallWeather): ComingUpNotificat
 
 function getSnowTonightNotification(weather: OneCallWeather): ComingUpNotification | undefined {
   const maybeSnowTonight = weather.hourly
-    .filter((forecast) => differenceInHours(convert.dtToDate(forecast.dt), new Date()) < 24)
+    .filter((forecast) => differenceInHours(
+      // Date.now() is easier to mock in unit tests than the no-arg Date constructor.
+      convert.dtToDate(forecast.dt), new Date(Date.now()),
+    ) < 24)
     .filter((forecast) => getHours(forecast.dt) > 20 || getHours(forecast.dt) < 8)
     .find((forecast) => forecast.weather[0].main === 'Snow');
   if (maybeSnowTonight !== undefined) {
