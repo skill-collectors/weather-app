@@ -166,6 +166,9 @@ export default class Locations extends Vue {
   }
 
   async search() {
+    if (this.query === '') {
+      return;
+    }
     try {
       const results: GeoDirectResponse[] = await openWeather
         .searchCoordsByCity(this.query, this.$store.state.apiKey);
