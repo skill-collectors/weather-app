@@ -25,15 +25,19 @@
       </b-list-group-item>
     </b-list-group>
     <div class="d-flex align-items-center mt-2">
-      <b-button @click="handleTextSearch" variant="primary">
+      <b-button @click="handleTextSearch" variant="primary" class="search-button">
         <b-icon-search></b-icon-search>
       </b-button>
       <search-suggest
+        ref="search"
         class="flex-grow-1"
         :value="query" @input="handleQueryInput"
         @select="handleSuggestionSelect"
         :list="searchResultNames"
       ></search-suggest>
+      <b-button @click="handleClearQuery" variant="secondary" class="clear-button">
+        x
+      </b-button>
       <b-link @click="handleDone" class="flex-shrink-1 ml-2">
         Done
       </b-link>
@@ -79,6 +83,10 @@ import HttpError from '@/services/HttpError';
 })
 export default class Locations extends Vue {
   $store!: Store<RootState>
+
+  $refs!: {
+    search: SearchSuggest,
+  }
 
   private query: string;
 
@@ -142,6 +150,12 @@ export default class Locations extends Vue {
     this.search();
   }
 
+  handleClearQuery() {
+    this.query = '';
+    this.searchResults = [];
+    this.$refs.search.$refs.input.focus();
+  }
+
   get searchResultNames() {
     return this.searchResults.map(convert.geoToString);
   }
@@ -166,13 +180,14 @@ export default class Locations extends Vue {
   }
 
   async search() {
+    if (this.query === '') {
+      return;
+    }
     try {
       const results: GeoDirectResponse[] = await openWeather
         .searchCoordsByCity(this.query, this.$store.state.apiKey);
       if (results.length === 0) {
         this.showError('could not find any cities for your location.');
-      } else if (results.length === 1) {
-        await this.setLocation(results[0]);
       } else {
         this.searchResults = results;
       }
@@ -193,5 +208,16 @@ export default class Locations extends Vue {
 <style scoped>
 .navbar-dark {
   color: var(--light);
+}
+.search-button {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.clear-button {
+  font-weight: bold;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 </style>
