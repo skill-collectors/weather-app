@@ -68,6 +68,18 @@ export default class Home extends Vue {
 
   private comingUpNotifications: ComingUpNotification[] = [];
 
+  private isVisibilityRefreshThrottled: boolean = false;
+
+  private autoRefreshTimout!: number;
+
+  // 15 minutes seems like a reasonable minimum refresh interval
+  // 15 minutes * 60 seconds * 1000 milliseconds = 900,000 milliseconds
+  private readonly VISIBILITY_REFRESH_COOLDOWN_MS = 900_000;
+
+  // Refresh after an hour to keep data from getting too out of date
+  // 60 minutes * 60 seconds * 1000 millisecons = 3,600,000 milliseconds
+  private readonly AUTO_REFRESH_INTERVAL_MS = 3_600_000;
+
   handleHeroIconClick() {
     // This is a temporary demo to force the display of a 'coming up' notification
     // It can be removed when we implement the 'details' view for the header, or sooner
@@ -95,12 +107,7 @@ export default class Home extends Vue {
     });
   }
 
-  async mounted() {
-    if (!this.$store.getters.hasApiKey) {
-      this.$router.push('/settings');
-    } else if (!this.$store.getters.hasLocation) {
-      this.$router.push('/locations');
-    }
+  async updateWeather() {
     try {
       await this.$store.dispatch(UPDATE_WEATHER);
     } catch (err) {
@@ -116,6 +123,39 @@ export default class Home extends Vue {
         this.comingUpNotifications.length,
         ...determineComingUpNotifications(this.$store.state.weather),
       );
+  }
+
+  async mounted() {
+    if (!this.$store.getters.hasApiKey) {
+      this.$router.push('/settings');
+    } else if (!this.$store.getters.hasLocation) {
+      this.$router.push('/locations');
+    }
+
+    document.addEventListener('visibilitychange', this.handleVisibilityChange);
+    this.handleVisibilityChange(); // do initial refresh and start the cooldown
+  }
+
+  beforeDestroy() {
+    document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+  }
+
+  async handleVisibilityChange() {
+    if (document.visibilityState === 'visible') {
+      // Update only if we haven't recently
+      if (!this.isVisibilityRefreshThrottled) {
+        this.updateWeather();
+        this.isVisibilityRefreshThrottled = true;
+        setTimeout(() => {
+          this.isVisibilityRefreshThrottled = false;
+        }, this.VISIBILITY_REFRESH_COOLDOWN_MS);
+      }
+      this.autoRefreshTimout = window
+        .setInterval(this.updateWeather, this.AUTO_REFRESH_INTERVAL_MS);
+    } else {
+      // Don't auto-refresh when the page is not visible
+      window.clearInterval(this.autoRefreshTimout);
+    }
   }
 }
 </script>
