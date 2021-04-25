@@ -75,6 +75,70 @@ describe('ComingUpService', () => {
     expect(result).toHaveLength(1);
   });
 
+  it("does not find upcoming rain if it's already raining", () => {
+    // Given
+    const oneHourFromNowDt = (Date.now() / 1000) + 3_600;
+
+    weather.current = {
+      temp: 0,
+      feels_like: 0,
+      weather: [{
+        description: 'light rain', icon: '10d', id: 0, main: 'Rain',
+      }],
+    };
+    weather.hourly = [{
+      dt: oneHourFromNowDt,
+      temp: 72,
+      feels_like: 71,
+      weather: [{
+        description: 'rain', icon: '10d', id: 0, main: 'Rain',
+      }],
+    }];
+
+    // When
+    const result = determineComingUpNotifications(weather);
+
+    // Then
+    expect(result.find((note) => note.type === 'RAIN')).toBeUndefined();
+  });
+
+  it("finds when rain will stop if it's already raining", () => {
+    // Given
+    const oneHourFromNowDt = (Date.now() / 1000) + 3_600;
+
+    weather.current = {
+      temp: 0,
+      feels_like: 0,
+      weather: [{
+        description: 'light rain', icon: '10d', id: 0, main: 'Rain',
+      }],
+    };
+    weather.hourly = [
+      {
+        dt: oneHourFromNowDt,
+        temp: 72,
+        feels_like: 71,
+        weather: [{
+          description: 'rain', icon: '10d', id: 0, main: 'Rain',
+        }],
+      },
+      {
+        dt: oneHourFromNowDt + 3_600,
+        temp: 72,
+        feels_like: 71,
+        weather: [{
+          description: 'clear', icon: '01d', id: 0, main: 'Clear',
+        }],
+      },
+    ];
+
+    // When
+    const result = determineComingUpNotifications(weather);
+
+    // Then
+    expect(result.find((note) => note.type === 'STOP_RAIN')).not.toBeUndefined();
+  });
+
   it('finds snow overnight', () => {
     // Given
     jest
