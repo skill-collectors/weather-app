@@ -14,3 +14,22 @@ When you are ready, request a review from either a specific person/people or fro
 
 Requesting approval assumes that the PR can be merged by the approver once approved. If you want someone to look at your PR, but you aren't ready for it to be merged, create a [draft Pull Request](https://github.blog/2019-02-14-introducing-draft-pull-requests/) and then `@mention` someone in the comments to get their opinion.
 
+## Versioning
+
+This application uses [Semver](https://semver.org/) as a versioning strategy, but it's admittedly not obvious how to apply that to an application rather than a library. Here's our take:
+
+Given a version number `[MAJOR].[MINOR].[PATCH]`, we
+
+- Increment the **PATCH** number for changes that are not visible in the user interface. For example:
+	- Dependency updates
+	- Bug fixes in the implementation
+	- Refactoring without any functional change
+- Increment the **MINOR** number for changes that are visible in the user interface. For example:
+	- CSS and other layout changes
+	- Text changes (even minor ones including typo fixes)
+	- A new UXP component (e.g. new button).
+- Increment the **MAJOR** number for major architectural changes. Examples may include:
+	- Building and packaging as a mobile app (i.e. an actual apk file for Android)
+	- Upgrading from Vue 2 to Vue 3
+	- Replacing bootstrap-vue with a different UI framework
+
