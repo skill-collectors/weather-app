@@ -30,7 +30,7 @@ export default class DailyForecast extends Vue {
   $store!: Store<RootState>
 
   get days() {
-    return this.$store.state.weather.daily.slice(0, 5);
+    return this.$store.state.weather.daily;
   }
 }
 </script>
@@ -39,7 +39,15 @@ ul {
   list-style-type: none;
   padding-left: 0;
   margin-bottom: 0;
-  display: flex;
-  justify-content: space-between;
+  width: 100%;
+  overflow-x: scroll;
+  scrollbar-width: none; /* Firefox */
+}
+ul::-webkit-scrollbar {
+  display: none; /* Webkit */
+}
+li {
+  display: inline-block;
+  width: 20%;
 }
 </style>
