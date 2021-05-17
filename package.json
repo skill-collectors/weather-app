@@ -59,7 +59,7 @@
     "portal-vue": "^2.1.7",
     "react-is": "^17.0.2",
     "sass": "^1.32.8",
-    "sass-loader": "^10.1.1",
+    "sass-loader": "^11.1.1",
     "sb": "^6.2.9",
     "ts-jest": "^26.5.5",
     "ts-node": "^9.1.1",
