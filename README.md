@@ -44,5 +44,10 @@ npm run lint
 ```
 
 ### Customize configuration
+
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Acknowledgements
+
+- App icon by [dohliam](https://github.com/dohliam/elegant-circles) and licensed under the GPLv2.
 
