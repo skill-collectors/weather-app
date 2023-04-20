@@ -1,4 +1,4 @@
-import SearchSuggest from '@/components/SearchSuggest.vue';
+import SearchSuggest from '@/components/SearchSuggest.vue'
 
 export default {
   title: 'Locations/SearchSuggest',
@@ -8,17 +8,18 @@ export default {
     onSelect: { action: 'select' },
     value: {
       control: {
-        type: 'text', defaultValue: 'query',
-      },
+        type: 'text',
+        defaultValue: 'query'
+      }
     },
     list: {
-      control: { type: 'array' },
+      control: { type: 'array' }
     },
     placeholder: {
-      control: { type: 'string' },
-    },
-  },
-};
+      control: { type: 'string' }
+    }
+  }
+}
 
 const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
@@ -26,16 +27,16 @@ const Template = (args, { argTypes }) => ({
   template: `<div style="margin-top: 7em">
     <search-suggest @input="onInput" @select="onSelect" v-bind="$props" />
     <aside>(Note: the parent is responsible for managing the list based on value/selection)</aside>
-  </div>`,
-});
+  </div>`
+})
 
-export const Basic = Template.bind({});
+export const Basic = Template.bind({})
 Basic.args = {
-  value: 'The City',
-};
+  value: 'The City'
+}
 
-export const OpenList = Template.bind({});
+export const OpenList = Template.bind({})
 OpenList.args = {
   value: 'Springfield',
-  list: ['Springfield, IL, USA', 'Springfield, MI, USA', 'Springfield, TX, USA'],
-};
+  list: ['Springfield, IL, USA', 'Springfield, MI, USA', 'Springfield, TX, USA']
+}

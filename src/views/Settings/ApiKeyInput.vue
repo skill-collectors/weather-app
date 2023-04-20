@@ -10,21 +10,21 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { Store } from 'vuex';
-import { SET_API_KEY } from '@/store/mutations';
-import { RootState } from '@/store/types';
+import { Component, Vue } from 'vue-property-decorator'
+import { Store } from 'vuex'
+import { SET_API_KEY } from '@/store/mutations'
+import { RootState } from '@/store/types'
 
 @Component
 export default class ApiKeyInput extends Vue {
   $store!: Store<RootState>
 
   get apiKey() {
-    return this.$store.state.apiKey;
+    return this.$store.state.apiKey
   }
 
   setApiKey(newKey: string) {
-    this.$store.commit(SET_API_KEY, newKey);
+    this.$store.commit(SET_API_KEY, newKey)
   }
 }
 </script>

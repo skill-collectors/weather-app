@@ -12,24 +12,24 @@
   </ul>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { Store } from 'vuex';
-import { RootState } from '@/store/types';
-import ForecastItem from '@/components/ForecastItem.vue';
-import convert from '@/utils/ConversionUtils';
+import { Component, Vue } from 'vue-property-decorator'
+import { Store } from 'vuex'
+import { RootState } from '@/store/types'
+import ForecastItem from '@/components/ForecastItem.vue'
+import convert from '@/utils/ConversionUtils'
 
 @Component({
   components: { ForecastItem },
   methods: {
     dtToDate: convert.dtToDate,
-    iconToUrl: convert.iconToUrl,
-  },
+    iconToUrl: convert.iconToUrl
+  }
 })
 export default class HourlyForecast extends Vue {
   $store!: Store<RootState>
 
   get hours() {
-    return this.$store.state.weather.hourly;
+    return this.$store.state.weather.hourly
   }
 }
 </script>

@@ -41,46 +41,50 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import BottomBar from '@/views/Home/BottomBar.vue';
-import CurrentTemperature from '@/components/CurrentTemperature.vue';
-import DailyForecast from '@/components/DailyForecast.vue';
-import ComingUpList from '@/components/ComingUpList.vue';
-import HourlyForecast from '@/components/HourlyForecast.vue';
-import { RootState } from '@/store/types';
-import { Store } from 'vuex';
-import ToastOptions from '@/services/ToastOptions';
-import { UPDATE_WEATHER } from '@/store/actions';
-import determineComingUpNotifications, { ComingUpNotification } from '@/services/ComingUpService';
-import convert from '@/utils/ConversionUtils';
-import HttpError from '@/services/HttpError';
-import { differenceInMilliseconds } from 'date-fns';
+import { Component, Vue } from 'vue-property-decorator'
+import BottomBar from '@/views/Home/BottomBar.vue'
+import CurrentTemperature from '@/components/CurrentTemperature.vue'
+import DailyForecast from '@/components/DailyForecast.vue'
+import ComingUpList from '@/components/ComingUpList.vue'
+import HourlyForecast from '@/components/HourlyForecast.vue'
+import { RootState } from '@/store/types'
+import { Store } from 'vuex'
+import ToastOptions from '@/services/ToastOptions'
+import { UPDATE_WEATHER } from '@/store/actions'
+import determineComingUpNotifications, { ComingUpNotification } from '@/services/ComingUpService'
+import convert from '@/utils/ConversionUtils'
+import HttpError from '@/services/HttpError'
+import { differenceInMilliseconds } from 'date-fns'
 
 @Component({
   components: {
-    CurrentTemperature, DailyForecast, HourlyForecast, BottomBar, ComingUpList,
+    CurrentTemperature,
+    DailyForecast,
+    HourlyForecast,
+    BottomBar,
+    ComingUpList
   },
   methods: {
-    iconToUrl: convert.iconToUrl,
-  },
+    iconToUrl: convert.iconToUrl
+  }
 })
 export default class Home extends Vue {
   $store!: Store<RootState>
 
   // 15 minutes seems like a reasonable minimum refresh interval
-  private readonly MIN_REFRESH_INTERVAL_MS = 15 * 60 * 1000;
+  private readonly MIN_REFRESH_INTERVAL_MS = 15 * 60 * 1000
 
   // Refresh after an hour to keep data from getting too out of date
-  private readonly MAX_REFRESH_INTERVAL_MS = 60 * 60 * 1000;
+  private readonly MAX_REFRESH_INTERVAL_MS = 60 * 60 * 1000
 
-  private comingUpNotifications: ComingUpNotification[] = [];
+  private comingUpNotifications: ComingUpNotification[] = []
 
   // Initialize so that a refresh is "due" immediately
-  private lastRefreshTime: Date = new Date(Date.now() - this.MIN_REFRESH_INTERVAL_MS);
+  private lastRefreshTime: Date = new Date(Date.now() - this.MIN_REFRESH_INTERVAL_MS)
 
-  private autoRefreshTimeout!: number;
+  private autoRefreshTimeout!: number
 
-  private autoRefreshInterval!: number;
+  private autoRefreshInterval!: number
 
   handleHeroIconClick() {
     // This is a temporary demo to force the display of a 'coming up' notification
@@ -90,87 +94,92 @@ export default class Home extends Vue {
       {
         type: 'DEMORAIN',
         iconUrl: convert.iconToUrl('10d'),
-        text: 'light rain coming up at 2PM',
+        text: 'light rain coming up at 2PM'
       },
       {
         type: 'DEMOSNOW',
         iconUrl: convert.iconToUrl('13n'),
-        text: 'snow tonight',
-      },
-    ];
-    demoNotifications.forEach((demoNotification) => {
-      const demoIndex = this.comingUpNotifications
-        .findIndex((notification) => notification.type === demoNotification.type);
-      if (demoIndex === -1) {
-        this.comingUpNotifications.push(demoNotification);
-      } else {
-        this.comingUpNotifications.splice(demoIndex, 1);
+        text: 'snow tonight'
       }
-    });
+    ]
+    demoNotifications.forEach((demoNotification) => {
+      const demoIndex = this.comingUpNotifications.findIndex(
+        (notification) => notification.type === demoNotification.type
+      )
+      if (demoIndex === -1) {
+        this.comingUpNotifications.push(demoNotification)
+      } else {
+        this.comingUpNotifications.splice(demoIndex, 1)
+      }
+    })
   }
 
   async updateWeather() {
     try {
-      await this.$store.dispatch(UPDATE_WEATHER);
-      this.lastRefreshTime = new Date();
+      await this.$store.dispatch(UPDATE_WEATHER)
+      this.lastRefreshTime = new Date()
     } catch (err) {
       if (err instanceof HttpError && err.httpStatusCode === 401) {
-        this.$router.push('/settings');
+        this.$router.push('/settings')
       } else {
-        this.$bvToast.toast('I\'m sorry, we couldn\'t load the weather for your location.', ToastOptions.errorToast);
+        this.$bvToast.toast(
+          "I'm sorry, we couldn't load the weather for your location.",
+          ToastOptions.errorToast
+        )
       }
     }
-    this.comingUpNotifications
-      .splice(
-        0,
-        this.comingUpNotifications.length,
-        ...determineComingUpNotifications(this.$store.state.weather),
-      );
+    this.comingUpNotifications.splice(
+      0,
+      this.comingUpNotifications.length,
+      ...determineComingUpNotifications(this.$store.state.weather)
+    )
   }
 
   async mounted() {
     if (!this.$store.getters.hasApiKey) {
-      this.$router.push('/settings');
+      this.$router.push('/settings')
     } else if (!this.$store.getters.hasLocation) {
-      this.$router.push('/locations');
+      this.$router.push('/locations')
     }
 
-    document.addEventListener('visibilitychange', this.handleVisibilityChange);
-    this.handleVisibilityChange(); // do initial refresh and start the cooldown
+    document.addEventListener('visibilitychange', this.handleVisibilityChange)
+    this.handleVisibilityChange() // do initial refresh and start the cooldown
   }
 
   beforeDestroy() {
-    document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+    document.removeEventListener('visibilitychange', this.handleVisibilityChange)
   }
 
   async handleVisibilityChange() {
     if (document.visibilityState === 'visible') {
-      const msSinceLastRefresh = differenceInMilliseconds(new Date(), this.lastRefreshTime);
+      const msSinceLastRefresh = differenceInMilliseconds(new Date(), this.lastRefreshTime)
 
       // Update now only if we haven't since the min interval
       if (msSinceLastRefresh > this.MIN_REFRESH_INTERVAL_MS) {
-        await this.updateWeather();
+        await this.updateWeather()
 
         // Start auto-refreshing every max interval
         this.autoRefreshInterval = window.setInterval(
-          this.updateWeather, this.MAX_REFRESH_INTERVAL_MS,
-        );
+          this.updateWeather,
+          this.MAX_REFRESH_INTERVAL_MS
+        )
       } else {
-        const nextAutoRefreshMs = this.MAX_REFRESH_INTERVAL_MS - msSinceLastRefresh;
+        const nextAutoRefreshMs = this.MAX_REFRESH_INTERVAL_MS - msSinceLastRefresh
         // Manually schedule the next refresh to happen max interval ms after
         // the most recent refresh
         this.autoRefreshTimeout = window.setTimeout(async () => {
-          await this.updateWeather();
+          await this.updateWeather()
           // Start auto-refreshing every max interval
           this.autoRefreshInterval = window.setInterval(
-            this.updateWeather, this.MAX_REFRESH_INTERVAL_MS,
-          );
-        }, nextAutoRefreshMs);
+            this.updateWeather,
+            this.MAX_REFRESH_INTERVAL_MS
+          )
+        }, nextAutoRefreshMs)
       }
     } else {
       // Don't auto-refresh when the page is not visible
-      window.clearTimeout(this.autoRefreshTimeout);
-      window.clearInterval(this.autoRefreshInterval);
+      window.clearTimeout(this.autoRefreshTimeout)
+      window.clearInterval(this.autoRefreshInterval)
     }
   }
 }

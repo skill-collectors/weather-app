@@ -2,9 +2,9 @@
   <article>
     <my-header
       :user="user"
-      @on-login="on-login"
-      @on-logout="on-ogout"
-      @on-create-account="on-create-account"
+      @on-login="on - login"
+      @on-logout="on - ogout"
+      @on-create-account="on - create - account"
     />
 
     <section>
@@ -62,8 +62,8 @@
 </template>
 
 <script>
-import './page.css';
-import MyHeader from './Header.vue';
+import './page.css'
+import MyHeader from './Header.vue'
 
 export default {
   name: 'my-page',
@@ -72,20 +72,20 @@ export default {
 
   props: {
     user: {
-      type: Object,
-    },
+      type: Object
+    }
   },
 
   methods: {
     onLogin() {
-      this.$emit('on-login');
+      this.$emit('on-login')
     },
     onLogout() {
-      this.$emit('on-logout');
+      this.$emit('on-logout')
     },
     onCreateAccount() {
-      this.$emit('on-create-account');
-    },
-  },
-};
+      this.$emit('on-create-account')
+    }
+  }
+}
 </script>

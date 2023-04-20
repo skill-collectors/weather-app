@@ -1,11 +1,11 @@
-import store from '@/store/store';
-import BottomBar from './BottomBar.vue';
-import '../../plugins/bootstrap-vue';
+import store from '@/store/store'
+import BottomBar from './BottomBar.vue'
+import '../../plugins/bootstrap-vue'
 
 export default {
   title: 'BottomBar',
-  component: BottomBar,
-};
+  component: BottomBar
+}
 
 const Template = (args, { argTypes }) => ({
   components: { BottomBar },
@@ -17,8 +17,8 @@ const Template = (args, { argTypes }) => ({
       <p>$store.state.city = {{$store.state.location.city}}</p>
       <BottomBar/>
     </div>
-  `,
-});
+  `
+})
 
-export const Default = Template.bind({});
-Default.args = { };
+export const Default = Template.bind({})
+Default.args = {}

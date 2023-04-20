@@ -1,4 +1,4 @@
-import CurrentTemperature from '@/components/CurrentTemperature.vue';
+import CurrentTemperature from '@/components/CurrentTemperature.vue'
 
 export default {
   title: 'Weather/CurrentTemperature',
@@ -6,37 +6,43 @@ export default {
   argTypes: {
     currentTemperature: {
       control: {
-        type: 'range', min: -150, max: 150, step: 1,
-      },
+        type: 'range',
+        min: -150,
+        max: 150,
+        step: 1
+      }
     },
     currentFeelsLike: {
       control: {
-        type: 'range', min: -150, max: 150, step: 1,
-      },
-    },
-  },
-};
+        type: 'range',
+        min: -150,
+        max: 150,
+        step: 1
+      }
+    }
+  }
+}
 
 const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
   components: { CurrentTemperature },
-  template: '<current-temperature v-bind="$props" />',
-});
+  template: '<current-temperature v-bind="$props" />'
+})
 
-export const Basic = Template.bind({});
+export const Basic = Template.bind({})
 Basic.args = {
   currentTemperature: 72,
-  currentFeelsLike: 68,
-};
+  currentFeelsLike: 68
+}
 
-export const HighTemp = Template.bind({});
+export const HighTemp = Template.bind({})
 HighTemp.args = {
   currentTemperature: 105,
-  currentFeelsLike: 113,
-};
+  currentFeelsLike: 113
+}
 
-export const Negative = Template.bind({});
+export const Negative = Template.bind({})
 Negative.args = {
   currentTemperature: -24,
-  currentFeelsLike: -36,
-};
+  currentFeelsLike: -36
+}
