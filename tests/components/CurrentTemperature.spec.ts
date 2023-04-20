@@ -1,5 +1,4 @@
-import Vuex, { Store, MutationTree } from 'vuex';
-import { mount, createLocalVue, shallowMount } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import CurrentTemperature from '@/components/CurrentTemperature.vue';
 
 describe('CurrentTemperature', () => {

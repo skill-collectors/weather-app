@@ -1,6 +1,4 @@
-import countapi from 'countapi-js'
 import { GeoDirectResponse, OneCallWeather } from '@/store/types'
-import { SET_CALL_COUNT } from '@/store/mutations'
 import HttpError from './HttpError'
 
 const BASE_URL = 'https://api.openweathermap.org'

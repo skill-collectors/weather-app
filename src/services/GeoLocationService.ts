@@ -1,5 +1,3 @@
-import store from '@/store/store'
-import openWeather from '@/services/openWeatherService'
 import { GeolocationCoordinates } from '@/store/types'
 
 export default {

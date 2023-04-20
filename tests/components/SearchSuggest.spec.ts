@@ -1,4 +1,4 @@
-import { mount, createLocalVue, shallowMount } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import SearchSuggest from '@/components/SearchSuggest.vue';
 
 describe('SearchSuggest', () => {

@@ -6,7 +6,6 @@ import App from './App.vue'
 import router from './router'
 import store from './store/store'
 import { INIT } from './store/mutations'
-import { UPDATE_WEATHER } from './store/actions'
 import './registerServiceWorker'
 
 Vue.config.productionTip = false
