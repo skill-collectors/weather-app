@@ -1,20 +1,17 @@
-import '@babel/polyfill'
-import 'mutationobserver-shim'
-import Vue from 'vue'
 import './plugins/bootstrap-vue'
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+
 import App from './App.vue'
 import router from './router'
-import store from './store/store'
-import { INIT } from './store/mutations'
-import './registerServiceWorker'
 
-Vue.config.productionTip = false
+import './assets/main.css'
 
-new Vue({
-  router,
-  store,
-  render: (h) => h(App),
-  async beforeCreate() {
-    this.$store.commit(INIT)
-  }
-}).$mount('#app')
+const app = createApp(App)
+
+app.use(createPinia())
+app.use(router)
+// TODO use bootstrap-vue
+// TODO call store.init
+
+app.mount('#app')
