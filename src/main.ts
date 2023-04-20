@@ -1,4 +1,3 @@
-import './plugins/bootstrap-vue'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
@@ -11,7 +10,6 @@ const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
-// TODO use bootstrap-vue
 // TODO call store.init
 
 app.mount('#app')

@@ -17,8 +17,6 @@
     "pinia": "^2.0.32",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6",
-    "bootstrap": "^4.6.0",
-    "bootstrap-vue": "^2.21.2",
     "countapi-js": "^1.0.2",
     "date-fns": "^2.20.1"
   },
