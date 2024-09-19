@@ -112,7 +112,7 @@ async function updateWeather() {
     if (err instanceof HttpError && err.httpStatusCode === 401) {
       router.push('/settings')
     } else {
-      /* TODO
+      /* TODO toast
       this.$bvToast.toast(
         "I'm sorry, we couldn't load the weather for your location.",
         ToastOptions.errorToast

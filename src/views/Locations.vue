@@ -51,20 +51,18 @@
 import convert from '@/utils/ConversionUtils'
 import openWeather from '@/services/openWeatherService'
 import locationService from '@/services/GeoLocationService'
-import { GeoDirectResponse, GeolocationCoordinates, RootState } from '@/store/types'
+import { GeoDirectResponse, GeolocationCoordinates } from '@/store/types'
 import HttpError from '@/services/HttpError'
-import { computed, ref } from 'vue'
+import { computed, ref, useTemplateRef } from 'vue'
 import type {Ref} from 'vue'
 import { useStore } from '@/store/store'
 import { useRouter } from 'vue-router'
+import SearchSuggest from '@/components/SearchSuggest.vue'
 
 const store = useStore()
 const router = useRouter()
 
-// TODO refs
-// $refs!: {
-//   search: SearchSuggest
-// }
+const searchRef = useTemplateRef('search')
 
 const query: Ref<string> = ref(store.locationDisplayName)
 const searchResults: Ref<GeoDirectResponse[]> = ref([])
@@ -103,7 +101,7 @@ function handleQueryInput(newQuery: string) {
   query.value = newQuery
   // debounce the input and only perform a search every 1 seconds
   window.clearTimeout(searchTimeout.value)
-  searchTimeout.value = window.setTimeout(refs.search, 1_000)
+  searchTimeout.value = window.setTimeout(search, 1_000)
 }
 
 async function handleSuggestionSelect(selectedValue: string) {
@@ -125,7 +123,7 @@ function handleTextSearch() {
 function handleClearQuery() {
   query.value = ''
   searchResults.value = []
-  refs.search.$refs.input.focus()
+  searchRef.value.input.focus()
 }
 
 const searchResultNames = computed(() => {

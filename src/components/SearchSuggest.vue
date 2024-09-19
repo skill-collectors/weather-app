@@ -14,13 +14,10 @@
   </span>
 </template>
 <script lang="ts" setup>
-import { computed, nextTick, watch } from 'vue'
+import { computed, nextTick, useTemplateRef, watch } from 'vue'
 
-// TODO refs
-// $refs!: {
-//   input: BFormInput
-//   datalist: HTMLDataListElement
-// }
+const inputRef = useTemplateRef('input')
+const datalistRef = useTemplateRef('datalist')
 
 const props = defineProps({
   value: { type: String, required: false, default: ''},
@@ -46,11 +43,12 @@ function handleSelect(e: MouseEvent) {
 watch(() => props.list, () => {
   // wait until after the DOM rerenders so that datalist.offsetHeight is correct
   nextTick(() => {
-    const { input, datalist } = this.$refs
-    const inputElement = input.$el as HTMLInputElement
-    datalist.style.width = `${inputElement.offsetWidth}px`
-    datalist.style.left = `${inputElement.offsetLeft}px`
-    datalist.style.top = `${inputElement.offsetTop - datalist.offsetHeight}px`
+    const inputElement = inputRef.value as HTMLInputElement
+    if(datalistRef.value !== null) {
+      datalistRef.value.style.width = `${inputElement.offsetWidth}px`
+      datalistRef.value.style.left = `${inputElement.offsetLeft}px`
+      datalistRef.value.style.top = `${inputElement.offsetTop - datalistRef.value.offsetHeight}px`
+    }
   })
 })
 </script>
