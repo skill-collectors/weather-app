@@ -10,6 +10,5 @@ const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
-// TODO call store.init
 
 app.mount('#app')
