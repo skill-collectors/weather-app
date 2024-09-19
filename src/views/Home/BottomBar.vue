@@ -1,9 +1,9 @@
 <template>
   <div class="d-flex align-items-center mt-2">
     <div class="flex-grow-1">
-      <div v-if="$store.getters.hasLocation">
+      <div v-if="store.hasLocation">
         <b-icon-search class="mr-2"></b-icon-search>
-        <b-link to="locations">{{ $store.getters.locationDisplayName }}</b-link>
+        <b-link to="locations">{{ store.locationDisplayName }}</b-link>
       </div>
       <div v-else>
         <b-button variant="primary" to="locations"> Tap here to set your location </b-button>
@@ -13,16 +13,10 @@
   </div>
 </template>
 
-<script lang="ts">
-import { BIconSearch, BIconGearFill } from 'bootstrap-vue'
-import { Component, Vue } from 'vue-property-decorator'
+<script lang="ts" setup>
+import { useStore } from '@/store/store';
 
-@Component({
-  components: {
-    BIconSearch,
-    BIconGearFill
-  }
-})
-export default class BottomBar extends Vue {}
+const store = useStore()
+
 </script>
 <style scoped></style>

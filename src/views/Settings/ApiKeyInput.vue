@@ -5,26 +5,13 @@
         Enter your OpenWeather API Key. If you don\'t have one, you can get one at
         <b-link href="https://openweathermap.org/" target="blank">openweathermap.org</b-link>
       </template>
-      <b-input id="apiKey" type="password" :value="apiKey" @input="setApiKey"></b-input>
+      <b-input id="apiKey" type="password" :value="store.state.apiKey" @input="store.setApiKey"></b-input>
     </b-form-group>
   </div>
 </template>
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { Store } from 'vuex'
-import { SET_API_KEY } from '@/store/mutations'
-import { RootState } from '@/store/types'
+<script lang="ts" setup>
+import { useStore } from '@/store/store'
 
-@Component
-export default class ApiKeyInput extends Vue {
-  $store!: Store<RootState>
+const store = useStore()
 
-  get apiKey() {
-    return this.$store.state.apiKey
-  }
-
-  setApiKey(newKey: string) {
-    this.$store.commit(SET_API_KEY, newKey)
-  }
-}
 </script>

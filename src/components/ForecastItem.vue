@@ -8,28 +8,22 @@
     </div>
   </div>
 </template>
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+<script lang="ts" setup>
 import { format } from 'date-fns'
+import { computed } from 'vue'
 
-@Component
-export default class ForecastItem extends Vue {
-  @Prop() private dateTime!: Date
+const props = defineProps({
+  dateTime: { type: Date, required: true },
+  dateTimeFormat: { type: String, required: true },
+  imageSrc: { type: String },
+  temperature: { type: Number },
+  high: { type: Number },
+  low: { type: Number },
+})
 
-  @Prop() private dateTimeFormat!: string
-
-  @Prop() private imageSrc?: string
-
-  @Prop() private temperature?: number
-
-  @Prop() private high?: number
-
-  @Prop() private low?: number
-
-  get formattedDateTime() {
-    return format(this.dateTime, this.dateTimeFormat)
-  }
-}
+const formattedDateTime = computed(() => {
+  return format(props.dateTime, props.dateTimeFormat)
+})
 </script>
 <style scoped>
 * {

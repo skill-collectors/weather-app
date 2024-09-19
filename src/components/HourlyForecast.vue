@@ -11,27 +11,20 @@
     </li>
   </ul>
 </template>
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { Store } from 'vuex'
-import { RootState } from '@/store/types'
+<script lang="ts" setup>
 import ForecastItem from '@/components/ForecastItem.vue'
 import convert from '@/utils/ConversionUtils'
+import { useStore } from '@/store/store'
+import { computed } from 'vue'
 
-@Component({
-  components: { ForecastItem },
-  methods: {
-    dtToDate: convert.dtToDate,
-    iconToUrl: convert.iconToUrl
-  }
+const store = useStore()
+
+const iconToUrl = convert.iconToUrl
+const dtToDate = convert.dtToDate
+
+const hours = computed(() => {
+  return store.state.weather.hourly
 })
-export default class HourlyForecast extends Vue {
-  $store!: Store<RootState>
-
-  get hours() {
-    return this.$store.state.weather.hourly
-  }
-}
 </script>
 <style scoped>
 ul {

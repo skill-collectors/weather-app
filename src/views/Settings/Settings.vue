@@ -15,37 +15,31 @@
     </b-row>
   </b-container>
 </template>
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+<script lang="ts" setup>
 import ApiKeyInput from '@/views/Settings/ApiKeyInput.vue'
-import { RootState } from '@/store/types'
-import { Store } from 'vuex'
-import ToastOptions from '@/services/ToastOptions'
 import openWeatherService from '@/services/openWeatherService'
 import HttpError from '@/services/HttpError'
+import { useStore } from '@/store/store'
+import { useRouter } from 'vue-router'
 
-@Component({
-  components: {
-    ApiKeyInput
-  }
-})
-export default class Settings extends Vue {
-  $store!: Store<RootState>
+const store = useStore()
+const router = useRouter()
 
-  async handleDone() {
-    if (this.$store.state.apiKey === '') {
-      this.$bvToast.toast(
-        'You need to set an OpenWeatherMap api key to continue.',
-        ToastOptions.errorToast
-      )
-    } else {
-      try {
-        await openWeatherService.getOneCallWeather(0, 0, this.$store.state.apiKey)
-        this.$router.push('/')
-      } catch (err) {
-        if (err instanceof HttpError && err.httpStatusCode === 401) {
-          this.$bvToast.toast('Looks like that API key is not valid.', ToastOptions.errorToast)
-        }
+async function handleDone() {
+  if (store.hasApiKey) {
+    // TODO toast
+    // this.$bvToast.toast(
+    //   'You need to set an OpenWeatherMap api key to continue.',
+    //   ToastOptions.errorToast
+    // )
+  } else {
+    try {
+      await openWeatherService.getOneCallWeather(0, 0, store.state.apiKey)
+      router.push('/')
+    } catch (err) {
+      if (err instanceof HttpError && err.httpStatusCode === 401) {
+        // TODO toast
+        //this.$bvToast.toast('Looks like that API key is not valid.', ToastOptions.errorToast)
       }
     }
   }

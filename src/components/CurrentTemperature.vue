@@ -1,22 +1,16 @@
 <template>
   <div>
-    <h1>{{ Math.round(currentTemperature) }}°</h1>
-    <aside>Feels like {{ Math.round(currentFeelsLike) }}°</aside>
+    <h1>{{ Math.round(props.currentTemperature) }}°</h1>
+    <aside>Feels like {{ Math.round(props.currentFeelsLike) }}°</aside>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+<script lang="ts" setup>
 
-const CurrentTemperatureProps = Vue.extend({
-  props: {
-    currentTemperature: Number,
-    currentFeelsLike: Number
-  }
+const props = defineProps({
+  currentTemperature: { type: Number, required: true },
+  currentFeelsLike: { type: Number, required: true },
 })
-
-@Component
-export default class CurrentTemperature extends CurrentTemperatureProps {}
 </script>
 
 <style>

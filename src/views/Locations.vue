@@ -47,157 +47,142 @@
     </b-navbar>
   </b-container>
 </template>
-<script lang="ts">
-import { BIconSearch, BIconGeoAltFill, BIconTrash, BIconGeo } from 'bootstrap-vue'
-import { Component, Vue } from 'vue-property-decorator'
-import SearchSuggest from '@/components/SearchSuggest.vue'
+<script lang="ts" setup>
 import convert from '@/utils/ConversionUtils'
 import openWeather from '@/services/openWeatherService'
 import locationService from '@/services/GeoLocationService'
 import { GeoDirectResponse, GeolocationCoordinates, RootState } from '@/store/types'
-import { Store } from 'vuex'
-import ToastOptions from '@/services/ToastOptions'
-import { DELETE_RECENT_LOCATION } from '@/store/mutations'
-import { UPDATE_LOCATION } from '@/store/actions'
 import HttpError from '@/services/HttpError'
+import { computed, ref } from 'vue'
+import type {Ref} from 'vue'
+import { useStore } from '@/store/store'
+import { useRouter } from 'vue-router'
 
-@Component({
-  components: {
-    BIconSearch,
-    BIconGeoAltFill,
-    BIconGeo,
-    BIconTrash,
-    SearchSuggest
-  }
+const store = useStore()
+const router = useRouter()
+
+// TODO refs
+// $refs!: {
+//   search: SearchSuggest
+// }
+
+const query: Ref<string> = ref(store.locationDisplayName)
+const searchResults: Ref<GeoDirectResponse[]> = ref([])
+const searchTimeout: Ref<number|undefined> = ref()
+
+const recentLocations = computed(() => {
+  return store.state.recentLocations.map((location) => ({
+    ...location,
+    key: `${location.lat},${location.lon}`,
+    displayName: convert.geoToString(location)
+  }))
 })
-export default class Locations extends Vue {
-  $store!: Store<RootState>
 
-  $refs!: {
-    search: SearchSuggest
+async function setLocation(location: GeoDirectResponse) {
+  await store.updateLocation(location)
+  if (store.hasLocation) {
+    query.value = store.locationDisplayName
+    router.push('/')
   }
+}
 
-  private query: string
-
-  private searchResults: GeoDirectResponse[]
-
-  private searchTimeout!: number
-
-  constructor() {
-    super()
-    this.query = this.$store.getters.locationDisplayName
-    this.searchResults = []
+function handleDone() {
+  if (store.hasLocation) {
+    router.push('/')
+  } else {
+    // TODO toast
+    //this.$bvToast.toast('You need to set a location to continue.', ToastOptions.errorToast)
   }
+}
 
-  get recentLocations() {
-    return this.$store.state.recentLocations.map((location) => ({
-      ...location,
-      key: `${location.lat},${location.lon}`,
-      displayName: convert.geoToString(location)
-    }))
+function deleteRecentLocation(location: GeoDirectResponse) {
+  store.deleteRecentLocation(location)
+}
+
+function handleQueryInput(newQuery: string) {
+  query.value = newQuery
+  // debounce the input and only perform a search every 1 seconds
+  window.clearTimeout(searchTimeout.value)
+  searchTimeout.value = window.setTimeout(refs.search, 1_000)
+}
+
+async function handleSuggestionSelect(selectedValue: string) {
+  const selected = searchResults.value.find(
+    (result) => selectedValue === convert.geoToString(result)
+  )
+  if (selected === undefined) {
+    showError("couldn't find the value you selected.")
+  } else {
+    await setLocation(selected)
   }
+  searchResults.value = []
+}
 
-  async setLocation(location: GeoDirectResponse) {
-    await this.$store.dispatch(UPDATE_LOCATION, location)
-    if (this.$store.getters.hasLocation) {
-      this.query = this.$store.getters.locationDisplayName
-      this.$router.push('/')
-    }
-  }
+function handleTextSearch() {
+  search()
+}
 
-  handleDone() {
-    if (this.$store.getters.hasLocation) {
-      this.$router.push('/')
-    } else {
-      this.$bvToast.toast('You need to set a location to continue.', ToastOptions.errorToast)
-    }
-  }
+function handleClearQuery() {
+  query.value = ''
+  searchResults.value = []
+  refs.search.$refs.input.focus()
+}
 
-  deleteRecentLocation(location: GeoDirectResponse) {
-    this.$store.commit(DELETE_RECENT_LOCATION, location)
-  }
+const searchResultNames = computed(() => {
+  return searchResults.value.map(convert.geoToString)
+})
 
-  handleQueryInput(newQuery: string) {
-    this.query = newQuery
-    // debounce the input and only perform a search every 1 seconds
-    window.clearTimeout(this.searchTimeout)
-    this.searchTimeout = window.setTimeout(this.search, 1_000)
-  }
-
-  async handleSuggestionSelect(selectedValue: string) {
-    const selected = this.searchResults.find(
-      (result) => selectedValue === convert.geoToString(result)
-    )
-    if (selected === undefined) {
-      this.showError("couldn't find the value you selected.")
-    } else {
-      await this.setLocation(selected)
-    }
-    this.searchResults = []
-  }
-
-  handleTextSearch() {
-    this.search()
-  }
-
-  handleClearQuery() {
-    this.query = ''
-    this.searchResults = []
-    this.$refs.search.$refs.input.focus()
-  }
-
-  get searchResultNames() {
-    return this.searchResults.map(convert.geoToString)
-  }
-
-  async handleGeoSearch() {
+async function handleGeoSearch() {
+  try {
+    const coords: GeolocationCoordinates = await locationService.getCurrentPosition()
     try {
-      const coords: GeolocationCoordinates = await locationService.getCurrentPosition()
-      try {
-        const results: GeoDirectResponse[] = await openWeather.searchCityByCoords(
-          coords.latitude,
-          coords.longitude,
-          this.$store.state.apiKey
-        )
-        await this.setLocation(results[0])
-      } catch (err) {
-        if (err instanceof HttpError && err.httpStatusCode === 401) {
-          this.$router.push('/settings')
-        } else {
-          this.showError(`could not determine your city from your location. ${err.message}`)
-        }
-      }
-    } catch (err) {
-      this.showError(`could not retrieve your location: ${err.message}`)
-    }
-  }
-
-  async search() {
-    if (this.query === '') {
-      return
-    }
-    try {
-      const results: GeoDirectResponse[] = await openWeather.searchCoordsByCity(
-        this.query,
-        this.$store.state.apiKey
+      const results: GeoDirectResponse[] = await openWeather.searchCityByCoords(
+        coords.latitude,
+        coords.longitude,
+        store.state.apiKey
       )
-      if (results.length === 0) {
-        this.showError('could not find any cities for your location.')
-      } else {
-        this.searchResults = results
-      }
+      await setLocation(results[0])
     } catch (err) {
       if (err instanceof HttpError && err.httpStatusCode === 401) {
-        this.$router.push('/settings')
-      } else {
-        this.showError(`could not determine a city for your location: ${err.message}`)
+        router.push('/settings')
+      } else if (err instanceof Error) {
+        showError(`could not determine your city from your location. ${err.message}`)
       }
     }
+  } catch (err) {
+    if(err instanceof Error) {
+      showError(`could not retrieve your location: ${err.message}`)
+    }
   }
+}
 
-  showError(message: string) {
-    this.$bvToast.toast(`I'm sorry, we ${message}`, ToastOptions.errorToast)
+async function search() {
+  if (query.value === '') {
+    return
   }
+  try {
+    const results: GeoDirectResponse[] = await openWeather.searchCoordsByCity(
+      query.value,
+      store.state.apiKey
+    )
+    if (results.length === 0) {
+      showError('could not find any cities for your location.')
+    } else {
+      searchResults.value = results
+    }
+  } catch (err) {
+    if (err instanceof HttpError && err.httpStatusCode === 401) {
+      router.push('/settings')
+    } else if(err instanceof Error) {
+      showError(`could not determine a city for your location: ${err.message}`)
+    }
+  }
+}
+
+function showError(message: string) {
+  console.log(message)
+  // TODO toast
+  //this.$bvToast.toast(`I'm sorry, we ${message}`, ToastOptions.errorToast)
 }
 </script>
 <style scoped>
