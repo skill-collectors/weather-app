@@ -1,4 +1,4 @@
-import { GeolocationCoordinates } from '@/store/types'
+import type { GeolocationCoordinates } from '@/store/types'
 
 export default {
   async getCurrentPosition(): Promise<GeolocationCoordinates> {

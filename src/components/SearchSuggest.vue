@@ -9,15 +9,15 @@
     >
     </b-form-input>
     <datalist :class="dataListClass" ref="datalist">
-      <option @click="handleSelect" v-for="item in list" :key="item">{{ item }}</option>
+      <option @click="handleSelect" v-for="(item, i) in list" :key="i">{{ item }}</option>
     </datalist>
   </span>
 </template>
 <script lang="ts" setup>
 import { computed, nextTick, useTemplateRef, watch } from 'vue'
 
-const inputRef = useTemplateRef('input')
-const datalistRef = useTemplateRef('datalist')
+const inputRef = useTemplateRef<HTMLInputElement>('input')
+const datalistRef = useTemplateRef<HTMLDataListElement>('datalist')
 
 const props = defineProps({
   value: { type: String, required: false, default: ''},

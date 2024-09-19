@@ -1,4 +1,4 @@
-import { OneCallWeather } from '@/store/types'
+import type { OneCallWeather } from '@/store/types'
 import convert from '@/utils/ConversionUtils'
 import { format, differenceInHours, getHours } from 'date-fns'
 

@@ -1,6 +1,6 @@
 import openWeather from '@/services/openWeatherService'
 import convert from '@/utils/ConversionUtils'
-import { RootState, GeoDirectResponse } from './types'
+import type { RootState, GeoDirectResponse } from './types'
 import { defineStore } from 'pinia'
 import { computed, reactive } from 'vue'
 

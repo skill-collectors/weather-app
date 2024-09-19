@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ComingUpNotification } from '@/services/ComingUpService';
+import type { ComingUpNotification } from '@/services/ComingUpService';
 
 const props = defineProps<{
   notifications: ComingUpNotification[],

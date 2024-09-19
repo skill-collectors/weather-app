@@ -1,4 +1,4 @@
-import { GeoDirectResponse, OneCallWeather } from '@/store/types'
+import type { GeoDirectResponse, OneCallWeather } from '@/store/types'
 import HttpError from './HttpError'
 
 const BASE_URL = 'https://api.openweathermap.org'

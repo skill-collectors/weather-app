@@ -51,7 +51,7 @@
 import convert from '@/utils/ConversionUtils'
 import openWeather from '@/services/openWeatherService'
 import locationService from '@/services/GeoLocationService'
-import { GeoDirectResponse, GeolocationCoordinates } from '@/store/types'
+import type { GeoDirectResponse, GeolocationCoordinates } from '@/store/types'
 import HttpError from '@/services/HttpError'
 import { computed, ref, useTemplateRef } from 'vue'
 import type {Ref} from 'vue'
@@ -62,7 +62,9 @@ import SearchSuggest from '@/components/SearchSuggest.vue'
 const store = useStore()
 const router = useRouter()
 
-const searchRef = useTemplateRef('search')
+type SearchSuggestType = InstanceType<typeof SearchSuggest>
+
+const searchRef = useTemplateRef<SearchSuggestType>('search')
 
 const query: Ref<string> = ref(store.locationDisplayName)
 const searchResults: Ref<GeoDirectResponse[]> = ref([])
@@ -122,8 +124,8 @@ function handleTextSearch() {
 
 function handleClearQuery() {
   query.value = ''
-  searchResults.value = []
-  searchRef.value.input.focus()
+  searchResults.value = [];
+  (searchRef.value?.$refs.input as HTMLInputElement).focus()
 }
 
 const searchResultNames = computed(() => {
