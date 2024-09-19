@@ -1,13 +1,13 @@
 <template>
   <span>
-    <b-form-input
+    <v-input
       type="text"
       :placeholder="placeholder"
       :value="value"
       @input="handleInput"
       ref="input"
     >
-    </b-form-input>
+    </v-input>
     <datalist :class="dataListClass" ref="datalist">
       <option @click="handleSelect" v-for="(item, i) in list" :key="i">{{ item }}</option>
     </datalist>

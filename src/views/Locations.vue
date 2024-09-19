@@ -1,13 +1,13 @@
 <template>
-  <b-container fluid class="d-flex flex-column justify-content-end h-100">
-    <b-list-group>
-      <b-list-group-item class="d-flex align-items-center" @click="handleGeoSearch" button>
+  <v-container fluid class="d-flex flex-column justify-content-end h-100">
+    <v-list-group>
+      <v-list-group-item class="d-flex align-items-center" @click="handleGeoSearch" button>
         <span>
-          <b-icon-geo-alt-fill></b-icon-geo-alt-fill>
+          <v-icon icon="gear"></v-icon>
           Your current location
         </span>
-      </b-list-group-item>
-      <b-list-group-item
+      </v-list-group-item>
+      <v-list-group-item
         class="d-flex justify-content-between align-items-center"
         button
         @click="setLocation(location)"
@@ -15,16 +15,16 @@
         :key="location.key"
       >
         <span>
-          <b-icon-geo></b-icon-geo>
+          <v-icon icon="geo"></v-icon>
           {{ location.displayName }}
         </span>
-        <b-icon-trash @click.stop="deleteRecentLocation(location)"></b-icon-trash>
-      </b-list-group-item>
-    </b-list-group>
+        <v-icon icon="trash" @click.stop="deleteRecentLocation(location)"></v-icon>
+      </v-list-group-item>
+    </v-list-group>
     <div class="d-flex align-items-center mt-2">
-      <b-button @click="handleTextSearch" variant="primary" class="search-button">
-        <b-icon-search></b-icon-search>
-      </b-button>
+      <v-btn @click="handleTextSearch" class="search-button">
+        <v-icon icon="search"></v-icon>
+      </v-btn>
       <search-suggest
         ref="search"
         class="flex-grow-1"
@@ -33,19 +33,10 @@
         @select="handleSuggestionSelect"
         :list="searchResultNames"
       ></search-suggest>
-      <b-button @click="handleClearQuery" variant="secondary" class="clear-button"> x </b-button>
-      <b-link @click="handleDone" class="flex-shrink-1 ml-2"> Done </b-link>
+      <v-btn @click="handleClearQuery" class="clear-button"> x </v-btn>
+      <a @click="handleDone" class="flex-shrink-1 ml-2"> Done </a>
     </div>
-    <b-navbar>
-      <b-navbar-nav class="mr-auto"> </b-navbar-nav>
-      <b-navbar-nav>
-        <b-nav-form> </b-nav-form>
-      </b-navbar-nav>
-      <b-navbar-nav class="ml-auto">
-        <b-nav-item to="/"> </b-nav-item>
-      </b-navbar-nav>
-    </b-navbar>
-  </b-container>
+  </v-container>
 </template>
 <script lang="ts" setup>
 import convert from '@/utils/ConversionUtils'

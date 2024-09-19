@@ -1,19 +1,19 @@
 <template>
-  <b-container>
-    <b-row>
-      <b-col cols="12">
-        <b-form>
+  <v-container>
+    <v-row>
+      <v-col cols="12">
+        <v-form>
           <api-key-input></api-key-input>
-        </b-form>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col cols="10"></b-col>
-      <b-col cols="1">
-        <b-link @click="handleDone">Done</b-link>
-      </b-col>
-    </b-row>
-  </b-container>
+        </v-form>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="10"></v-col>
+      <v-col cols="1">
+        <a href="#" @click="handleDone">Done</a>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 <script lang="ts" setup>
 import ApiKeyInput from '@/views/Settings/ApiKeyInput.vue'

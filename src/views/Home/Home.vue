@@ -1,40 +1,40 @@
 <template>
   <div class="d-flex flex-column h-100">
-    <b-container class="home">
-      <b-row class="hero-row">
-        <b-col>
+    <v-container class="home">
+      <v-row class="hero-row">
+        <v-col>
           <current-temperature
             :currentTemperature="store.state.weather.current.temp"
             :currentFeelsLike="store.state.weather.current.feels_like"
           ></current-temperature>
-        </b-col>
-        <b-col>
+        </v-col>
+        <v-col>
           <img
             @click="handleHeroIconClick"
             v-if="store.hasWeather"
             :src="iconToUrl(store.state.weather.current.weather[0].icon, '@2x')"
           />
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
           <h6>Today's forecast</h6>
           <hourly-forecast class="forecast-list"></hourly-forecast>
-        </b-col>
-      </b-row>
-      <b-row v-if="comingUpNotifications.length > 0" class="coming-up-row">
-        <b-col>
+        </v-col>
+      </v-row>
+      <v-row v-if="comingUpNotifications.length > 0" class="coming-up-row">
+        <v-col>
           <h6>Coming up...</h6>
           <coming-up-list :notifications="comingUpNotifications"></coming-up-list>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
           <h6>5-day forecast</h6>
           <daily-forecast class="forecast-list"></daily-forecast>
-        </b-col>
-      </b-row>
-    </b-container>
+        </v-col>
+      </v-row>
+    </v-container>
     <div class="flex-grow-1"></div>
     <bottom-bar class="mb-2 mr-3"></bottom-bar>
   </div>
