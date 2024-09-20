@@ -48,7 +48,7 @@ import { computed, ref, useTemplateRef } from 'vue'
 import type {Ref} from 'vue'
 import { useStore } from '@/store/store'
 import { useRouter } from 'vue-router'
-import SearchSuggest from '@/components/SearchSuggest.vue'
+import SearchSuggest from '@/views/Locations/SearchSuggest.vue'
 
 const store = useStore()
 const router = useRouter()
