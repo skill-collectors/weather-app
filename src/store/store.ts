@@ -116,9 +116,7 @@ export const useStore = defineStore('store', () => {
 
   const hasApiKey = computed(() => {
     // Consider all 'falsy' values: '', null, or undefined
-    const result = Boolean(apiKey.value)
-    console.log(`Is '${apiKey.value}' a value? ${result}`)
-    return result
+    return Boolean(apiKey.value)
   })
 
   const hasLocation = computed(() => {
