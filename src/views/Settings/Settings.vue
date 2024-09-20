@@ -27,12 +27,6 @@ const router = useRouter()
 
 async function handleDone() {
   if (store.hasApiKey) {
-    // TODO toast
-    // this.$bvToast.toast(
-    //   'You need to set an OpenWeatherMap api key to continue.',
-    //   ToastOptions.errorToast
-    // )
-  } else {
     try {
       await openWeatherService.getOneCallWeather(0, 0, store.apiKey)
       router.push('/')
@@ -42,6 +36,13 @@ async function handleDone() {
         //this.$bvToast.toast('Looks like that API key is not valid.', ToastOptions.errorToast)
       }
     }
+  } else {
+    console.error('No API key')
+    // TODO toast
+    // this.$bvToast.toast(
+    //   'You need to set an OpenWeatherMap api key to continue.',
+    //   ToastOptions.errorToast
+    // )
   }
 }
 </script>
