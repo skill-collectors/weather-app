@@ -34,7 +34,7 @@ async function handleDone() {
     // )
   } else {
     try {
-      await openWeatherService.getOneCallWeather(0, 0, store.state.apiKey)
+      await openWeatherService.getOneCallWeather(0, 0, store.apiKey)
       router.push('/')
     } catch (err) {
       if (err instanceof HttpError && err.httpStatusCode === 401) {

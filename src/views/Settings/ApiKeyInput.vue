@@ -6,8 +6,7 @@
       label="API Key"
       hint="Enter your OpenWeather API Key. If you don\'t have one, you can get one at openweathermap.org"
       persistent-hint
-      :value="store.state.apiKey" @input="store.setApiKey">
-    </v-text-field>
+      v-model="store.apiKey"></v-text-field>
   </div>
 </template>
 <script lang="ts" setup>

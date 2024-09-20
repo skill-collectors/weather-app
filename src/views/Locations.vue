@@ -62,7 +62,7 @@ const searchResults: Ref<GeoDirectResponse[]> = ref([])
 const searchTimeout: Ref<number|undefined> = ref()
 
 const recentLocations = computed(() => {
-  return store.state.recentLocations.map((location) => ({
+  return store.recentLocations.map((location) => ({
     ...location,
     key: `${location.lat},${location.lon}`,
     displayName: convert.geoToString(location)
@@ -130,7 +130,7 @@ async function handleGeoSearch() {
       const results: GeoDirectResponse[] = await openWeather.searchCityByCoords(
         coords.latitude,
         coords.longitude,
-        store.state.apiKey
+        store.apiKey
       )
       await setLocation(results[0])
     } catch (err) {
@@ -154,7 +154,7 @@ async function search() {
   try {
     const results: GeoDirectResponse[] = await openWeather.searchCoordsByCity(
       query.value,
-      store.state.apiKey
+      store.apiKey
     )
     if (results.length === 0) {
       showError('could not find any cities for your location.')

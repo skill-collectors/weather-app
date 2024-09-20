@@ -1,26 +1,39 @@
 import openWeather from '@/services/openWeatherService'
 import convert from '@/utils/ConversionUtils'
-import type { RootState, GeoDirectResponse } from './types'
+import type { GeoDirectResponse, OneCallWeather } from './types'
 import { defineStore } from 'pinia'
-import { computed, reactive } from 'vue'
-
+import { computed } from 'vue'
+import type { Ref } from 'vue'
+import { useLocalStorage } from '@vueuse/core'
 
 export const useStore = defineStore('store', () => {
 
-  // TODO useLocalStorage
-
-  const state: RootState = reactive({
-    apiKey: '',
-    location: {
-      name: '',
-      country: '',
-      state: '',
-      lat: 0,
-      lon: 0
+  const apiKey = useLocalStorage('apiKey', '')
+  const location: Ref<GeoDirectResponse> = useLocalStorage('location', {
+    name: '',
+    country: '',
+    state: '',
+    lat: 0,
+    lon: 0
+  })
+  const recentLocations: Ref<GeoDirectResponse[]> = useLocalStorage('recentLocations', [])
+  const weather: Ref<OneCallWeather> = useLocalStorage('weather', {
+    current: {
+      temp: 0,
+      feels_like: 0,
+      weather: [
+        {
+          description: '',
+          icon: '',
+          id: 0,
+          main: ''
+        }
+      ]
     },
-    recentLocations: [],
-    weather: {
-      current: {
+    minutely: [{ dt: 0, precipitation: 0 }],
+    hourly: [
+      {
+        dt: 0,
         temp: 0,
         feels_like: 0,
         weather: [
@@ -31,85 +44,60 @@ export const useStore = defineStore('store', () => {
             main: ''
           }
         ]
-      },
-      minutely: [{ dt: 0, precipitation: 0 }],
-      hourly: [
-        {
-          dt: 0,
-          temp: 0,
-          feels_like: 0,
-          weather: [
-            {
-              description: '',
-              icon: '',
-              id: 0,
-              main: ''
-            }
-          ]
-        }
-      ],
-      daily: [
-        {
-          dt: 0,
-          temp: {
-            day: 0,
-            eve: 0,
-            morn: 0,
-            night: 0,
-            min: 0,
-            max: 0
-          },
-          feels_like: {
-            day: 0,
-            eve: 0,
-            morn: 0,
-            night: 0
-          },
-          weather: [
-            {
-              description: '',
-              icon: '',
-              id: 0,
-              main: ''
-            }
-          ]
-        }
-      ]
-    },
-    stats: {
-      callCount: 0
-    }
+      }
+    ],
+    daily: [
+      {
+        dt: 0,
+        temp: {
+          day: 0,
+          eve: 0,
+          morn: 0,
+          night: 0,
+          min: 0,
+          max: 0
+        },
+        feels_like: {
+          day: 0,
+          eve: 0,
+          morn: 0,
+          night: 0
+        },
+        weather: [
+          {
+            description: '',
+            icon: '',
+            id: 0,
+            main: ''
+          }
+        ]
+      }
+    ]
   })
 
-  // TODO use local storage
-
-  function setApiKey(newKey: string){
-    state.apiKey = newKey
-  }
-
-  function setLocation(location: GeoDirectResponse){
-    state.recentLocations.push(location)
+  function setLocation(newLocation: GeoDirectResponse){
+    recentLocations.value.push(newLocation)
     // trim oldest entries
-    while (state.recentLocations.length > 10) {
-      state.recentLocations.shift()
+    while (recentLocations.value.length > 10) {
+      recentLocations.value.shift()
     }
-    state.location = location
+    location.value = newLocation
   }
 
   function deleteRecentLocation(locationToRemove: GeoDirectResponse) {
-    const index = state.recentLocations.findIndex(
+    const index = recentLocations.value.findIndex(
       (recent) => recent.lat === locationToRemove.lat && recent.lon === locationToRemove.lon
     )
     if (index !== -1) {
-      state.recentLocations.splice(index, 1)
+      recentLocations.value.splice(index, 1)
     }
   }
 
   async function updateWeather() {
     if(hasLocation.value) {
-      const { lat, lon } = state.location
-      const weather = await openWeather.getOneCallWeather(lat, lon, state.apiKey)
-      state.weather = weather
+      const { lat, lon } = location.value
+      const newWeather = await openWeather.getOneCallWeather(lat, lon, apiKey.value)
+      weather.value = newWeather
     }
   }
 
@@ -121,27 +109,28 @@ export const useStore = defineStore('store', () => {
 
   const locationDisplayName = computed(() => {
     if(hasLocation.value) {
-      return convert.geoToString(state.location)
+      return convert.geoToString(location.value)
     }
     return ''
   })
 
   const hasApiKey = computed(() => {
     // Consider all 'falsy' values: '', null, or undefined
-    return Boolean(state.apiKey)
+    const result = Boolean(apiKey.value)
+    console.log(`Is '${apiKey.value}' a value? ${result}`)
+    return result
   })
 
   const hasLocation = computed(() => {
-    const { name, lat, lon } = state.location
+    const { name, lat, lon } = location.value
     // Consider all 'falsy' values: 0, '', null, undefined
     return Boolean(lat) && Boolean(lon) && Boolean(name)
   })
 
   const hasWeather = computed(() => {
-    return state.weather.current.weather[0].description !== ''
+    return weather.value.current.weather[0].description !== ''
   })
 
-
-  return {state, setApiKey, updateWeather, updateLocation, deleteRecentLocation, hasWeather, hasApiKey, hasLocation, locationDisplayName}
+  return {apiKey, location, recentLocations, weather, updateWeather, updateLocation, deleteRecentLocation, hasWeather, hasApiKey, hasLocation, locationDisplayName}
 
 })

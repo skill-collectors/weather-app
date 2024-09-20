@@ -4,15 +4,15 @@
       <v-row class="hero-row">
         <v-col>
           <current-temperature
-            :currentTemperature="store.state.weather.current.temp"
-            :currentFeelsLike="store.state.weather.current.feels_like"
+            :currentTemperature="store.weather.current.temp"
+            :currentFeelsLike="store.weather.current.feels_like"
           ></current-temperature>
         </v-col>
         <v-col>
           <img
             @click="handleHeroIconClick"
             v-if="store.hasWeather"
-            :src="iconToUrl(store.state.weather.current.weather[0].icon, '@2x')"
+            :src="iconToUrl(store.weather.current.weather[0].icon, '@2x')"
           />
         </v-col>
       </v-row>
@@ -124,7 +124,7 @@ async function updateWeather() {
   comingUpNotifications.splice(
     0,
     comingUpNotifications.length,
-    ...determineComingUpNotifications(store.state.weather)
+    ...determineComingUpNotifications(store.weather)
   )
 }
 

@@ -24,7 +24,7 @@ const iconToUrl = convert.iconToUrl
 const store = useStore()
 
 const days = computed(() => {
-  return store.state.weather.daily
+  return store.weather.daily
 })
 </script>
 <style scoped>

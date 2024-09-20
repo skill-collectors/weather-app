@@ -23,7 +23,7 @@ const iconToUrl = convert.iconToUrl
 const dtToDate = convert.dtToDate
 
 const hours = computed(() => {
-  return store.state.weather.hourly
+  return store.weather.hourly
 })
 </script>
 <style scoped>

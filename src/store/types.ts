@@ -67,16 +67,11 @@ export interface OneCallWeather {
   daily: DailyForecast[]
 }
 
-export interface Stats {
-  callCount: number
-}
-
 export interface RootState {
   apiKey: string
   location: GeoDirectResponse
   recentLocations: GeoDirectResponse[]
   weather: OneCallWeather
-  stats: Stats
 }
 
 export default RootState
