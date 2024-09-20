@@ -1,13 +1,13 @@
 <template>
   <v-container fluid class="d-flex flex-column justify-content-end h-100">
     <v-list-group>
-      <v-list-group-item class="d-flex align-items-center" @click="handleGeoSearch" button>
+      <v-list-item class="d-flex align-items-center" @click="handleGeoSearch" button>
         <span>
           <v-icon icon="gear"></v-icon>
           Your current location
         </span>
-      </v-list-group-item>
-      <v-list-group-item
+      </v-list-item>
+      <v-list-item
         class="d-flex justify-content-between align-items-center"
         button
         @click="setLocation(location)"
@@ -19,7 +19,7 @@
           {{ location.displayName }}
         </span>
         <v-icon icon="trash" @click.stop="deleteRecentLocation(location)"></v-icon>
-      </v-list-group-item>
+      </v-list-item>
     </v-list-group>
     <div class="d-flex align-items-center mt-2">
       <v-btn @click="handleTextSearch" class="search-button">

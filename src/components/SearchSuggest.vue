@@ -1,13 +1,13 @@
 <template>
   <span>
-    <v-input
+    <v-text-field
       type="text"
       :placeholder="placeholder"
       :value="value"
       @input="handleInput"
       ref="input"
     >
-    </v-input>
+    </v-text-field>
     <datalist :class="dataListClass" ref="datalist">
       <option @click="handleSelect" v-for="(item, i) in list" :key="i">{{ item }}</option>
     </datalist>
