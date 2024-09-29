@@ -1,26 +1,22 @@
 <template>
   <v-container fluid class="d-flex flex-column justify-content-end h-100">
-    <v-list-group>
-      <v-list-item class="d-flex align-items-center" @click="handleGeoSearch" button>
-        <span>
-          <v-icon icon="gear"></v-icon>
-          Your current location
-        </span>
+    <v-list lines="three">
+      <v-list-item prepend-icon="mdi-crosshairs" key="CURRENT_LOCATION" class="d-flex align-items-center" @click="handleGeoSearch">
+        Your current location
       </v-list-item>
       <v-list-item
+        prepend-icon="mdi-map-check-outline"
         class="d-flex justify-content-between align-items-center"
-        button
         @click="setLocation(location)"
         v-for="location in recentLocations"
         :key="location.key"
       >
-        <span>
-          <v-icon icon="geo"></v-icon>
-          {{ location.displayName }}
-        </span>
-        <v-icon icon="mdi-trash-can-outline" @click.stop="deleteRecentLocation(location)"></v-icon>
+        {{ location.displayName }}
+        <slot name="append">
+          <v-icon icon="mdi-trash-can-outline" @click.stop="deleteRecentLocation(location)"></v-icon>
+        </slot>
       </v-list-item>
-    </v-list-group>
+    </v-list>
     <div class="d-flex align-items-center mt-2">
       <v-autocomplete class="mx-2"
         :search="query"
