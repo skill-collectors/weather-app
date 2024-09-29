@@ -18,23 +18,21 @@
           <v-icon icon="geo"></v-icon>
           {{ location.displayName }}
         </span>
-        <v-icon icon="trash" @click.stop="deleteRecentLocation(location)"></v-icon>
+        <v-icon icon="mdi-trash-can-outline" @click.stop="deleteRecentLocation(location)"></v-icon>
       </v-list-item>
     </v-list-group>
     <div class="d-flex align-items-center mt-2">
-      <v-btn @click="handleTextSearch" class="search-button">
-        <v-icon icon="search"></v-icon>
-      </v-btn>
-      <search-suggest
-        ref="search"
-        class="flex-grow-1"
-        :value="query"
-        @input="handleQueryInput"
-        @select="handleSuggestionSelect"
-        :list="searchResultNames"
-      ></search-suggest>
-      <v-btn @click="handleClearQuery" class="clear-button"> x </v-btn>
-      <a @click="handleDone" class="flex-shrink-1 ml-2"> Done </a>
+      <v-autocomplete class="mx-2"
+        :search="query"
+        @update:search="query = $event"
+        :items="searchResultNames"
+        @update:model-value="handleSuggestionSelect($event)"
+        prepend-icon="mdi-magnify"
+        @click:prepend="doSearch"
+        append-icon="mdi-close"
+        @click:append="handleClearQuery"
+      ></v-autocomplete>
+      <v-btn @click="handleDone" class="mt-2">Done</v-btn>
     </div>
   </v-container>
 </template>
@@ -44,22 +42,17 @@ import openWeather from '@/services/openWeatherService'
 import locationService from '@/services/GeoLocationService'
 import type { GeoDirectResponse, GeolocationCoordinates } from '@/store/types'
 import HttpError from '@/services/HttpError'
-import { computed, ref, useTemplateRef } from 'vue'
+import { computed, ref } from 'vue'
 import type {Ref} from 'vue'
 import { useStore } from '@/store/store'
 import { useRouter } from 'vue-router'
-import SearchSuggest from '@/views/Locations/SearchSuggest.vue'
+import { watchDebounced } from '@vueuse/core'
 
 const store = useStore()
 const router = useRouter()
 
-type SearchSuggestType = InstanceType<typeof SearchSuggest>
-
-const searchRef = useTemplateRef<SearchSuggestType>('search')
-
-const query: Ref<string> = ref(store.locationDisplayName)
+const query: Ref<string> = ref('')
 const searchResults: Ref<GeoDirectResponse[]> = ref([])
-const searchTimeout: Ref<number|undefined> = ref()
 
 const recentLocations = computed(() => {
   return store.recentLocations.map((location) => ({
@@ -90,14 +83,10 @@ function deleteRecentLocation(location: GeoDirectResponse) {
   store.deleteRecentLocation(location)
 }
 
-function handleQueryInput(newQuery: string) {
-  query.value = newQuery
-  // debounce the input and only perform a search every 1 seconds
-  window.clearTimeout(searchTimeout.value)
-  searchTimeout.value = window.setTimeout(search, 1_000)
-}
-
-async function handleSuggestionSelect(selectedValue: string) {
+async function handleSuggestionSelect(selectedValue: string | null) {
+  if(selectedValue === null) {
+    return
+  }
   const selected = searchResults.value.find(
     (result) => selectedValue === convert.geoToString(result)
   )
@@ -109,14 +98,10 @@ async function handleSuggestionSelect(selectedValue: string) {
   searchResults.value = []
 }
 
-function handleTextSearch() {
-  search()
-}
-
 function handleClearQuery() {
   query.value = ''
   searchResults.value = [];
-  (searchRef.value?.$refs.input as HTMLInputElement).focus()
+  // TODO focus on input
 }
 
 const searchResultNames = computed(() => {
@@ -124,6 +109,7 @@ const searchResultNames = computed(() => {
 })
 
 async function handleGeoSearch() {
+  console.log("handleGeoSearch")
   try {
     const coords: GeolocationCoordinates = await locationService.getCurrentPosition()
     try {
@@ -147,7 +133,10 @@ async function handleGeoSearch() {
   }
 }
 
-async function search() {
+watchDebounced(query, doSearch, { debounce: 1_000 })
+
+async function doSearch() {
+  console.log(`doSearch: ${query.value}`)
   if (query.value === '') {
     return
   }
@@ -169,6 +158,7 @@ async function search() {
     }
   }
 }
+
 
 function showError(message: string) {
   console.log(message)
