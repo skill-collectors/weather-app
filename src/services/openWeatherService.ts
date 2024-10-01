@@ -3,7 +3,7 @@ import HttpError from './HttpError'
 
 const BASE_URL = 'https://api.openweathermap.org'
 const GEO_URL = `${BASE_URL}/geo/1.0`
-const DATA_URL = `${BASE_URL}/data/2.5`
+const DATA_URL = `${BASE_URL}/data/3.0`
 
 export default {
   async searchCoordsByCity(query: string, apiKey: string): Promise<GeoDirectResponse[]> {
@@ -38,3 +38,4 @@ export default {
     return response.json()
   }
 }
+
