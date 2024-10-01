@@ -9,7 +9,7 @@
         <v-btn to="locations"> Tap here to set your location </v-btn>
       </div>
     </div>
-    <router-link to="/settings"><v-icon icon="gear"></v-icon></router-link>
+    <router-link to="/settings"><v-icon icon="mdi-cog" size="large"></v-icon></router-link>
   </div>
 </template>
 
@@ -17,6 +17,7 @@
 import { useStore } from '@/store/store';
 
 const store = useStore()
+
 
 </script>
 <style scoped></style>
