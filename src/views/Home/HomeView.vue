@@ -112,13 +112,9 @@ async function updateWeather() {
   } catch (err) {
     if (err instanceof HttpError && err.httpStatusCode === 401) {
       router.push('/settings')
+      store.addMessage('Your API key was unauthorized.')
     } else {
-      /* TODO toast
-      this.$bvToast.toast(
-        "I'm sorry, we couldn't load the weather for your location.",
-        ToastOptions.errorToast
-      )
-      */
+      store.addMessage("I'm sorry, we couldn't load the weather for your location.")
     }
   }
   comingUpNotifications.splice(

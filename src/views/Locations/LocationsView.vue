@@ -70,8 +70,7 @@ function handleDone() {
   if (store.hasLocation) {
     router.push('/')
   } else {
-    // TODO toast
-    //this.$bvToast.toast('You need to set a location to continue.', ToastOptions.errorToast)
+    store.addMessage('You need to set a location to continue.')
   }
 }
 
@@ -158,8 +157,7 @@ async function doSearch() {
 
 function showError(message: string) {
   console.log(message)
-  // TODO toast
-  //this.$bvToast.toast(`I'm sorry, we ${message}`, ToastOptions.errorToast)
+  store.addMessage(`I'm sorry, we ${message}`)
 }
 </script>
 <style scoped>

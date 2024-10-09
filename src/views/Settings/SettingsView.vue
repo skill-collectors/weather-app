@@ -32,17 +32,11 @@ async function handleDone() {
       router.push('/')
     } catch (err) {
       if (err instanceof HttpError && err.httpStatusCode === 401) {
-        // TODO toast
-        //this.$bvToast.toast('Looks like that API key is not valid.', ToastOptions.errorToast)
+        store.addMessage('Looks like that API key is not valid.')
       }
     }
   } else {
-    console.error('No API key')
-    // TODO toast
-    // this.$bvToast.toast(
-    //   'You need to set an OpenWeatherMap api key to continue.',
-    //   ToastOptions.errorToast
-    // )
+    store.addMessage('You need to set an OpenWeatherMap api key to continue.')
   }
 }
 </script>

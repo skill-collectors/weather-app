@@ -1,8 +1,8 @@
 import openWeather from '@/services/openWeatherService'
 import convert from '@/utils/ConversionUtils'
-import type { GeoDirectResponse, OneCallWeather } from './types'
+import type { GeoDirectResponse, OneCallWeather, UserMessage } from './types'
 import { defineStore } from 'pinia'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import type { Ref } from 'vue'
 import { useLocalStorage } from '@vueuse/core'
 
@@ -75,6 +75,11 @@ export const useStore = defineStore('store', () => {
     ]
   })
 
+  const messages: Ref<UserMessage[]> = ref([])
+  function addMessage(text: string) {
+    messages.value = [{text}, ...messages.value].slice(0,100);
+  }
+
   function setLocation(newLocation: GeoDirectResponse){
     recentLocations.value.push(newLocation)
     // trim oldest entries
@@ -129,6 +134,6 @@ export const useStore = defineStore('store', () => {
     return weather.value.current.weather[0].description !== ''
   })
 
-  return {apiKey, location, recentLocations, weather, updateWeather, updateLocation, deleteRecentLocation, hasWeather, hasApiKey, hasLocation, locationDisplayName}
+  return {apiKey, location, recentLocations, weather, messages, addMessage, updateWeather, updateLocation, deleteRecentLocation, hasWeather, hasApiKey, hasLocation, locationDisplayName}
 
 })

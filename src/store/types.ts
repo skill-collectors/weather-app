@@ -74,4 +74,8 @@ export interface RootState {
   weather: OneCallWeather
 }
 
+export interface UserMessage {
+  text: string
+}
+
 export default RootState

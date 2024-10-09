@@ -1,10 +1,13 @@
 <template>
   <div id="app">
+    <UserMessageDisplay></UserMessageDisplay>
     <router-view />
   </div>
 </template>
 
 <script lang="ts" setup>
+import UserMessageDisplay from './components/UserMessageDisplay.vue';
+
 </script>
 <style lang="scss">
 #app {
