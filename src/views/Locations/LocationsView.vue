@@ -100,7 +100,27 @@ function handleClearQuery() {
 }
 
 const searchResultNames = computed(() => {
-  return searchResults.value.map(convert.geoToString)
+  const set = new Set()
+  const dups = []
+  for(const result of searchResults.value) {
+    const display = convert.geoToString(result)
+    if(set.has(display)) {
+      console.log(`${display} is a duplicate!`)
+      dups.push(display)
+    } else {
+      set.add(display)
+    }
+  }
+
+  const displayValues = []
+  for(const result of searchResults.value) {
+    let displayValue = convert.geoToString(result)
+    if(dups.includes(displayValue)) {
+      displayValue = convert.geoToString(result, true)
+    }
+    displayValues.push(displayValue)
+  }
+  return displayValues
 })
 
 async function handleGeoSearch() {

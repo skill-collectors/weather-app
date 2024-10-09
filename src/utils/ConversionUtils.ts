@@ -9,7 +9,7 @@ export default {
     return `https://openweathermap.org/img/wn/${icon}${variant}.png`
   },
 
-  geoToString(geo: GeoDirectResponse) {
+  geoToString(geo: GeoDirectResponse, withCoords: boolean = false) {
     if (geo === undefined) {
       return ''
     }
@@ -19,6 +19,9 @@ export default {
     }
     if (geo.state !== undefined) {
       str += `, ${geo.state}`
+    }
+    if (withCoords && geo.lat !== undefined && geo.lon !== undefined) {
+      str += ` (${geo.lat}, ${geo.lon})`
     }
     return str
   }
