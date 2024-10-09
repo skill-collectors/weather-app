@@ -52,9 +52,9 @@ import convert from '@/utils/ConversionUtils'
 import HttpError from '@/services/HttpError'
 import { differenceInMilliseconds } from 'date-fns'
 import { useRouter } from 'vue-router'
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
+import type { Ref } from 'vue'
 import { useStore } from '@/store/store'
-
 
 const store = useStore()
 
@@ -66,7 +66,7 @@ const MIN_REFRESH_INTERVAL_MS = 15 * 60 * 1000
 // Refresh after an hour to keep data from getting too out of date
 const MAX_REFRESH_INTERVAL_MS = 60 * 60 * 1000
 
-const comingUpNotifications: ComingUpNotification[] = []
+const comingUpNotifications: Ref<ComingUpNotification[]> = ref([])
 
 // Initialize so that a refresh is "due" immediately
 let lastRefreshTime: Date = new Date(Date.now() - MIN_REFRESH_INTERVAL_MS)
@@ -94,13 +94,13 @@ function handleHeroIconClick() {
     }
   ]
   demoNotifications.forEach((demoNotification) => {
-    const demoIndex = comingUpNotifications.findIndex(
+    const demoIndex = comingUpNotifications.value.findIndex(
       (notification) => notification.type === demoNotification.type
     )
     if (demoIndex === -1) {
-      comingUpNotifications.push(demoNotification)
+      comingUpNotifications.value.push(demoNotification)
     } else {
-      comingUpNotifications.splice(demoIndex, 1)
+      comingUpNotifications.value.splice(demoIndex, 1)
     }
   })
 }
@@ -117,9 +117,9 @@ async function updateWeather() {
       store.addMessage("I'm sorry, we couldn't load the weather for your location.")
     }
   }
-  comingUpNotifications.splice(
+  comingUpNotifications.value.splice(
     0,
-    comingUpNotifications.length,
+    comingUpNotifications.value.length,
     ...determineComingUpNotifications(store.weather)
   )
 }
