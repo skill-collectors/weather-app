@@ -10,7 +10,7 @@
     <v-row>
       <v-col cols="10"></v-col>
       <v-col cols="1">
-        <a href="#" @click="handleDone">Done</a>
+        <v-btn @click="handleDone" color="grey-lighten-3">Done</v-btn>
       </v-col>
     </v-row>
   </v-container>
