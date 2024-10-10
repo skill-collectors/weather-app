@@ -1,15 +1,22 @@
 <template>
   <div class="d-flex align-items-center mt-2">
     <div class="flex-grow-1">
-      <div v-if="store.hasLocation">
+      <div>
         <v-icon icon="search" class="mr-2"></v-icon>
-        <router-link to="locations">{{ store.locationDisplayName }}</router-link>
-      </div>
-      <div v-else>
-        <v-btn to="locations"> Tap here to set your location </v-btn>
+        <v-btn to="locations" rounded="xl" color="grey-lighten-3">
+          <template v-slot:prepend>
+            <v-icon icon="mdi-map-marker-outline"></v-icon>
+          </template>
+          <template v-if="store.hasLocation">
+            {{ store.locationDisplayName }}
+          </template>
+          <template v-else>
+            Tap here to set your location
+          </template>
+        </v-btn>
       </div>
     </div>
-    <router-link to="/settings"><v-icon icon="mdi-cog" size="large"></v-icon></router-link>
+    <v-btn to="/settings" icon="mdi-cog" color="grey-lighten-3"></v-btn>
   </div>
 </template>
 
