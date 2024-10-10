@@ -1,25 +1,28 @@
-import { GeoDirectResponse } from '@/store/types';
+import type { GeoDirectResponse } from '@/store/types'
 
 export default {
   dtToDate(dt: number): Date {
-    return new Date(dt * 1000);
+    return new Date(dt * 1000)
   },
 
   iconToUrl(icon: string, variant: string = ''): string {
-    return `https://openweathermap.org/img/wn/${icon}${variant}.png`;
+    return `https://openweathermap.org/img/wn/${icon}${variant}.png`
   },
 
-  geoToString(geo: GeoDirectResponse) {
+  geoToString(geo: GeoDirectResponse, withCoords: boolean = false) {
     if (geo === undefined) {
-      return '';
+      return ''
     }
-    let str = geo.name;
+    let str = geo.name
     if (geo.country !== undefined) {
-      str += `, ${geo.country}`;
+      str += `, ${geo.country}`
     }
     if (geo.state !== undefined) {
-      str += `, ${geo.state}`;
+      str += `, ${geo.state}`
     }
-    return str;
-  },
-};
+    if (withCoords && geo.lat !== undefined && geo.lon !== undefined) {
+      str += ` (${geo.lat}, ${geo.lon})`
+    }
+    return str
+  }
+}

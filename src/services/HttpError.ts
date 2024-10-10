@@ -1,12 +1,12 @@
 export default class HttpError extends Error {
-  public readonly httpStatusCode: number;
+  public readonly httpStatusCode: number
 
   constructor(httpStatusCode: number, message: string) {
-    super(message);
+    super(message)
 
-    this.httpStatusCode = httpStatusCode;
+    this.httpStatusCode = httpStatusCode
 
     // Set the prototype explicitly.
-    Object.setPrototypeOf(this, HttpError.prototype);
+    Object.setPrototypeOf(this, HttpError.prototype)
   }
 }
