@@ -1,6 +1,10 @@
 <template>
   <v-list class="py-0 mt-2">
-    <v-list-item class="coming-up-item" v-for="notification in props.notifications" :key="notification.text">
+    <v-list-item
+      class="coming-up-item"
+      v-for="notification in props.notifications"
+      :key="notification.text"
+    >
       <template v-slot:prepend>
         <img :src="notification.iconUrl" />
       </template>
@@ -10,12 +14,11 @@
 </template>
 
 <script lang="ts" setup>
-import type { ComingUpNotification } from '@/services/ComingUpService';
+import type { ComingUpNotification } from '@/services/ComingUpService'
 
 const props = defineProps<{
-  notifications: ComingUpNotification[],
+  notifications: ComingUpNotification[]
 }>()
-
 </script>
 
 <style scoped>

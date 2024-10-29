@@ -6,8 +6,7 @@
 </template>
 
 <script lang="ts" setup>
-import UserMessageDisplay from './components/UserMessageDisplay.vue';
-
+import UserMessageDisplay from './components/UserMessageDisplay.vue'
 </script>
 <style lang="scss">
 #app {

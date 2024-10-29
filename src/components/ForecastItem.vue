@@ -18,7 +18,7 @@ const props = defineProps({
   imageSrc: { type: String },
   temperature: { type: Number },
   high: { type: Number },
-  low: { type: Number },
+  low: { type: Number }
 })
 
 const formattedDateTime = computed(() => {

@@ -20,9 +20,9 @@ const inputRef = useTemplateRef<HTMLInputElement>('input')
 const datalistRef = useTemplateRef<HTMLDataListElement>('datalist')
 
 const props = defineProps({
-  value: { type: String, required: false, default: ''},
-  placeholder: { type: String, required: false, default: ''},
-  list: { type: Array<String>, required: false, default: () => []},
+  value: { type: String, required: false, default: '' },
+  placeholder: { type: String, required: false, default: '' },
+  list: { type: Array<String>, required: false, default: () => [] }
 })
 
 const dataListClass = computed(() => {
@@ -40,17 +40,20 @@ function handleSelect(e: MouseEvent) {
   emit('select', target.value)
 }
 
-watch(() => props.list, () => {
-  // wait until after the DOM rerenders so that datalist.offsetHeight is correct
-  nextTick(() => {
-    const inputElement = inputRef.value as HTMLInputElement
-    if(datalistRef.value !== null) {
-      datalistRef.value.style.width = `${inputElement.offsetWidth}px`
-      datalistRef.value.style.left = `${inputElement.offsetLeft}px`
-      datalistRef.value.style.top = `${inputElement.offsetTop - datalistRef.value.offsetHeight}px`
-    }
-  })
-})
+watch(
+  () => props.list,
+  () => {
+    // wait until after the DOM rerenders so that datalist.offsetHeight is correct
+    nextTick(() => {
+      const inputElement = inputRef.value as HTMLInputElement
+      if (datalistRef.value !== null) {
+        datalistRef.value.style.width = `${inputElement.offsetWidth}px`
+        datalistRef.value.style.left = `${inputElement.offsetLeft}px`
+        datalistRef.value.style.top = `${inputElement.offsetTop - datalistRef.value.offsetHeight}px`
+      }
+    })
+  }
+)
 </script>
 <style scoped>
 datalist {

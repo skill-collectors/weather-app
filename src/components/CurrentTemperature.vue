@@ -6,10 +6,9 @@
 </template>
 
 <script lang="ts" setup>
-
 const props = defineProps({
   currentTemperature: { type: Number, required: true },
-  currentFeelsLike: { type: Number, required: true },
+  currentFeelsLike: { type: Number, required: true }
 })
 </script>
 

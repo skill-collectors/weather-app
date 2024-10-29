@@ -10,9 +10,7 @@
           <template v-if="store.hasLocation">
             {{ store.locationDisplayName }}
           </template>
-          <template v-else>
-            Tap here to set your location
-          </template>
+          <template v-else> Tap here to set your location </template>
         </v-btn>
       </div>
     </div>
@@ -21,10 +19,8 @@
 </template>
 
 <script lang="ts" setup>
-import { useStore } from '@/store/store';
+import { useStore } from '@/store/store'
 
 const store = useStore()
-
-
 </script>
 <style scoped></style>

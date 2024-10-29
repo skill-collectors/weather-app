@@ -1,7 +1,12 @@
 <template>
   <v-container fluid class="d-flex flex-column justify-content-end h-100">
     <v-list lines="three">
-      <v-list-item prepend-icon="mdi-crosshairs" key="CURRENT_LOCATION" class="d-flex align-items-center" @click="handleGeoSearch">
+      <v-list-item
+        prepend-icon="mdi-crosshairs"
+        key="CURRENT_LOCATION"
+        class="d-flex align-items-center"
+        @click="handleGeoSearch"
+      >
         Your current location
       </v-list-item>
       <v-list-item
@@ -13,12 +18,16 @@
       >
         {{ location.displayName }}
         <slot name="append">
-          <v-icon icon="mdi-trash-can-outline" @click.stop="deleteRecentLocation(location)"></v-icon>
+          <v-icon
+            icon="mdi-trash-can-outline"
+            @click.stop="deleteRecentLocation(location)"
+          ></v-icon>
         </slot>
       </v-list-item>
     </v-list>
     <div class="d-flex align-items-center mt-2">
-      <v-autocomplete class="mx-2"
+      <v-autocomplete
+        class="mx-2"
         :search="query"
         @update:search="query = $event"
         :items="searchResultNames"
@@ -39,7 +48,7 @@ import locationService from '@/services/GeoLocationService'
 import type { GeoDirectResponse, GeolocationCoordinates } from '@/store/types'
 import HttpError from '@/services/HttpError'
 import { computed, ref } from 'vue'
-import type {Ref} from 'vue'
+import type { Ref } from 'vue'
 import { useStore } from '@/store/store'
 import { useRouter } from 'vue-router'
 import { watchDebounced } from '@vueuse/core'
@@ -79,7 +88,7 @@ function deleteRecentLocation(location: GeoDirectResponse) {
 }
 
 async function handleSuggestionSelect(selectedValue: string | null) {
-  if(selectedValue === null) {
+  if (selectedValue === null) {
     return
   }
   const selected = searchResults.value.find(
@@ -95,16 +104,16 @@ async function handleSuggestionSelect(selectedValue: string | null) {
 
 function handleClearQuery() {
   query.value = ''
-  searchResults.value = [];
+  searchResults.value = []
   // TODO focus on input
 }
 
 const searchResultNames = computed(() => {
   const set = new Set()
   const dups = []
-  for(const result of searchResults.value) {
+  for (const result of searchResults.value) {
     const display = convert.geoToString(result)
-    if(set.has(display)) {
+    if (set.has(display)) {
       console.log(`${display} is a duplicate!`)
       dups.push(display)
     } else {
@@ -113,9 +122,9 @@ const searchResultNames = computed(() => {
   }
 
   const displayValues = []
-  for(const result of searchResults.value) {
+  for (const result of searchResults.value) {
     let displayValue = convert.geoToString(result)
-    if(dups.includes(displayValue)) {
+    if (dups.includes(displayValue)) {
       displayValue = convert.geoToString(result, true)
     }
     displayValues.push(displayValue)
@@ -124,7 +133,7 @@ const searchResultNames = computed(() => {
 })
 
 async function handleGeoSearch() {
-  console.log("handleGeoSearch")
+  console.log('handleGeoSearch')
   try {
     const coords: GeolocationCoordinates = await locationService.getCurrentPosition()
     try {
@@ -142,7 +151,7 @@ async function handleGeoSearch() {
       }
     }
   } catch (err) {
-    if(err instanceof Error) {
+    if (err instanceof Error) {
       showError(`could not retrieve your location: ${err.message}`)
     }
   }
@@ -168,12 +177,11 @@ async function doSearch() {
   } catch (err) {
     if (err instanceof HttpError && err.httpStatusCode === 401) {
       router.push('/settings')
-    } else if(err instanceof Error) {
+    } else if (err instanceof Error) {
       showError(`could not determine a city for your location: ${err.message}`)
     }
   }
 }
-
 
 function showError(message: string) {
   console.log(message)

@@ -148,10 +148,7 @@ async function handleVisibilityChange() {
       await updateWeather()
 
       // Start auto-refreshing every max interval
-      autoRefreshInterval = window.setInterval(
-        updateWeather,
-        MAX_REFRESH_INTERVAL_MS
-      )
+      autoRefreshInterval = window.setInterval(updateWeather, MAX_REFRESH_INTERVAL_MS)
     } else {
       const nextAutoRefreshMs = MAX_REFRESH_INTERVAL_MS - msSinceLastRefresh
       // Manually schedule the next refresh to happen max interval ms after
@@ -159,10 +156,7 @@ async function handleVisibilityChange() {
       autoRefreshTimeout = window.setTimeout(async () => {
         await updateWeather()
         // Start auto-refreshing every max interval
-        autoRefreshInterval = window.setInterval(
-          updateWeather,
-          MAX_REFRESH_INTERVAL_MS
-        )
+        autoRefreshInterval = window.setInterval(updateWeather, MAX_REFRESH_INTERVAL_MS)
       }, nextAutoRefreshMs)
     }
   } else {
@@ -171,7 +165,6 @@ async function handleVisibilityChange() {
     window.clearInterval(autoRefreshInterval)
   }
 }
-
 </script>
 <style scoped>
 .home {

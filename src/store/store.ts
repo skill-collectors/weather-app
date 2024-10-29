@@ -7,7 +7,6 @@ import type { Ref } from 'vue'
 import { useLocalStorage } from '@vueuse/core'
 
 export const useStore = defineStore('store', () => {
-
   const apiKey = useLocalStorage('apiKey', '')
   const location: Ref<GeoDirectResponse> = useLocalStorage('location', {
     name: '',
@@ -77,10 +76,10 @@ export const useStore = defineStore('store', () => {
 
   const messages: Ref<UserMessage[]> = ref([])
   function addMessage(text: string) {
-    messages.value = [{text}, ...messages.value].slice(0,100);
+    messages.value = [{ text }, ...messages.value].slice(0, 100)
   }
 
-  function setLocation(newLocation: GeoDirectResponse){
+  function setLocation(newLocation: GeoDirectResponse) {
     recentLocations.value.push(newLocation)
     // trim oldest entries
     while (recentLocations.value.length > 10) {
@@ -99,7 +98,7 @@ export const useStore = defineStore('store', () => {
   }
 
   async function updateWeather() {
-    if(hasLocation.value) {
+    if (hasLocation.value) {
       const { lat, lon } = location.value
       const newWeather = await openWeather.getOneCallWeather(lat, lon, apiKey.value)
       weather.value = newWeather
@@ -113,7 +112,7 @@ export const useStore = defineStore('store', () => {
   }
 
   const locationDisplayName = computed(() => {
-    if(hasLocation.value) {
+    if (hasLocation.value) {
       return convert.geoToString(location.value)
     }
     return ''
@@ -134,6 +133,19 @@ export const useStore = defineStore('store', () => {
     return weather.value.current.weather[0].description !== ''
   })
 
-  return {apiKey, location, recentLocations, weather, messages, addMessage, updateWeather, updateLocation, deleteRecentLocation, hasWeather, hasApiKey, hasLocation, locationDisplayName}
-
+  return {
+    apiKey,
+    location,
+    recentLocations,
+    weather,
+    messages,
+    addMessage,
+    updateWeather,
+    updateLocation,
+    deleteRecentLocation,
+    hasWeather,
+    hasApiKey,
+    hasLocation,
+    locationDisplayName
+  }
 })
