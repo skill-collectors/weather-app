@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils';
 import CurrentTemperature from '@/components/CurrentTemperature.vue';
+import { describe, it, expect } from 'vitest'
 
 describe('CurrentTemperature', () => {
   const propsData = {

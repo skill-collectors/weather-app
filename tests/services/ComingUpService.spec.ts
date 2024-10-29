@@ -1,5 +1,6 @@
 import determineComingUpNotifications from '@/services/ComingUpService';
 import { OneCallWeather } from '@/store/types';
+import { describe, beforeEach, it, expect, vi } from 'vitest'
 
 describe('ComingUpService', () => {
   let weather: OneCallWeather;
@@ -141,7 +142,7 @@ describe('ComingUpService', () => {
 
   it('finds snow overnight', () => {
     // Given
-    jest
+    vi
       .spyOn(global.Date, 'now')
       .mockImplementationOnce(() => new Date('2020-02-21T19:01:58.135Z').valueOf());
 

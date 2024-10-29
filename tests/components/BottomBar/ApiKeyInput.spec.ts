@@ -1,82 +1,91 @@
-import Vuex, { Store, MutationTree } from 'vuex';
-import { RootState } from '@/store/types';
-import { mount, createLocalVue, shallowMount } from '@vue/test-utils';
+import { mount, shallowMount } from '@vue/test-utils';
 import ApiKeyInput from '@/views/Settings/ApiKeyInput.vue';
-import { SET_API_KEY } from '@/store/mutations';
-import BootstrapVue from 'bootstrap-vue';
+import { createTestingPinia } from '@pinia/testing';
+import { useStore } from '@/store/store';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
+import { createVuetify } from 'vuetify';
+import { components, directives } from 'vuetify/dist/vuetify.js';
 
-const localVue = createLocalVue();
-localVue.use(Vuex);
-localVue.use(BootstrapVue);
+const vuetify = createVuetify({
+  components,
+  directives,
+})
+const pinia = createTestingPinia({
+  createSpy: vi.fn,
+});
 
 describe('ApiKeyInput.vue', () => {
-  let state: RootState;
-  let mutations: MutationTree<RootState>;
-  let store: Store<RootState>;
+  let store: ReturnType<typeof useStore>;
 
   beforeEach(() => {
-    state = {
-      apiKey: '',
-      location: {
-        name: '',
-        country: '',
-        state: '',
-        lat: 0,
-        lon: 0,
+    // Set up a testing Pinia instance with a mock store
+    store = useStore(pinia);
+
+    // Initialize store state as needed
+    store.apiKey = '';
+    store.location = {
+      name: '',
+      country: '',
+      state: '',
+      lat: 0,
+      lon: 0,
+    };
+    store.recentLocations = [];
+    store.weather = {
+      current: {
+        temp: 0,
+        feels_like: 0,
+        weather: [{
+          description: 'sunny', icon: '03n', id: 800, main: 'Clear',
+        }],
       },
-      recentLocations: [],
-      weather: {
-        current: {
-          temp: 0,
-          feels_like: 0,
-          weather: [{
-            description: 'sunny', icon: '03n', id: 800, main: 'Clear',
-          }],
+      minutely: [{ dt: 0, precipitation: 0 }],
+      hourly: [{
+        dt: 0,
+        temp: 0,
+        feels_like: 0,
+        weather: [{
+          description: '', icon: '', id: 0, main: '',
+        }],
+      }],
+      daily: [{
+        dt: 0,
+        temp: {
+          day: 0, eve: 0, morn: 0, night: 0, min: 0, max: 0,
         },
-        minutely: [{ dt: 0, precipitation: 0 }],
-        hourly: [{
-          dt: 0,
-          temp: 0,
-          feels_like: 0,
-          weather: [{
-            description: '', icon: '', id: 0, main: '',
-          }],
+        feels_like: {
+          day: 0, eve: 0, morn: 0, night: 0,
+        },
+        weather: [{
+          description: '', icon: '', id: 0, main: '',
         }],
-        daily: [{
-          dt: 0,
-          temp: {
-            day: 0, eve: 0, morn: 0, night: 0, min: 0, max: 0,
-          },
-          feels_like: {
-            day: 0, eve: 0, morn: 0, night: 0,
-          },
-          weather: [{
-            description: '', icon: '', id: 0, main: '',
-          }],
-        }],
-      },
-      stats: {
-        callCount: 0,
-      },
+      }],
     };
-    mutations = {
-      [SET_API_KEY]: jest.fn(),
+    store.stats = {
+      callCount: 0,
     };
-    store = new Vuex.Store({
-      state,
-      mutations,
-    });
   });
 
   it('renders correctly', () => {
-    const wrapper = shallowMount(ApiKeyInput, { store, localVue });
+    const wrapper = shallowMount(ApiKeyInput, {
+      global: {
+        plugins: [vuetify, store.$pinia],
+      },
+    });
     expect(wrapper.findComponent(ApiKeyInput).exists()).toBe(true);
   });
 
-  it('stores the value in vuex when it changes', () => {
-    const wrapper = mount(ApiKeyInput, { store, localVue });
+  it('stores the value in Pinia when it changes', async () => {
+    const wrapper = mount(ApiKeyInput, {
+      global: {
+        plugins: [vuetify, store.$pinia],
+      },
+    });
+
     const input = wrapper.get('#apiKey');
-    input.setValue('test');
-    expect(mutations[SET_API_KEY]).toHaveBeenCalled();
+    await input.setValue('test');
+
+    // Check if the apiKey has been updated in the store
+    expect(store.apiKey).toBe('test');
   });
 });
