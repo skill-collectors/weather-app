@@ -1,31 +1,33 @@
 <template>
-  <ul>
-    <li v-if="!notifications || notifications.length === 0">Nothing to worry about!</li>
-    <li v-else v-for="notification in notifications" :key="notification.text">
-      <img :src="notification.iconUrl"/>{{notification.text}}
-    </li>
-  </ul>
+  <v-list class="py-0 mt-2">
+    <v-list-item
+      class="coming-up-item"
+      v-for="notification in props.notifications"
+      :key="notification.text"
+    >
+      <template v-slot:prepend>
+        <img :src="notification.iconUrl" />
+      </template>
+      {{ notification.text }}
+    </v-list-item>
+  </v-list>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
-import { ComingUpNotification } from '@/services/ComingUpService';
+<script lang="ts" setup>
+import type { ComingUpNotification } from '@/services/ComingUpService'
 
-@Component
-export default class ComingUpList extends Vue {
-  @Prop({ type: Array, default: () => [] }) public notifications!: ComingUpNotification[];
-}
+const props = defineProps<{
+  notifications: ComingUpNotification[]
+}>()
 </script>
 
 <style scoped>
-ul {
+.coming-up-item {
   font-size: smaller;
   list-style-type: none;
   padding-left: 0;
   margin-bottom: 0;
   text-align: left;
-}
-li {
-  font-weight: normal;
+  background: #d8d8d8;
 }
 </style>

@@ -1,21 +1,27 @@
-import '@babel/polyfill';
-import 'mutationobserver-shim';
-import Vue from 'vue';
-import './plugins/bootstrap-vue';
-import App from './App.vue';
-import router from './router';
-import store from './store/store';
-import { INIT } from './store/mutations';
-import { UPDATE_WEATHER } from './store/actions';
-import './registerServiceWorker';
+import '@mdi/font/css/materialdesignicons.css'
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 
-Vue.config.productionTip = false;
+// Vuetify
+import 'vuetify/styles'
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
 
-new Vue({
-  router,
-  store,
-  render: (h) => h(App),
-  async beforeCreate() {
-    this.$store.commit(INIT);
-  },
-}).$mount('#app');
+import App from './App.vue'
+import router from './router'
+
+import './assets/main.css'
+
+const app = createApp(App)
+
+const vuetify = createVuetify({
+  components,
+  directives
+})
+
+app.use(createPinia())
+app.use(router)
+app.use(vuetify)
+
+app.mount('#app')

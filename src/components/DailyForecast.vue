@@ -12,27 +12,20 @@
     </li>
   </ul>
 </template>
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { Store } from 'vuex';
-import { RootState } from '@/store/types';
-import ForecastItem from '@/components/ForecastItem.vue';
-import convert from '@/utils/ConversionUtils';
+<script lang="ts" setup>
+import ForecastItem from '@/components/ForecastItem.vue'
+import convert from '@/utils/ConversionUtils'
+import { useStore } from '@/store/store'
+import { computed } from 'vue'
 
-@Component({
-  components: { ForecastItem },
-  methods: {
-    dtToDate: convert.dtToDate,
-    iconToUrl: convert.iconToUrl,
-  },
+const dtToDate = convert.dtToDate
+const iconToUrl = convert.iconToUrl
+
+const store = useStore()
+
+const days = computed(() => {
+  return store.weather.daily
 })
-export default class DailyForecast extends Vue {
-  $store!: Store<RootState>
-
-  get days() {
-    return this.$store.state.weather.daily;
-  }
-}
 </script>
 <style scoped>
 ul {

@@ -1,139 +1,151 @@
-import Vue from 'vue';
-import Vuex, { StoreOptions } from 'vuex';
-import {
-  INIT, SET_LOCATION, DELETE_RECENT_LOCATION, SET_API_KEY, SET_CALL_COUNT, SET_WEATHER,
-} from '@/store/mutations';
-import { UPDATE_WEATHER, UPDATE_LOCATION } from '@/store/actions';
-import openWeather from '@/services/openWeatherService';
-import convert from '@/utils/ConversionUtils';
-import { RootState, OneCallWeather, GeoDirectResponse } from './types';
+import openWeather from '@/services/openWeatherService'
+import convert from '@/utils/ConversionUtils'
+import type { GeoDirectResponse, OneCallWeather, UserMessage } from './types'
+import { defineStore } from 'pinia'
+import { computed, ref } from 'vue'
+import type { Ref } from 'vue'
+import { useLocalStorage } from '@vueuse/core'
 
-Vue.use(Vuex);
-
-const storeOptions: StoreOptions<RootState> = {
-  state: {
-    apiKey: '',
-    location: {
-      name: '',
-      country: '',
-      state: '',
-      lat: 0,
-      lon: 0,
+export const useStore = defineStore('store', () => {
+  const apiKey = useLocalStorage('apiKey', '')
+  const location: Ref<GeoDirectResponse> = useLocalStorage('location', {
+    name: '',
+    country: '',
+    state: '',
+    lat: 0,
+    lon: 0
+  })
+  const recentLocations: Ref<GeoDirectResponse[]> = useLocalStorage('recentLocations', [])
+  const weather: Ref<OneCallWeather> = useLocalStorage('weather', {
+    current: {
+      temp: 0,
+      feels_like: 0,
+      weather: [
+        {
+          description: '',
+          icon: '',
+          id: 0,
+          main: ''
+        }
+      ]
     },
-    recentLocations: [],
-    weather: {
-      current: {
-        temp: 0,
-        feels_like: 0,
-        weather: [{
-          description: '', icon: '', id: 0, main: '',
-        }],
-      },
-      minutely: [{ dt: 0, precipitation: 0 }],
-      hourly: [{
+    minutely: [{ dt: 0, precipitation: 0 }],
+    hourly: [
+      {
         dt: 0,
         temp: 0,
         feels_like: 0,
-        weather: [{
-          description: '', icon: '', id: 0, main: '',
-        }],
-      }],
-      daily: [{
+        weather: [
+          {
+            description: '',
+            icon: '',
+            id: 0,
+            main: ''
+          }
+        ]
+      }
+    ],
+    daily: [
+      {
         dt: 0,
         temp: {
-          day: 0, eve: 0, morn: 0, night: 0, min: 0, max: 0,
+          day: 0,
+          eve: 0,
+          morn: 0,
+          night: 0,
+          min: 0,
+          max: 0
         },
         feels_like: {
-          day: 0, eve: 0, morn: 0, night: 0,
+          day: 0,
+          eve: 0,
+          morn: 0,
+          night: 0
         },
-        weather: [{
-          description: '', icon: '', id: 0, main: '',
-        }],
-      }],
-    },
-    stats: {
-      callCount: 0,
-    },
-  },
-  mutations: {
-    [INIT](state: RootState) {
-      const localStore = localStorage.getItem('store');
-      if (localStore) {
-        this.replaceState({
-          ...state,
-          ...JSON.parse(localStore),
-        });
+        weather: [
+          {
+            description: '',
+            icon: '',
+            id: 0,
+            main: ''
+          }
+        ]
       }
-    },
-    [SET_API_KEY](state: RootState, newKey: string) {
-      state.apiKey = newKey;
-    },
-    [SET_LOCATION](state: RootState, location: GeoDirectResponse) {
-      state.recentLocations.push(location);
-      // trim oldest entries
-      while (state.recentLocations.length > 10) {
-        state.recentLocations.shift();
-      }
-      state.location = location;
-    },
-    [DELETE_RECENT_LOCATION](state: RootState, locationToRemove: GeoDirectResponse) {
-      const index = state.recentLocations
-        .findIndex((recent) => recent.lat === locationToRemove.lat
-          && recent.lon === locationToRemove.lon);
-      if (index !== -1) {
-        state.recentLocations.splice(index, 1);
-      }
-    },
-    [SET_WEATHER](state: RootState, weather: OneCallWeather) {
-      state.weather = weather;
-    },
-    [SET_CALL_COUNT](state: RootState, { callCount }: { callCount: number }) {
-      state.stats.callCount = callCount;
-    },
-  },
-  actions: {
-    async [UPDATE_WEATHER](context) {
-      if (context.getters.hasLocation) {
-        const { lat, lon } = context.state.location;
-        const { apiKey } = context.state;
-        const weather = await openWeather.getOneCallWeather(lat, lon, apiKey);
-        context.commit(SET_WEATHER, weather);
-      }
-    },
-    async [UPDATE_LOCATION](context, location: GeoDirectResponse) {
-      // delete any old entries if they are duplicates
-      context.commit(DELETE_RECENT_LOCATION, location);
-      context.commit(SET_LOCATION, location);
-      context.dispatch(UPDATE_WEATHER);
-    },
-  },
-  getters: {
-    locationDisplayName(state, getters) {
-      if (getters.hasLocation) {
-        return convert.geoToString(state.location);
-      }
-      return '';
-    },
-    hasApiKey(state) {
-      // Consider all 'falsy' values: '', null, or undefined
-      return Boolean(state.apiKey);
-    },
-    hasLocation(state) {
-      const { name, lat, lon } = state.location;
-      // Consider all 'falsy' values: 0, '', null, undefined
-      return Boolean(lat) && Boolean(lon) && Boolean(name);
-    },
-    hasWeather(state) {
-      // There may be a better way to detect this, but this is good enough for now
-      return state.weather.current.weather[0].description !== '';
-    },
-  },
-};
+    ]
+  })
 
-const store = new Vuex.Store<RootState>(storeOptions);
+  const messages: Ref<UserMessage[]> = ref([])
+  function addMessage(text: string) {
+    messages.value = [{ text }, ...messages.value].slice(0, 100)
+  }
 
-store.subscribe((mutation: any, state: RootState) => {
-  localStorage.setItem('store', JSON.stringify(state));
-});
+  function setLocation(newLocation: GeoDirectResponse) {
+    recentLocations.value.push(newLocation)
+    // trim oldest entries
+    while (recentLocations.value.length > 10) {
+      recentLocations.value.shift()
+    }
+    location.value = newLocation
+  }
 
-export default store;
+  function deleteRecentLocation(locationToRemove: GeoDirectResponse) {
+    const index = recentLocations.value.findIndex(
+      (recent) => recent.lat === locationToRemove.lat && recent.lon === locationToRemove.lon
+    )
+    if (index !== -1) {
+      recentLocations.value.splice(index, 1)
+    }
+  }
+
+  async function updateWeather() {
+    if (hasLocation.value) {
+      const { lat, lon } = location.value
+      const newWeather = await openWeather.getOneCallWeather(lat, lon, apiKey.value)
+      weather.value = newWeather
+    }
+  }
+
+  function updateLocation(location: GeoDirectResponse) {
+    deleteRecentLocation(location)
+    setLocation(location)
+    updateWeather()
+  }
+
+  const locationDisplayName = computed(() => {
+    if (hasLocation.value) {
+      return convert.geoToString(location.value)
+    }
+    return ''
+  })
+
+  const hasApiKey = computed(() => {
+    // Consider all 'falsy' values: '', null, or undefined
+    return Boolean(apiKey.value)
+  })
+
+  const hasLocation = computed(() => {
+    const { name, lat, lon } = location.value
+    // Consider all 'falsy' values: 0, '', null, undefined
+    return Boolean(lat) && Boolean(lon) && Boolean(name)
+  })
+
+  const hasWeather = computed(() => {
+    return weather.value.current.weather[0].description !== ''
+  })
+
+  return {
+    apiKey,
+    location,
+    recentLocations,
+    weather,
+    messages,
+    addMessage,
+    updateWeather,
+    updateLocation,
+    deleteRecentLocation,
+    hasWeather,
+    hasApiKey,
+    hasLocation,
+    locationDisplayName
+  }
+})

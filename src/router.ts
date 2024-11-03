@@ -1,27 +1,24 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import Home from './views/Home/Home.vue';
-import Locations from './views/Locations.vue';
-import Settings from './views/Settings/Settings.vue';
+import { createRouter, createWebHistory } from 'vue-router'
+import Home from './views/Home/HomeView.vue'
+import Locations from './views/Locations/LocationsView.vue'
+import Settings from './views/Settings/SettingsView.vue'
 
-Vue.use(Router);
+const routes = [
+  {
+    path: '/',
+    component: Home
+  },
+  {
+    path: '/locations',
+    component: Locations
+  },
+  {
+    path: '/settings',
+    component: Settings
+  }
+]
 
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: Home,
-    },
-    {
-      path: '/locations',
-      name: 'locations',
-      component: Locations,
-    },
-    {
-      path: '/settings',
-      name: 'settings',
-      component: Settings,
-    },
-  ],
-});
+export default createRouter({
+  history: createWebHistory(),
+  routes
+})

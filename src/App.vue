@@ -1,13 +1,12 @@
 <template>
   <div id="app">
-    <router-view/>
+    <UserMessageDisplay></UserMessageDisplay>
+    <router-view />
   </div>
 </template>
 
-<script lang="ts">
-import { Vue } from 'vue-property-decorator';
-
-export default class App extends Vue {}
+<script lang="ts" setup>
+import UserMessageDisplay from './components/UserMessageDisplay.vue'
 </script>
 <style lang="scss">
 #app {
