@@ -3,100 +3,12 @@ updates:
 - package-ecosystem: npm
   directory: "/"
   schedule:
-    interval: weekly
+    interval: monthly
   open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: eslint
-    versions:
-    - 7.19.0
-    - 7.20.0
-    - 7.21.0
-    - 7.25.0
-  - dependency-name: "@storybook/addon-essentials"
-    versions:
-    - 6.1.17
-    - 6.1.18
-    - 6.1.20
-    - 6.2.2
-  - dependency-name: "@storybook/vue"
-    versions:
-    - 6.1.15
-    - 6.1.17
-    - 6.1.18
-    - 6.1.20
-    - 6.2.2
-  - dependency-name: "@storybook/addon-links"
-    versions:
-    - 6.1.17
-    - 6.1.18
-    - 6.1.20
-    - 6.2.2
-  - dependency-name: "@vue/cli-plugin-pwa"
-    versions:
-    - 4.5.12
-  - dependency-name: "@typescript-eslint/parser"
-    versions:
-    - 4.15.0
-    - 4.15.1
-    - 4.15.2
-    - 4.16.1
-    - 4.18.0
-  - dependency-name: playwright
-    versions:
-    - 1.8.0
-    - 1.9.2
-  - dependency-name: "@typescript-eslint/eslint-plugin"
-    versions:
-    - 4.15.0
-    - 4.15.1
-    - 4.15.2
-    - 4.16.1
-    - 4.17.0
-  - dependency-name: ts-jest
-    versions:
-    - 26.5.0
-    - 26.5.1
-    - 26.5.3
-  - dependency-name: pug
-    versions:
-    - 3.0.2
-  - dependency-name: pug-code-gen
-    versions:
-    - 3.0.2
-  - dependency-name: "@babel/core"
-    versions:
-    - 7.12.13
-    - 7.12.16
-    - 7.12.17
-    - 7.13.8
-  - dependency-name: sb
-    versions:
-    - 6.1.15
-    - 6.1.17
-    - 6.1.18
-    - 6.1.20
-  - dependency-name: eslint-plugin-vue
-    versions:
-    - 7.6.0
-  - dependency-name: codeceptjs
-    versions:
-    - 3.0.5
-  - dependency-name: lint-staged
-    versions:
-    - 10.5.4
-  - dependency-name: "@storybook/addon-actions"
-    versions:
-    - 6.1.15
-    - 6.1.17
-  - dependency-name: "@vue/test-utils"
-    versions:
-    - 1.1.3
-  - dependency-name: "@vue/cli-service"
-    versions:
-    - 4.5.11
-  - dependency-name: vue-router
-    versions:
-    - 3.5.1
-  - dependency-name: bootstrap
-    versions:
-    - 4.6.0
+  # Major versions should each get their own PR
+  groups:
+      # Group non-major updates into a single PR
+      non-major:
+        patterns:
+          - "*" # Match all dependencies
+        update-types: ["version-update:semver-minor", "version-update:semver-patch"]
