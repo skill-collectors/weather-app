@@ -11,4 +11,4 @@ updates:
       non-major:
         patterns:
           - "*" # Match all dependencies
-        update-types: ["version-update:semver-minor", "version-update:semver-patch"]
+        update-types: ["minor", "patch"]
