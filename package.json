@@ -14,7 +14,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "date-fns": "^2.20.1",
+    "date-fns": "^4.1.0",
     "pinia": "^2.2.6",
     "vue": "^3.5.12",
     "vue-router": "^4.1.6",
