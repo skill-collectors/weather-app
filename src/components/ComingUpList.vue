@@ -1,6 +1,6 @@
 <template>
-  <v-list class="pl-2" bg-color="grey-lighten-2">
-    <v-list-header>Coming up...</v-list-header>
+  <v-list bg-color="grey-lighten-3">
+    <v-list-subheader>Coming up...</v-list-subheader>
     <v-list-item
       class="coming-up-item"
       v-for="notification in props.notifications"

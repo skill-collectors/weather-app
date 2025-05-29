@@ -1,7 +1,7 @@
 <template>
   <v-responsive class="overflow-y-scroll" max-height="100vh">
     <v-app id="app">
-      <v-app-bar>
+      <v-app-bar class="d-print-none">
         <v-app-bar-title class="text-center">
           <v-btn to="locations">
             <v-icon>mdi-map-marker-outline</v-icon>
@@ -22,14 +22,12 @@
         <v-container max-width="30rem">
           <router-view />
         </v-container>
-        <bottom-bar></bottom-bar>
       </v-main>
     </v-app>
   </v-responsive>
 </template>
 
 <script lang="ts" setup>
-import BottomBar from '@/views/Home/BottomBar.vue'
 import UserMessageDisplay from './components/UserMessageDisplay.vue'
 import { useStore } from '@/store/store'
 

@@ -1,6 +1,6 @@
 <template>
-  <v-list density="compact" class="pl-2">
-    <v-list-header> Today's forecast </v-list-header>
+  <v-list density="compact">
+    <v-list-subheader>Today's forecast</v-list-subheader>
     <v-list-item v-for="hour in hours" :key="hour.dt">
       <template #prepend>
         <img :src="iconToUrl(hour.weather[0].icon)" />
@@ -25,10 +25,9 @@ import { computed } from 'vue'
 
 const store = useStore()
 
-const formatTime = (dt) => format(dtToDate(dt), 'ha')
+const formatTime = (dt) => format(convert.dtToDate(dt), 'ha')
 
 const iconToUrl = convert.iconToUrl
-const dtToDate = convert.dtToDate
 
 const hours = computed(() => {
   return store.weather.hourly.slice(0, 24)

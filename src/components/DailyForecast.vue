@@ -1,46 +1,34 @@
-<template>
-  <ul>
-    <li v-for="day in days" :key="day.dt">
-      <forecast-item
-        class="m-2"
-        :dateTime="dtToDate(day.dt)"
-        dateTimeFormat="E"
-        :imageSrc="iconToUrl(day.weather[0].icon)"
-        :high="day.temp.max"
-        :low="day.temp.min"
-      ></forecast-item>
-    </li>
-  </ul>
-</template>
 <script lang="ts" setup>
-import ForecastItem from '@/components/ForecastItem.vue'
+import { format } from 'date-fns'
 import convert from '@/utils/ConversionUtils'
 import { useStore } from '@/store/store'
 import { computed } from 'vue'
 
-const dtToDate = convert.dtToDate
+const formatDay = (dt) => format(convert.dtToDate(dt), 'EEEE')
 const iconToUrl = convert.iconToUrl
 
 const store = useStore()
 
 const days = computed(() => {
-  return store.weather.daily
+  return store.weather.daily.slice(1)
 })
 </script>
-<style scoped>
-ul {
-  list-style-type: none;
-  padding-left: 0;
-  margin-bottom: 0;
-  width: 100%;
-  overflow-x: scroll;
-  scrollbar-width: none; /* Firefox */
-}
-ul::-webkit-scrollbar {
-  display: none; /* Webkit */
-}
-li {
-  display: inline-block;
-  width: 20%;
-}
-</style>
+<template>
+  <h4>This week</h4>
+  <v-list density="compact">
+    <v-list-item v-for="day in days" :key="day.dt">
+      <template #prepend>
+        <img :src="iconToUrl(day.weather[0].icon)" />
+      </template>
+      <v-list-item-title>
+        {{ formatDay(day.dt) }}
+      </v-list-item-title>
+      <v-list-item-subtitle>
+        {{ Math.round(day.temp.max) }}° / {{ Math.round(day.temp.min) }}°
+      </v-list-item-subtitle>
+      <template #append>
+        {{ day.weather[0].description }}
+      </template>
+    </v-list-item>
+  </v-list>
+</template>

@@ -1,49 +1,70 @@
 <template>
-  <v-row class="hero-row">
+  <template v-if="view === 'now'">
+    <v-row>
+      <v-col>
+        <current-temperature
+          :currentTemperature="store.weather.current.temp"
+          :currentFeelsLike="store.weather.current.feels_like"
+        ></current-temperature>
+      </v-col>
+      <v-col>
+        <img
+          @click="handleHeroIconClick"
+          v-if="store.hasWeather"
+          :src="iconToUrl(store.weather.current.weather[0].icon, '@2x')"
+        />
+      </v-col>
+    </v-row>
+    <v-row v-if="comingUpNotifications.length > 0">
+      <v-col>
+        <coming-up-list :notifications="comingUpNotifications"></coming-up-list>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <hourly-forecast></hourly-forecast>
+      </v-col>
+    </v-row>
+  </template>
+  <v-row v-if="view === 'week'">
     <v-col>
-      <current-temperature
-        :currentTemperature="store.weather.current.temp"
-        :currentFeelsLike="store.weather.current.feels_like"
-      ></current-temperature>
-    </v-col>
-    <v-col>
-      <img
-        @click="handleHeroIconClick"
-        v-if="store.hasWeather"
-        :src="iconToUrl(store.weather.current.weather[0].icon, '@2x')"
-      />
+      <daily-forecast></daily-forecast>
     </v-col>
   </v-row>
-  <v-row v-if="comingUpNotifications.length > 0" class="coming-up-row">
+  <v-row v-if="view === 'weekend'">
     <v-col>
-      <coming-up-list :notifications="comingUpNotifications"></coming-up-list>
+      <weekend-forecast></weekend-forecast>
     </v-col>
   </v-row>
-  <v-row>
-    <v-col>
-      <hourly-forecast class="forecast-list"></hourly-forecast>
-    </v-col>
-  </v-row>
+  <bottom-bar v-model="view" class="d-print-none"></bottom-bar>
 </template>
 
 <script lang="ts" setup>
+import BottomBar from '@/views/Home/BottomBar.vue'
 import CurrentTemperature from '@/components/CurrentTemperature.vue'
-import DailyForecast from '@/components/DailyForecast.vue'
 import ComingUpList from '@/components/ComingUpList.vue'
 import HourlyForecast from '@/components/HourlyForecast.vue'
+import DailyForecast from '@/components/DailyForecast.vue'
+import WeekendForecast from '@/components/WeekendForecast.vue'
 import determineComingUpNotifications from '@/services/ComingUpService'
 import type { ComingUpNotification } from '@/services/ComingUpService'
 import convert from '@/utils/ConversionUtils'
 import HttpError from '@/services/HttpError'
 import { differenceInMilliseconds } from 'date-fns'
 import { useRouter } from 'vue-router'
-import { onMounted, onUnmounted, ref } from 'vue'
+import { watch, nextTick, onMounted, onUnmounted, ref } from 'vue'
 import type { Ref } from 'vue'
 import { useStore } from '@/store/store'
 
 const store = useStore()
 
 const router = useRouter()
+
+const view = ref('now')
+
+watch(view, () => {
+  nextTick(() => window.scrollTo(0, 0))
+})
 
 // 15 minutes seems like a reasonable minimum refresh interval
 const MIN_REFRESH_INTERVAL_MS = 15 * 60 * 1000
