@@ -14,29 +14,19 @@
       />
     </v-col>
   </v-row>
-  <v-row>
-    <v-col>
-      <h6>Today's forecast</h6>
-      <hourly-forecast class="forecast-list"></hourly-forecast>
-    </v-col>
-  </v-row>
   <v-row v-if="comingUpNotifications.length > 0" class="coming-up-row">
     <v-col>
-      <h6>Coming up...</h6>
       <coming-up-list :notifications="comingUpNotifications"></coming-up-list>
     </v-col>
   </v-row>
   <v-row>
     <v-col>
-      <h6>5-day forecast</h6>
-      <daily-forecast class="forecast-list"></daily-forecast>
+      <hourly-forecast class="forecast-list"></hourly-forecast>
     </v-col>
   </v-row>
-  <bottom-bar></bottom-bar>
 </template>
 
 <script lang="ts" setup>
-import BottomBar from '@/views/Home/BottomBar.vue'
 import CurrentTemperature from '@/components/CurrentTemperature.vue'
 import DailyForecast from '@/components/DailyForecast.vue'
 import ComingUpList from '@/components/ComingUpList.vue'
@@ -71,34 +61,6 @@ let autoRefreshTimeout!: number
 let autoRefreshInterval!: number
 
 const iconToUrl = convert.iconToUrl
-
-function handleHeroIconClick() {
-  // This is a temporary demo to force the display of a 'coming up' notification
-  // It can be removed when we implement the 'details' view for the header, or sooner
-  // if desired.
-  const demoNotifications = [
-    {
-      type: 'DEMORAIN',
-      iconUrl: convert.iconToUrl('10d'),
-      text: 'light rain coming up at 2PM'
-    },
-    {
-      type: 'DEMOSNOW',
-      iconUrl: convert.iconToUrl('13n'),
-      text: 'snow tonight'
-    }
-  ]
-  demoNotifications.forEach((demoNotification) => {
-    const demoIndex = comingUpNotifications.value.findIndex(
-      (notification) => notification.type === demoNotification.type
-    )
-    if (demoIndex === -1) {
-      comingUpNotifications.value.push(demoNotification)
-    } else {
-      comingUpNotifications.value.splice(demoIndex, 1)
-    }
-  })
-}
 
 async function updateWeather() {
   try {
@@ -161,41 +123,3 @@ async function handleVisibilityChange() {
   }
 }
 </script>
-<style scoped>
-.row {
-  padding-top: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid lightgray;
-}
-
-.hero-row {
-  justify-content: space-evenly;
-  padding-bottom: 2rem;
-}
-
-.hero-row .col {
-  flex-grow: unset;
-}
-
-h6 {
-  text-align: left;
-  font-size: x-small;
-  font-weight: bold;
-}
-
-.forecast-list {
-  white-space: nowrap;
-  overflow-x: scroll;
-  scrollbar-width: none;
-  /* Firefox */
-}
-
-.forecast-list::-webkit-scrollbar {
-  display: none;
-  /* Webkit */
-}
-
-.coming-up-row {
-  background: #d8d8d8;
-}
-</style>
