@@ -1,43 +1,38 @@
 <template>
-  <div class="d-flex flex-column h-100">
-    <v-container class="home">
-      <v-row class="hero-row">
-        <v-col>
-          <current-temperature
-            :currentTemperature="store.weather.current.temp"
-            :currentFeelsLike="store.weather.current.feels_like"
-          ></current-temperature>
-        </v-col>
-        <v-col>
-          <img
-            @click="handleHeroIconClick"
-            v-if="store.hasWeather"
-            :src="iconToUrl(store.weather.current.weather[0].icon, '@2x')"
-          />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <h6>Today's forecast</h6>
-          <hourly-forecast class="forecast-list"></hourly-forecast>
-        </v-col>
-      </v-row>
-      <v-row v-if="comingUpNotifications.length > 0" class="coming-up-row">
-        <v-col>
-          <h6>Coming up...</h6>
-          <coming-up-list :notifications="comingUpNotifications"></coming-up-list>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <h6>5-day forecast</h6>
-          <daily-forecast class="forecast-list"></daily-forecast>
-        </v-col>
-      </v-row>
-    </v-container>
-    <div class="flex-grow-1"></div>
-    <bottom-bar class="mb-2 mr-3"></bottom-bar>
-  </div>
+  <v-row class="hero-row">
+    <v-col>
+      <current-temperature
+        :currentTemperature="store.weather.current.temp"
+        :currentFeelsLike="store.weather.current.feels_like"
+      ></current-temperature>
+    </v-col>
+    <v-col>
+      <img
+        @click="handleHeroIconClick"
+        v-if="store.hasWeather"
+        :src="iconToUrl(store.weather.current.weather[0].icon, '@2x')"
+      />
+    </v-col>
+  </v-row>
+  <v-row>
+    <v-col>
+      <h6>Today's forecast</h6>
+      <hourly-forecast class="forecast-list"></hourly-forecast>
+    </v-col>
+  </v-row>
+  <v-row v-if="comingUpNotifications.length > 0" class="coming-up-row">
+    <v-col>
+      <h6>Coming up...</h6>
+      <coming-up-list :notifications="comingUpNotifications"></coming-up-list>
+    </v-col>
+  </v-row>
+  <v-row>
+    <v-col>
+      <h6>5-day forecast</h6>
+      <daily-forecast class="forecast-list"></daily-forecast>
+    </v-col>
+  </v-row>
+  <bottom-bar></bottom-bar>
 </template>
 
 <script lang="ts" setup>
@@ -167,35 +162,39 @@ async function handleVisibilityChange() {
 }
 </script>
 <style scoped>
-.home {
-  max-width: 30rem;
-  margin-top: 1rem;
-}
 .row {
   padding-top: 1rem;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid lightgray;
 }
+
 .hero-row {
   justify-content: space-evenly;
   padding-bottom: 2rem;
 }
+
 .hero-row .col {
   flex-grow: unset;
 }
+
 h6 {
   text-align: left;
   font-size: x-small;
   font-weight: bold;
 }
+
 .forecast-list {
   white-space: nowrap;
   overflow-x: scroll;
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
+  /* Firefox */
 }
+
 .forecast-list::-webkit-scrollbar {
-  display: none; /* Webkit */
+  display: none;
+  /* Webkit */
 }
+
 .coming-up-row {
   background: #d8d8d8;
 }
