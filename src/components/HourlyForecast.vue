@@ -9,10 +9,10 @@
         {{ formatTime(hour.dt) }}
       </v-list-item-title>
       <v-list-item-subtitle>
-        {{ Math.round(hour.temp) }}° (feels like {{ Math.round(hour.feels_like) }}°)
+        {{ hour.weather[0].description }}
       </v-list-item-subtitle>
       <template #append>
-        {{ hour.weather[0].description }}
+        {{ Math.round(hour.temp) }}° / {{ Math.round(hour.feels_like) }}°
       </template>
     </v-list-item>
   </v-list>

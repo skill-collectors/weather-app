@@ -24,10 +24,10 @@ const days = computed(() => {
         {{ formatDay(day.dt) }}
       </v-list-item-title>
       <v-list-item-subtitle>
-        {{ Math.round(day.temp.max) }}° / {{ Math.round(day.temp.min) }}°
+        {{ day.weather[0].description }}
       </v-list-item-subtitle>
       <template #append>
-        {{ day.weather[0].description }}
+        {{ Math.round(day.temp.max) }}° / {{ Math.round(day.temp.min) }}°
       </template>
     </v-list-item>
   </v-list>
