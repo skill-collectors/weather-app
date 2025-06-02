@@ -25,7 +25,7 @@ import { computed } from 'vue'
 
 const store = useStore()
 
-const formatTime = (dt) => format(convert.dtToDate(dt), 'ha')
+const formatTime = (dt: number) => format(convert.dtToDate(dt), 'ha')
 
 const iconToUrl = convert.iconToUrl
 

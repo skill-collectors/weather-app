@@ -48,6 +48,14 @@ export const useStore = defineStore('store', () => {
     daily: [
       {
         dt: 0,
+        dew_point: 0,
+        humidity: 0,
+        wind_speed: 0,
+        wind_deg: 0,
+        uvi: 0,
+        sunset: 0,
+        sunrise: 0,
+        summary: '',
         temp: {
           day: 0,
           eve: 0,

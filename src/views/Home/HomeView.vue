@@ -9,7 +9,6 @@
       </v-col>
       <v-col>
         <img
-          @click="handleHeroIconClick"
           v-if="store.hasWeather"
           :src="iconToUrl(store.weather.current.weather[0].icon, '@2x')"
         />

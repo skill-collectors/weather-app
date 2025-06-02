@@ -4,7 +4,7 @@ import convert from '@/utils/ConversionUtils'
 import { useStore } from '@/store/store'
 import { computed } from 'vue'
 
-const formatDay = (dt) => format(convert.dtToDate(dt), 'EEEE')
+const formatDay = (dt: number) => format(convert.dtToDate(dt), 'EEEE')
 const iconToUrl = convert.iconToUrl
 
 const store = useStore()
