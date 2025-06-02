@@ -1,5 +1,5 @@
 <template>
-  <v-list bg-color="grey-lighten-3">
+  <v-list :bg-color="$vuetify?.theme.name === 'dark' ? 'grey-darken-3' : 'grey-lighten-3'">
     <v-list-subheader>Coming up...</v-list-subheader>
     <v-list-item
       class="coming-up-item"
