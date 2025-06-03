@@ -25,8 +25,8 @@ const iconToUrl = convert.iconToUrl
     <v-card-subtitle>
       {{ day.summary }}
     </v-card-subtitle>
-    <v-card-text>
-      <v-row>
+    <v-card-text class="text-no-wrap">
+      <v-row no-gutters>
         <v-col>
           <v-icon>mdi-weather-sunset-up</v-icon>
           Sunrise: <strong>{{ formatTime(day.sunrise) }}</strong>
@@ -36,7 +36,7 @@ const iconToUrl = convert.iconToUrl
           Sunset: <strong>{{ formatTime(day.sunset) }}</strong>
         </v-col>
       </v-row>
-      <v-row>
+      <v-row no-gutters>
         <v-col>
           <v-icon v-if="day.uvi > 6">mdi-weather-sunny-alert</v-icon>
           <v-icon v-else>mdi-weather-sunny</v-icon>
@@ -47,7 +47,7 @@ const iconToUrl = convert.iconToUrl
           Wind: <strong>{{ Math.round(day.wind_speed) }}</strong>
         </v-col>
       </v-row>
-      <v-row>
+      <v-row no-gutters>
         <v-col>
           <v-icon>mdi-water-percent</v-icon>
           Humidity: <strong>{{ day.humidity }}</strong>
