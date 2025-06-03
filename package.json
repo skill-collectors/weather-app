@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@mdi/font": "^7.4.47",
-    "@pinia/testing": "^0.1.7",
+    "@pinia/testing": "^1.0.0",
     "@playwright/test": "^1.50.1",
     "@rushstack/eslint-patch": "^1.10.5",
     "@tsconfig/node22": "^22.0.0",
