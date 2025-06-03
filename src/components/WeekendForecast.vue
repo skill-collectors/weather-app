@@ -20,6 +20,6 @@ const days = computed(() => {
 })
 </script>
 <template>
-  <h4>This weekend</h4>
+  <h4 class="d-print-none">This weekend</h4>
   <DayCard v-for="day in days" :key="day.dt" :day="day" class="my-4"></DayCard>
 </template>
