@@ -58,6 +58,14 @@ export interface DailyForecast {
   temp: DailyTemp
   feels_like: DailyFeelsLike
   weather: Weather[]
+  dew_point: number
+  humidity: number
+  wind_speed: number
+  wind_deg: number
+  uvi: number
+  sunset: number
+  sunrise: number
+  summary: string
 }
 
 export interface OneCallWeather {
@@ -77,4 +85,3 @@ export interface RootState {
 export interface UserMessage {
   text: string
 }
-

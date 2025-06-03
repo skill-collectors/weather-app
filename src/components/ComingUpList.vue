@@ -1,5 +1,6 @@
 <template>
-  <v-list class="py-0 mt-2">
+  <v-list :bg-color="$vuetify?.theme.name === 'dark' ? 'grey-darken-3' : 'grey-lighten-3'">
+    <v-list-subheader>Coming up...</v-list-subheader>
     <v-list-item
       class="coming-up-item"
       v-for="notification in props.notifications"
@@ -20,14 +21,3 @@ const props = defineProps<{
   notifications: ComingUpNotification[]
 }>()
 </script>
-
-<style scoped>
-.coming-up-item {
-  font-size: smaller;
-  list-style-type: none;
-  padding-left: 0;
-  margin-bottom: 0;
-  text-align: left;
-  background: #d8d8d8;
-}
-</style>

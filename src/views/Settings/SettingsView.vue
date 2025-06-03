@@ -1,26 +1,25 @@
-<template>
-  <v-container>
-    <v-row>
-      <v-col cols="12">
-        <v-form>
-          <api-key-input></api-key-input>
-        </v-form>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="10"></v-col>
-      <v-col cols="1">
-        <v-btn @click="handleDone" color="grey-lighten-3">Done</v-btn>
-      </v-col>
-    </v-row>
-  </v-container>
-</template>
 <script lang="ts" setup>
 import ApiKeyInput from '@/views/Settings/ApiKeyInput.vue'
 import openWeatherService from '@/services/openWeatherService'
 import HttpError from '@/services/HttpError'
 import { useStore } from '@/store/store'
 import { useRouter } from 'vue-router'
+import { useTheme } from 'vuetify'
+import { onMounted } from 'vue'
+import { useLocalStorage } from '@vueuse/core'
+
+const theme = useTheme()
+
+const themeName = useLocalStorage('theme', 'light')
+
+function toggleTheme() {
+  themeName.value = theme.global.current.value.dark ? 'light' : 'dark'
+  theme.global.name.value = themeName.value
+}
+
+onMounted(() => {
+  theme.global.name.value = themeName.value
+})
 
 const store = useStore()
 const router = useRouter()
@@ -41,4 +40,25 @@ async function handleDone() {
 }
 </script>
 
-<style></style>
+<template>
+  <v-row>
+    <v-col cols="12">
+      <v-form>
+        <api-key-input></api-key-input>
+      </v-form>
+    </v-col>
+  </v-row>
+  <v-row justify="end" class="text-right">
+    <v-col>
+      <v-btn @click="toggleTheme">
+        <v-icon>mdi-theme-light-dark</v-icon>
+        <span>Toggle dark mode</span>
+      </v-btn>
+    </v-col>
+  </v-row>
+  <v-row justify="end" class="text-right">
+    <v-col>
+      <v-btn @click="handleDone">Done</v-btn>
+    </v-col>
+  </v-row>
+</template>

@@ -1,30 +1,39 @@
-<template>
-  <div id="app">
-    <UserMessageDisplay></UserMessageDisplay>
-    <router-view />
-  </div>
-</template>
-
 <script lang="ts" setup>
 import UserMessageDisplay from './components/UserMessageDisplay.vue'
+import { useStore } from '@/store/store'
+
+const store = useStore()
 </script>
-<style lang="scss">
-#app {
-  height: 100vh;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+<template>
+  <v-app id="app">
+    <v-app-bar class="d-print-none">
+      <v-app-bar-title class="text-center">
+        <v-btn to="locations">
+          <v-icon>mdi-map-marker-outline</v-icon>
+          <span v-if="store.hasLocation">
+            {{ store.locationDisplayName }}
+          </span>
+          <span v-else>Set location</span>
+        </v-btn>
+      </v-app-bar-title>
+      <template #append>
+        <v-btn to="/settings">
+          <v-icon>mdi-cog</v-icon>
+        </v-btn>
+      </template>
+    </v-app-bar>
+    <v-main class="print-pt-0">
+      <UserMessageDisplay></UserMessageDisplay>
+      <v-container max-width="30rem">
+        <router-view />
+      </v-container>
+    </v-main>
+  </v-app>
+</template>
+<style scoped>
+@media print {
+  .print-pt-0 {
+    padding-top: 0;
   }
 }
 </style>

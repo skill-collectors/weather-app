@@ -1,26 +1,19 @@
-<template>
-  <div class="d-flex align-items-center mt-2">
-    <div class="flex-grow-1">
-      <div>
-        <v-icon icon="search" class="mr-2"></v-icon>
-        <v-btn to="locations" rounded="xl" color="grey-lighten-3">
-          <template v-slot:prepend>
-            <v-icon icon="mdi-map-marker-outline"></v-icon>
-          </template>
-          <template v-if="store.hasLocation">
-            {{ store.locationDisplayName }}
-          </template>
-          <template v-else> Tap here to set your location </template>
-        </v-btn>
-      </div>
-    </div>
-    <v-btn to="/settings" icon="mdi-cog" color="grey-lighten-3"></v-btn>
-  </div>
-</template>
-
-<script lang="ts" setup>
-import { useStore } from '@/store/store'
-
-const store = useStore()
+<script setup lang="ts">
+const value = defineModel()
 </script>
-<style scoped></style>
+<template>
+  <v-bottom-navigation>
+    <v-btn @click="value = 'now'">
+      <span>Now</span>
+      <v-icon>mdi-clock-outline</v-icon>
+    </v-btn>
+    <v-btn @click="value = 'week'">
+      <span>7 day</span>
+      <v-icon>mdi-calendar-week-outline</v-icon>
+    </v-btn>
+    <v-btn @click="value = 'weekend'">
+      <span>Weekend</span>
+      <v-icon>mdi-calendar-weekend-outline</v-icon>
+    </v-btn>
+  </v-bottom-navigation>
+</template>
