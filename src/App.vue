@@ -1,22 +1,6 @@
 <script lang="ts" setup>
 import UserMessageDisplay from './components/UserMessageDisplay.vue'
 import { useStore } from '@/store/store'
-import { useTheme } from 'vuetify'
-import { onMounted } from 'vue'
-import { useLocalStorage } from '@vueuse/core'
-
-const theme = useTheme()
-
-const themeName = useLocalStorage('theme', 'light')
-
-function toggleTheme() {
-  themeName.value = theme.global.current.value.dark ? 'light' : 'dark'
-  theme.global.name.value = themeName.value
-}
-
-onMounted(() => {
-  theme.global.name.value = themeName.value
-})
 
 const store = useStore()
 </script>
@@ -32,9 +16,6 @@ const store = useStore()
           <span v-else>Set location</span>
         </v-btn>
       </v-app-bar-title>
-      <v-btn @click="toggleTheme">
-        <v-icon>mdi-theme-light-dark</v-icon>
-      </v-btn>
       <template #append>
         <v-btn to="/settings">
           <v-icon>mdi-cog</v-icon>
