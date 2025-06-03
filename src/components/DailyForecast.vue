@@ -16,7 +16,7 @@ const days = computed(() => {
 </script>
 <template>
   <h4>This week</h4>
-  <v-list density="compact">
+  <v-list density="compact" class="my-4">
     <v-list-item v-for="day in days" :key="day.dt">
       <template #prepend>
         <img :src="iconToUrl(day.weather[0].icon)" />
