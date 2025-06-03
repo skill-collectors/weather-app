@@ -1,6 +1,17 @@
 <script lang="ts" setup>
 import UserMessageDisplay from './components/UserMessageDisplay.vue'
 import { useStore } from '@/store/store'
+import { useTheme } from 'vuetify'
+import { onMounted } from 'vue'
+import { useLocalStorage } from '@vueuse/core'
+
+const theme = useTheme()
+
+const themeName = useLocalStorage('theme', 'light')
+
+onMounted(() => {
+  theme.global.name.value = themeName.value
+})
 
 const store = useStore()
 </script>

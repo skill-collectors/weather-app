@@ -5,7 +5,6 @@ import HttpError from '@/services/HttpError'
 import { useStore } from '@/store/store'
 import { useRouter } from 'vue-router'
 import { useTheme } from 'vuetify'
-import { onMounted } from 'vue'
 import { useLocalStorage } from '@vueuse/core'
 
 const theme = useTheme()
@@ -16,10 +15,6 @@ function toggleTheme() {
   themeName.value = theme.global.current.value.dark ? 'light' : 'dark'
   theme.global.name.value = themeName.value
 }
-
-onMounted(() => {
-  theme.global.name.value = themeName.value
-})
 
 const store = useStore()
 const router = useRouter()
