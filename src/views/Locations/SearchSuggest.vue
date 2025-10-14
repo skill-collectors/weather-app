@@ -22,7 +22,7 @@ const datalistRef = useTemplateRef<HTMLDataListElement>('datalist')
 const props = defineProps({
   value: { type: String, required: false, default: '' },
   placeholder: { type: String, required: false, default: '' },
-  list: { type: Array<String>, required: false, default: () => [] }
+  list: { type: Array<string>, required: false, default: () => [] }
 })
 
 const dataListClass = computed(() => {

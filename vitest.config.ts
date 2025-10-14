@@ -1,8 +1,6 @@
 import { fileURLToPath } from 'node:url'
-import { mergeConfig } from 'vite'
-import { configDefaults } from 'vitest/config'
+import { mergeConfig, defineConfig, configDefaults } from 'vitest/config'
 import viteConfig from './vite.config'
-import { defineConfig } from 'vite'
 
 export default mergeConfig(
   viteConfig,
