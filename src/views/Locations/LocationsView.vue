@@ -142,7 +142,9 @@ async function handleGeoSearch() {
         coords.longitude,
         store.apiKey
       )
-      await setLocation(results[0])
+      if (results[0] !== undefined) {
+        await setLocation(results[0])
+      }
     } catch (err) {
       if (err instanceof HttpError && err.httpStatusCode === 401) {
         router.push('/settings')
@@ -192,10 +194,12 @@ function showError(message: string) {
 .navbar-dark {
   color: var(--light);
 }
+
 .search-button {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
+
 .clear-button {
   font-weight: bold;
   padding-left: 0.75rem;

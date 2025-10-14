@@ -6,7 +6,7 @@
     color="red-darken-4"
     v-model="snackbar"
   >
-    {{ store.messages[0].text }}
+    {{ store.messages[0]?.text ?? 'Unknown error' }}
   </v-snackbar>
 </template>
 <script lang="ts" setup>
