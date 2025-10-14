@@ -9,7 +9,7 @@
       </v-col>
       <v-col>
         <img
-          v-if="store.hasWeather"
+          v-if="store.hasWeather && store.weather.current.weather[0]?.icon"
           :src="iconToUrl(store.weather.current.weather[0].icon, '@2x')"
         />
       </v-col>

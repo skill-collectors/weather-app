@@ -19,13 +19,13 @@ const days = computed(() => {
   <v-list density="compact" class="my-4">
     <v-list-item v-for="day in days" :key="day.dt">
       <template #prepend>
-        <img :src="iconToUrl(day.weather[0].icon)" />
+        <img v-if="day.weather[0]?.icon" :src="iconToUrl(day.weather[0].icon)" />
       </template>
       <v-list-item-title>
         {{ formatDay(day.dt) }}
       </v-list-item-title>
-      <v-list-item-subtitle>
-        {{ day.weather[0].description }}
+      <v-list-item-subtitle v-if="day.weather[0]?.description">
+        {{ day.weather[0]?.description }}
       </v-list-item-subtitle>
       <v-dialog activator="parent" max-width="30rem">
         <template #default="{ isActive }">

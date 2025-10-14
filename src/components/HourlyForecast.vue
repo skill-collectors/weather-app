@@ -3,13 +3,13 @@
     <v-list-subheader>Today's forecast</v-list-subheader>
     <v-list-item v-for="hour in hours" :key="hour.dt">
       <template #prepend>
-        <img :src="iconToUrl(hour.weather[0].icon)" />
+        <img v-if="hour.weather[0]?.icon" :src="iconToUrl(hour.weather[0].icon)" />
       </template>
       <v-list-item-title>
         {{ formatTime(hour.dt) }}
       </v-list-item-title>
       <v-list-item-subtitle>
-        {{ hour.weather[0].description }}
+        {{ hour.weather[0]?.description }}
       </v-list-item-subtitle>
       <template #append>
         {{ Math.round(hour.temp) }}° / {{ Math.round(hour.feels_like) }}°

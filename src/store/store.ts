@@ -138,7 +138,7 @@ export const useStore = defineStore('store', () => {
   })
 
   const hasWeather = computed(() => {
-    return weather.value.current.weather[0].description !== ''
+    return weather.value.current.weather[0]?.description ?? '' !== ''
   })
 
   return {

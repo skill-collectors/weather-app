@@ -17,7 +17,7 @@ const iconToUrl = convert.iconToUrl
       {{ formatDay(day.dt) }}
     </template>
     <template #append>
-      <img :src="iconToUrl(day.weather[0].icon)" />
+      <img v-if="day.weather[0]?.icon" :src="iconToUrl(day.weather[0].icon)" />
       <v-card-title>
         {{ Math.round(day.temp.max) }}° / {{ Math.round(day.temp.min) }}°
       </v-card-title>
