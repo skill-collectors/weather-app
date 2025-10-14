@@ -23,3 +23,7 @@ storybook-static
 
 # codeceptjs logs
 output
+
+# test reports
+playwright-report
+test-results
