@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 // Underscores match the format of the OpenWeather API
 export interface GeoDirectResponse {
   name: string
