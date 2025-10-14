@@ -22,7 +22,7 @@ const iconToUrl = convert.iconToUrl
         {{ Math.round(day.temp.max) }}° / {{ Math.round(day.temp.min) }}°
       </v-card-title>
     </template>
-    <v-card-subtitle>
+    <v-card-subtitle class="text-wrap">
       {{ day.summary }}
     </v-card-subtitle>
     <v-card-text class="text-no-wrap">
