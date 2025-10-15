@@ -1,8 +1,9 @@
 {
   "name": "weather-app",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "scripts": {
+    "check-all": "npm run format && npm run lint && npm run type-check && npx vitest run && npm run build-only",
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",

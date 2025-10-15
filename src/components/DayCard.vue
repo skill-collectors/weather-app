@@ -43,7 +43,9 @@ const iconToUrl = convert.iconToUrl
           UV Index: <strong>{{ Math.round(day.uvi) }}</strong>
         </v-col>
         <v-col>
-          <v-icon :style="`transform: rotate(${day.wind_deg}deg)`">mdi-arrow-up</v-icon>
+          <!-- wind_deg is the direction the wind is *coming from* -->
+          <!-- 0 = "from the north" = "blowing toward south" = downward facing arrow -->
+          <v-icon :style="`transform: rotate(${day.wind_deg}deg)`">mdi-arrow-down</v-icon>
           Wind: <strong>{{ Math.round(day.wind_speed) }}</strong>
         </v-col>
       </v-row>
